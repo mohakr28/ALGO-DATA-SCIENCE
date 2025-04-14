@@ -1,0 +1,600 @@
+/* --- خطوط وألوان أساسية محسنة --- */
+:root {
+  --primary-color: #0d6efd; /* أزرق Bootstrap القياسي - مشرق وجذاب */
+  --primary-darker: #0a58ca; /* أزرق أغمق للهوفر والتأكيد */
+  --secondary-color: #f8f9fa; /* رمادي فاتح جداً لخلفيات الأقسام */
+  --light-gray: #e9ecef; /* رمادي أفتح للخلفيات المتدرجة أو الحدود */
+  --text-color: #212529; /* أسود مقروء (ليس حادًا جدًا) */
+  --text-muted: #6c757d; /* رمادي للنصوص الأقل أهمية */
+  --header-bg: linear-gradient(
+    135deg,
+    #0b5ed7 0%,
+    #0d6efd 100%
+  ); /* تدرج أزرق للهيدر */
+  --sidebar-bg: #ffffff; /* خلفية بيضاء للقائمة الجانبية (أنظف) */
+  --code-bg: #f1f3f5; /* رمادي فاتح قليلاً ومختلف للكود */
+  --code-text-color: #212529;
+  --border-color: #dee2e6; /* رمادي للحدود */
+  --link-color: var(--primary-color);
+  --link-hover-color: var(--primary-darker);
+  --shadow-color: rgba(0, 0, 0, 0.08); /* لون ظل خفيف */
+  --accent-color: #fd7e14; /* برتقالي كلون تأكيد (اختياري) */
+
+  --font-main: "Cairo", sans-serif;
+  --font-code: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier,
+    monospace; /* خطوط شائعة للكود */
+
+  --border-radius-sm: 0.25rem; /* 4px */
+  --border-radius-md: 0.375rem; /* 6px */
+  --border-radius-lg: 0.5rem; /* 8px */
+}
+
+/* --- إعادة تعيين وتنسيقات عامة --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth; /* انتقال سلس للروابط الداخلية */
+}
+
+body {
+  font-family: var(--font-main);
+  line-height: 1.7;
+  color: var(--text-color);
+  background-color: #fdfdff; /* خلفية بيضاء مائلة للزرقة قليلاً */
+  direction: rtl;
+  font-size: 16px; /* حجم خط أساسي */
+}
+
+/* --- الهيدر --- */
+header {
+  background: var(--header-bg);
+  color: white;
+  padding: 2.5rem 1.5rem; /* زيادة الحشو قليلاً */
+  text-align: center;
+  margin-bottom: 30px; /* زيادة المسافة السفلية */
+  /* box-shadow: 0 2px 10px var(--shadow-color); */ /* ظل خفيف */
+}
+
+header h1 {
+  margin-bottom: 0.75rem;
+  font-size: 2.5rem; /* تكبير العنوان الرئيسي */
+  font-weight: 700; /* خط أعرض */
+}
+
+header p {
+  font-size: 1.15rem;
+  opacity: 0.9;
+  max-width: 700px; /* تحديد عرض النص الفرعي */
+  margin: 0 auto; /* توسيط النص الفرعي */
+}
+
+/* --- الحاوية الرئيسية (لتقسيم الشاشة) --- */
+.container {
+  display: flex;
+  flex-wrap: wrap; /* السماح بالالتفاف في الشاشات الصغيرة */
+  gap: 30px; /* مسافة بين القائمة والمحتوى */
+  max-width: 1320px; /* تقليل العرض الأقصى قليلاً */
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* --- القائمة الجانبية (Sidebar) --- */
+.sidebar {
+  flex: 0 0 260px; /* عرض ثابت مع عدم النمو أو التقلص */
+  background-color: var(--sidebar-bg);
+  padding: 25px;
+  border: 1px solid var(--border-color); /* حد بسيط بدلاً من خط جانبي */
+  border-radius: var(--border-radius-lg);
+  height: fit-content;
+  position: sticky;
+  top: 30px; /* زيادة المسافة من الأعلى */
+  box-shadow: 0 4px 15px var(--shadow-color); /* ظل أنعم وأكبر */
+}
+
+.sidebar h2 {
+  color: var(--primary-darker);
+  margin-bottom: 20px;
+  font-size: 1.3rem; /* تصغير حجم عنوان القائمة قليلاً */
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 8px;
+  font-weight: 700;
+}
+
+.sidebar nav ul {
+  list-style: none;
+  padding-right: 0; /* إزالة الحشو الافتراضي */
+}
+
+.sidebar nav li {
+  margin-bottom: 8px; /* تقليل المسافة بين الروابط */
+}
+
+.sidebar nav a {
+  text-decoration: none;
+  color: var(--text-color); /* لون نص عادي */
+  font-size: 0.95rem;
+  display: block;
+  padding: 10px 15px; /* زيادة الحشو */
+  border-radius: var(--border-radius-md);
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease; /* إضافة انتقال للتحريك */
+  position: relative; /* للخط السفلي الوهمي */
+  overflow: hidden; /* لإخفاء الخط الوهمي */
+}
+
+.sidebar nav a::before {
+  /* خط وهمي للتأثير عند الهوفر */
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 0;
+  height: 3px;
+  background-color: var(--primary-color);
+  transition: width 0.3s ease;
+}
+
+.sidebar nav a:hover {
+  background-color: var(--light-gray); /* تغيير خلفية طفيف عند الهوفر */
+  color: var(--primary-darker);
+  transform: translateX(-3px); /* تحريك بسيط لليسار */
+}
+.sidebar nav a:hover::before {
+  width: 100%; /* إظهار الخط السفلي عند الهوفر */
+}
+
+.sidebar nav a.active {
+  background-color: var(--primary-color);
+  color: white;
+  font-weight: bold; /* تمييز الرابط النشط */
+  box-shadow: 0 2px 5px rgba(0, 86, 179, 0.3);
+}
+
+.sidebar nav a.active:hover {
+  background-color: var(--primary-darker); /* تغميق اللون النشط عند الهوفر */
+  transform: translateX(0); /* إلغاء التحريك للرابط النشط */
+}
+.sidebar nav a.active::before {
+  width: 0; /* إخفاء الخط الوهمي للرابط النشط */
+}
+
+/* --- منطقة المحتوى الرئيسية --- */
+.content {
+  flex-grow: 1; /* تأخذ المساحة المتبقية */
+  min-width: 0; /* مهم لمنع تجاوز المحتوى في Flexbox */
+}
+
+section {
+  background-color: #ffffff; /* خلفية بيضاء للأقسام */
+  margin-bottom: 35px; /* زيادة المسافة بين الأقسام */
+  padding: 30px; /* زيادة الحشو */
+  border-radius: var(--border-radius-lg);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 15px var(--shadow-color); /* ظل أنعم */
+  transition: box-shadow 0.3s ease;
+}
+/* section:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* زيادة الظل عند الهوفر (اختياري)
+} */
+
+section > h2 {
+  color: var(--primary-darker);
+  margin-bottom: 25px;
+  font-size: 2rem; /* تكبير عنوان المرحلة */
+  font-weight: 700;
+  border-bottom: 3px solid var(--primary-color);
+  padding-bottom: 12px;
+}
+
+.lesson {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--light-gray); /* خط فاصل أنعم */
+}
+.lesson:last-child {
+  border-bottom: none;
+}
+
+.lesson h3 {
+  color: var(--text-color);
+  margin-bottom: 20px;
+  font-size: 1.6rem; /* تكبير عنوان الدرس */
+  font-weight: 700;
+}
+
+.lesson h4 {
+  color: var(--primary-darker); /* استخدام لون أغمق للعناوين الفرعية */
+  margin-top: 20px;
+  margin-bottom: 12px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  /* border-left: 4px solid var(--accent-color);  خط جانبي للتأكيد */
+  /* padding-left: 10px; */
+}
+
+.lesson p {
+  margin-bottom: 1rem; /* مسافة بين الفقرات */
+  color: var(--text-muted); /* لون أهدأ للشرح */
+}
+
+.lesson p strong {
+  color: var(--text-color); /* تمييز النص الغامق */
+  font-weight: 700;
+}
+
+.lesson ul,
+.lesson ol {
+  margin-right: 25px;
+  margin-bottom: 15px;
+  padding-right: 0; /* إزالة الحشو الافتراضي */
+  color: var(--text-muted);
+}
+.lesson ul li::marker,
+.lesson ol li::marker {
+  color: var(--primary-color); /* تلوين علامات الترقيم */
+}
+
+.lesson ul li,
+.lesson ol li {
+  margin-bottom: 0.5rem; /* مسافة بين عناصر القائمة */
+}
+
+/* --- تنسيق الكود --- */
+pre {
+  background-color: var(--code-bg);
+  border: 1px solid var(--border-color);
+  border-left: 5px solid var(--primary-color); /* شريط جانبي مميز */
+  border-radius: var(--border-radius-md);
+  padding: 1rem 1.5rem; /* زيادة الحشو */
+  overflow-x: auto;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+  direction: ltr;
+  text-align: left;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05); /* ظل داخلي خفيف */
+}
+
+code.language-pseudo {
+  font-family: var(--font-code);
+  font-size: 0.9rem; /* تصغير حجم خط الكود قليلاً */
+  color: var(--code-text-color);
+  line-height: 1.6; /* زيادة ارتفاع السطر للكود */
+  white-space: pre;
+}
+
+/* --- تنسيق تفاصيل الحلول (القابلة للطي) --- */
+details.solution {
+  margin-top: 1rem; /* مسافة قبل الحل */
+  margin-bottom: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-md);
+  background-color: #ffffff;
+  transition: box-shadow 0.2s ease;
+}
+
+details.solution[open] {
+  /* تمييز الحل عند فتحه */
+  box-shadow: 0 3px 10px var(--shadow-color);
+  border-color: var(--primary-color); /* تغيير لون الحد عند الفتح */
+}
+
+details.solution summary {
+  padding: 12px 20px; /* زيادة الحشو */
+  background-color: var(--secondary-color);
+  cursor: pointer;
+  font-weight: bold;
+  color: var(--primary-darker); /* لون أغمق للعنوان */
+  border-radius: var(
+    --border-radius-md
+  ); /* تدوير كل الزوايا إذا لم يكن مفتوحاً */
+  list-style-position: inside; /* جعل السهم للداخل (قد يختلف حسب المتصفح) */
+  transition: background-color 0.2s ease;
+  position: relative;
+}
+
+details.solution[open] summary {
+  border-bottom: 1px solid var(--border-color);
+  border-bottom-left-radius: 0; /* إزالة تدوير الزوايا عند الفتح */
+  border-bottom-right-radius: 0;
+  background-color: var(--light-gray); /* تغيير الخلفية قليلاً عند الفتح */
+}
+
+details.solution summary:hover {
+  background-color: var(--light-gray);
+}
+
+details.solution summary::marker {
+  /* محاولة تنسيق السهم */
+  color: var(--primary-color);
+  font-size: 1.1em;
+}
+
+/* محاولة إضافة أيقونة + و - (قد تحتاج JS لتغييرها بشكل مثالي) */
+details.solution summary::after {
+  content: "+";
+  font-size: 1.3em;
+  position: absolute;
+  left: 20px; /* وضعها على اليسار (بسبب rtl) */
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+details.solution[open] summary::after {
+  content: "−"; /* تغيير الأيقونة عند الفتح */
+}
+
+details.solution pre {
+  border: none;
+  margin-top: 0;
+  border-radius: 0 0 var(--border-radius-md) var(--border-radius-md);
+  box-shadow: none;
+  border-left: none; /* إزالة الشريط الجانبي داخل الحل */
+  background-color: var(--code-bg); /* التأكد من خلفية الكود داخل الحل */
+}
+
+/* --- الفوتر --- */
+footer {
+  text-align: center;
+  margin-top: 50px; /* زيادة المسافة العلوية */
+  padding: 25px;
+  background-color: #343a40; /* رمادي أغمق للفوتر */
+  color: #adb5bd; /* لون نص أفتح */
+  font-size: 0.9rem;
+  border-top: 3px solid var(--primary-color);
+}
+
+/* --- استجابة للشاشات الصغيرة (Responsive Design) --- */
+@media (max-width: 992px) {
+  .container {
+    gap: 20px; /* تقليل المسافة */
+  }
+  .sidebar {
+    flex: 0 0 220px; /* تصغير عرض القائمة الجانبية قليلاً */
+    padding: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: 15px; /* تصغير حجم الخط قليلاً للشاشات الأصغر */
+  }
+  .container {
+    flex-direction: column;
+    padding: 0 15px;
+    gap: 25px;
+  }
+
+  .sidebar {
+    width: 100%;
+    position: static; /* إلغاء التثبيت */
+    margin-bottom: 0; /* إزالة المسافة السفلية لأنها ستكون جزءًا من التدفق */
+    box-shadow: none; /* إزالة الظل في العرض العمودي */
+  }
+
+  .content {
+    padding: 0; /* إزالة الحشو الجانبي للمحتوى */
+  }
+
+  header {
+    padding: 2rem 1rem;
+    margin-bottom: 25px;
+  }
+  header h1 {
+    font-size: 2rem;
+  }
+  header p {
+    font-size: 1.05rem;
+  }
+  section {
+    padding: 20px;
+    margin-bottom: 25px;
+  }
+  section > h2 {
+    font-size: 1.7rem;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+  }
+  .lesson h3 {
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+  }
+  .lesson h4 {
+    font-size: 1.15rem;
+  }
+  pre {
+    padding: 0.8rem 1rem;
+  }
+  code.language-pseudo {
+    font-size: 0.85rem;
+  }
+  details.solution summary {
+    padding: 10px 15px;
+  }
+  details.solution summary::after {
+    left: 15px;
+  }
+}
+/* --- (أضف هذه التنسيقات إلى ملف style.css الحالي) --- */
+
+/* --- زر إخفاء/إظهار القائمة الجانبية الرئيسي --- */
+.main-sidebar-toggle-btn {
+  position: absolute;
+  top: 15px;
+  left: 15px; /* على اليسار بسبب rtl ليكون قريبًا من حافة المحتوى */
+  z-index: 10; /* ليكون فوق عناصر القائمة الأخرى قليلاً */
+  background-color: var(--light-gray);
+  color: var(--primary-darker);
+  border: 1px solid var(--border-color);
+  border-radius: 50%; /* زر دائري */
+  width: 30px;
+  height: 30px;
+  font-size: 1.2rem; /* حجم الأيقونة */
+  line-height: 1; /* لمحاذاة الأيقونة عمودياً */
+  cursor: pointer;
+  display: flex; /* لمحاذاة الأيقونة في المنتصف */
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s ease, transform 0.3s ease, left 0.3s ease;
+}
+
+.main-sidebar-toggle-btn:hover {
+  background-color: var(--border-color);
+}
+
+/* إخفاء هذا الزر على الشاشات الصغيرة حيث لدينا الزر الآخر */
+@media (max-width: 768px) {
+  .main-sidebar-toggle-btn {
+    display: none;
+  }
+}
+
+/* --- تعديلات للـ Sidebar والـ Content عند تطبيق كلاس .sidebar-collapsed --- */
+
+/* يجب أن تطبق هذه القواعد فقط على الشاشات الكبيرة */
+@media (min-width: 769px) {
+  /* إضافة انتقالات للـ Sidebar والـ Content */
+  .sidebar {
+    transition: width 0.3s ease-in-out, padding 0.3s ease-in-out,
+      opacity 0.3s ease-in-out, border-width 0.3s ease-in-out;
+    overflow: hidden; /* مهم لإخفاء المحتوى أثناء التقلص */
+  }
+  .content {
+    transition: margin-right 0.3s ease-in-out; /* انتقال الهامش */
+  }
+
+  /* حالة الإخفاء */
+  .container.sidebar-collapsed .sidebar {
+    width: 0;
+    padding-right: 0;
+    padding-left: 0;
+    opacity: 0;
+    border-width: 0;
+    /* لا يمكن تحريك الزر للخارج لأنه داخل الـ Sidebar الذي يختفي */
+    /* الحل البديل: إظهار زر آخر أو تغيير مكانه */
+  }
+
+  /* تعديل المحتوى ليأخذ المساحة الكاملة */
+  .container.sidebar-collapsed .content {
+    margin-right: 0; /* إزالة الهامش الذي كان مخصصًا للقائمة (بسبب rtl) */
+    /* إذا لم تكن تستخدم الهامش، قد تحتاج لتعديل grid أو flex properties */
+  }
+
+  /* تعديل أيقونة الزر وموقعه (إذا أردنا إبقاءه ظاهراً) */
+  /* بما أن الزر داخل السايدبار، سيختفي معه. حل بديل هو وضع الزر خارج السايدبار */
+  /* أو إظهار زر مختلف عند الإخفاء */
+
+  .container.sidebar-collapsed .main-sidebar-toggle-btn {
+    /* سيختفي الزر حاليًا لأنه داخل السايدبار */
+    /* يمكنك تغيير الأيقونة إذا جعلت الزر يبقى ظاهرًا بطريقة أخرى */
+    /* transform: rotate(180deg); */ /* تدوير الأيقونة */
+    /* left: -15px;  تحريكه للخارج (يحتاج position:absolute على الكونتينر ربما) */
+    opacity: 0; /* إخفاء الزر مع القائمة */
+    pointer-events: none; /* تعطيل النقر عليه وهو مخفي */
+  }
+
+  /* --- حل بديل: إظهار زر بديل عند الإخفاء --- */
+  /* 1. أضف زرًا آخر في HTML خارج السايدبار، مخفي افتراضيًا */
+  /* 2. في CSS: */
+  /* #alternativeShowBtn { display: none; ... } */
+  /* .container.sidebar-collapsed #alternativeShowBtn { display: block; ... } */
+
+  /* حل أبسط: تغيير طريقة الإخفاء (لا نخفي الزر) */
+  .container.sidebar-collapsed .sidebar > *:not(.main-sidebar-toggle-btn) {
+    display: none; /* إخفاء كل شيء ما عدا الزر */
+    transition: opacity 0.1s ease;
+    pointer-events: none;
+  }
+  .container.sidebar-collapsed .main-sidebar-toggle-btn {
+    /* أبقِ الزر ظاهراً وعدل الأيقونة */
+    transform: rotate(180deg);
+    background-color: var(--primary-color); /* تغيير لتمييز الحالة */
+    color: white;
+    border-color: var(--primary-darker);
+  }
+  .container.sidebar-collapsed .main-sidebar-toggle-btn:hover {
+    background-color: var(--primary-darker);
+  }
+
+  /* عند تطبيق هذا الحل، يجب تعديل انتقال الـ Sidebar ليشمل التأخير */
+  .sidebar {
+    transition: width 0.3s ease-in-out 0.1s,
+      /* تأخير بسيط */ padding 0.3s ease-in-out 0.1s,
+      opacity 0.3s ease-in-out 0.1s, border-width 0.3s ease-in-out 0.1s;
+  }
+  .container.sidebar-collapsed .sidebar {
+    /* فقط تقلص العرض، لكن الزر يبقى ظاهراً */
+    width: 60px; /* عرض يكفي للزر */
+    padding-right: 0;
+    padding-left: 0;
+    border-inline-end: 1px solid var(--border-color); /* إبقاء حد بسيط */
+    opacity: 1; /* إبقاء السايدبار (الذي يحتوي الزر) ظاهراً */
+    border-width: 1px;
+  }
+  .container.sidebar-collapsed .content {
+    margin-right: 60px; /* ترك مسافة للسايدبار المتقلص */
+  }
+} /* نهاية @media (min-width: 769px) */
+
+/* تعديل هامش المحتوى الافتراضي للشاشات الكبيرة (بسبب rtl) */
+@media (min-width: 769px) {
+  .content {
+    margin-right: 260px; /* قيمة عرض القائمة الجانبية الافتراضية */
+    /* تأكد من تطابق هذه القيمة مع عرض .sidebar المحدد في الكود الأساسي */
+    /* إذا كنت تستخدم gap في .container, قد لا تحتاج لهذا الهامش */
+    /* جرب إزالة gap من .container وإضافة هذا الهامش */
+  }
+  .container {
+    /* flex-wrap: nowrap; /* منع الالتفاف على الشاشات الكبيرة */
+    /* gap: 0; /* إزالة الفجوة إذا استخدمت الهامش */
+  }
+} /* --- زر إخفاء/إظهار القائمة الجانبية الرئيسي (زر عائم) --- */
+.main-sidebar-toggle-btn {
+  position: fixed; /* <<--- هذا هو المفتاح للزر العائم */
+  top: 80px; /* مسافة ثابتة من أعلى الشاشة */
+  right: 270px; /* مسافة ثابتة مبدئية من يمين الشاشة (اضبطها!) */
+  z-index: 1050; /* لضمان بقائه فوق العناصر الأخرى */
+
+  /* باقي التنسيقات الشكلية والانتقالية */
+  background-color: var(--primary-color);
+  color: white;
+  border: 1px solid var(--primary-darker);
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25); /* زيادة طفيفة للظل لتعزيز العوم */
+  transition: background-color 0.2s ease, transform 0.3s ease,
+    right 0.3s ease-in-out, box-shadow 0.2s ease; /* إضافة الظل للانتقال */
+  user-select: none; /* منع تحديد النص عن طريق الخطأ */
+}
+
+.main-sidebar-toggle-btn:hover {
+  background-color: var(--primary-darker);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* زيادة الظل عند الهوفر */
+}
+
+/* إخفاء هذا الزر على الشاشات الصغيرة */
+@media (max-width: 768px) {
+  .main-sidebar-toggle-btn {
+    display: none;
+  }
+}
+
+/* تحريك الزر عند إخفاء القائمة (يبقى عائماً لكن في موضع مختلف) */
+@media (min-width: 769px) {
+  .container.sidebar-collapsed .main-sidebar-toggle-btn {
+    right: 15px; /* تحريك الزر لحافة الشاشة اليمنى (الموضع الجديد الثابت) */
+    transform: rotate(180deg);
+  }
+}

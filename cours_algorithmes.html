@@ -1,0 +1,1814 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>دورة تعلم الخوارزميات</title>
+    <!-- يمكنك إضافة خط عربي جميل من Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+        /* --- خطوط وألوان أساسية محسنة --- */
+        :root {
+        --primary-color: #0d6efd; /* أزرق Bootstrap القياسي - مشرق وجذاب */
+        --primary-darker: #0a58ca; /* أزرق أغمق للهوفر والتأكيد */
+        --secondary-color: #f8f9fa; /* رمادي فاتح جداً لخلفيات الأقسام */
+        --light-gray: #e9ecef; /* رمادي أفتح للخلفيات المتدرجة أو الحدود */
+        --text-color: #212529; /* أسود مقروء (ليس حادًا جدًا) */
+        --text-muted: #6c757d; /* رمادي للنصوص الأقل أهمية */
+        --header-bg: linear-gradient(
+            135deg,
+            #0b5ed7 0%,
+            #0d6efd 100%
+        ); /* تدرج أزرق للهيدر */
+        /* --sidebar-bg: #ffffff; (غير مستخدم) */
+        --code-bg: #f1f3f5; /* رمادي فاتح قليلاً ومختلف للكود */
+        --code-text-color: #212529;
+        --border-color: #dee2e6; /* رمادي للحدود */
+        --link-color: var(--primary-color);
+        --link-hover-color: var(--primary-darker);
+        --shadow-color: rgba(0, 0, 0, 0.08); /* لون ظل خفيف */
+        --accent-color: #fd7e14; /* برتقالي كلون تأكيد (اختياري) */
+
+        --font-main: "Cairo", sans-serif;
+        --font-code: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier,
+            monospace; /* خطوط شائعة للكود */
+
+        --border-radius-sm: 0.25rem; /* 4px */
+        --border-radius-md: 0.375rem; /* 6px */
+        --border-radius-lg: 0.5rem; /* 8px */
+        }
+
+        /* --- إعادة تعيين وتنسيقات عامة --- */
+        * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        }
+
+        html {
+        scroll-behavior: smooth; /* انتقال سلس للروابط الداخلية */
+        /* إضافة حشو علوي لتعويض ارتفاع النافبار الثابت */
+        scroll-padding-top: 80px; /* اضبط هذه القيمة حسب ارتفاع النافبار الفعلي */
+        }
+
+        body {
+        font-family: var(--font-main);
+        line-height: 1.7;
+        color: var(--text-color);
+        background-color: #fdfdff; /* خلفية بيضاء مائلة للزرقة قليلاً */
+        direction: rtl;
+        font-size: 16px; /* حجم خط أساسي */
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        }
+
+        /* --- الهيدر --- */
+        header {
+        background: var(--header-bg);
+        color: white;
+        padding: 2.5rem 1.5rem;
+        text-align: center;
+        flex-shrink: 0;
+        /* margin-bottom: 30px; إزالة الهامش */
+        }
+
+        header h1 {
+        margin-bottom: 0.75rem;
+        font-size: 2.5rem;
+        font-weight: 700;
+        }
+
+        header p {
+        font-size: 1.15rem;
+        opacity: 0.9;
+        max-width: 700px;
+        margin: 0 auto;
+        }
+
+        /* --- شريط التصفح العلوي --- */
+        nav.course-nav {
+            background-color: #fffffff7; /* أبيض */
+            padding: 10px 0; /* تقليل الحشو العمودي قليلاً */
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 2px 5px var(--shadow-color);
+            position: sticky; /* تثبيت شريط التصفح */
+            top: 0;           /* لصقه بأعلى الصفحة */
+            z-index: 1000;     /* لضمان بقائه فوق المحتوى */
+            width: 100%;      /* جعله يمتد بعرض الشاشة */
+        }
+
+        nav.course-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: inline-block; /* لمنع القائمة من شغل عرض كامل إن لم تكن الروابط كثيرة */
+        }
+
+        nav.course-nav ul li {
+            display: inline-block;
+            margin: 0 5px; /* تقليل المسافة الأفقية بين الروابط */
+        }
+
+        nav.course-nav ul li a {
+            text-decoration: none;
+            color: var(--link-color);
+            font-weight: bold;
+            font-size: 0.9rem; /* تصغير الخط قليلاً */
+            padding: 8px 12px; /* تعديل الحشو */
+            border-radius: var(--border-radius-md);
+            transition: background-color 0.2s ease, color 0.2s ease;
+            border: 1px solid transparent; /* للمحافظة على الحجم عند إضافة حد */
+        }
+
+        nav.course-nav ul li a:hover,
+        nav.course-nav ul li a.active { /* تفعيل نفس الستايل للهوفر والحالة النشطة */
+            color: white;
+            background-color: var(--link-hover-color);
+            border-color: var(--link-hover-color);
+        }
+
+        /* --- حاوية المحتوى الرئيسية للصفحة --- */
+        main.course-content {
+            flex-grow: 1;
+            max-width: 1100px; /* عرض أكبر قليلاً ليناسب المحتوى الطويل */
+            margin: 30px auto 40px auto; /* مسافة علوية وسفلية وتوسيط */
+            padding: 0 20px;
+        }
+
+        /* --- تنسيقات القسم والدرس (تأتي من CSS الأصلي) --- */
+        section {
+        background-color: #ffffff;
+        margin-bottom: 35px;
+        padding: 30px;
+        border-radius: var(--border-radius-lg);
+        border: 1px solid var(--border-color);
+        box-shadow: 0 4px 15px var(--shadow-color);
+        transition: box-shadow 0.3s ease;
+        }
+
+        section > h2 {
+        color: var(--primary-darker);
+        margin-top:0; /* إزالة الهامش العلوي */
+        margin-bottom: 25px;
+        font-size: 2rem;
+        font-weight: 700;
+        border-bottom: 3px solid var(--primary-color);
+        padding-bottom: 12px;
+        }
+
+        .lesson {
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--light-gray);
+        }
+        .lesson:last-child {
+        border-bottom: none;
+        }
+
+        .lesson h3 {
+        color: var(--text-color);
+        margin-bottom: 20px;
+        font-size: 1.6rem;
+        font-weight: 700;
+        }
+
+        .lesson h4 {
+        color: var(--primary-darker);
+        margin-top: 20px;
+        margin-bottom: 12px;
+        font-size: 1.25rem;
+        font-weight: 700;
+        }
+
+        .lesson p {
+        margin-bottom: 1rem;
+        color: var(--text-muted);
+        }
+
+        .lesson p strong {
+        color: var(--text-color);
+        font-weight: 700;
+        }
+
+        .lesson ul,
+        .lesson ol {
+        margin-right: 25px;
+        margin-bottom: 15px;
+        padding-right: 0;
+        color: var(--text-muted);
+        }
+        .lesson ul li::marker,
+        .lesson ol li::marker {
+        color: var(--primary-color);
+        }
+
+        .lesson ul li,
+        .lesson ol li {
+        margin-bottom: 0.5rem;
+        }
+
+        /* --- تنسيق الكود --- */
+        pre {
+        background-color: var(--code-bg);
+        border: 1px solid var(--border-color);
+        border-left: 5px solid var(--primary-color);
+        border-radius: var(--border-radius-md);
+        padding: 1rem 1.5rem;
+        overflow-x: auto;
+        margin-top: 1rem;
+        margin-bottom: 1.5rem;
+        direction: ltr;
+        text-align: left;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+        white-space: pre-wrap; /* Wrap long lines */
+        word-wrap: break-word; /* Ensure words break correctly */
+        }
+
+        code.language-pseudo { /* يجب أن يكون الكلاس موجوداً على وسم code داخل pre */
+        font-family: var(--font-code);
+        font-size: 0.9rem;
+        color: var(--code-text-color);
+        line-height: 1.6;
+        white-space: inherit;
+        display: block; /* مهم لبعض المتصفحات لوراثة التفاف النص بشكل صحيح */
+        background: none; /* تأكيد عدم وجود خلفية لـ code نفسها */
+        padding: 0; /* إزالة أي حشو افتراضي */
+        border: none; /* إزالة أي حدود افتراضية */
+        }
+        /* تمييز الكلمات المفتاحية */
+        pre code.language-pseudo strong {
+          color: var(--accent-color);
+          font-weight: bold;
+        }
+
+
+        /* --- تنسيق تفاصيل الحلول (القابلة للطي) --- */
+        details.solution {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius-md);
+        background-color: #ffffff;
+        transition: box-shadow 0.2s ease;
+        overflow: hidden; /* منع المحتوى من الخروج عن الحدود المستديرة */
+        }
+
+        details.solution[open] {
+        box-shadow: 0 3px 10px var(--shadow-color);
+        border-color: var(--primary-color);
+        }
+
+        details.solution summary {
+        padding: 12px 20px;
+        background-color: var(--secondary-color);
+        cursor: pointer;
+        font-weight: bold;
+        color: var(--primary-darker);
+        list-style-position: inside;
+        transition: background-color 0.2s ease;
+        position: relative;
+        /* لا تحتاج لتدوير زوايا هنا لأن details لديها overflow:hidden */
+        }
+
+        details.solution[open] summary {
+        border-bottom: 1px solid var(--border-color);
+        background-color: var(--light-gray);
+        }
+
+        details.solution summary:hover {
+        background-color: var(--light-gray);
+        }
+
+        details.solution summary::marker {
+        color: var(--primary-color);
+        font-size: 1.1em;
+        }
+
+        details.solution summary::after {
+        content: "+";
+        font-size: 1.3em;
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--primary-color);
+        font-weight: bold;
+        }
+
+        details.solution[open] summary::after {
+        content: "−";
+        }
+
+        details.solution pre {
+        border: none;
+        margin-top: 0;
+        border-radius: 0; /* لا حاجة لتدوير الزوايا داخل details */
+        box-shadow: none;
+        border-left: none;
+        background-color: var(--code-bg);
+        /* الحشو موجود بالفعل في pre الرئيسي */
+        }
+
+        /* --- الفوتر --- */
+        footer {
+        flex-shrink: 0;
+        text-align: center;
+        margin-top: auto; /* يبقى الفوتر في الأسفل */
+        padding: 25px;
+        background-color: #343a40;
+        color: #adb5bd;
+        font-size: 0.9rem;
+        border-top: 3px solid var(--primary-color);
+        }
+
+        /* --- استجابة للشاشات الصغيرة (Responsive Design) --- */
+        @media (max-width: 768px) {
+            html {
+              /* قد تحتاج لتعديل scroll-padding-top إذا تغير ارتفاع النافبار */
+              scroll-padding-top: 60px;
+            }
+            body {
+                font-size: 15px;
+            }
+            header {
+                padding: 2rem 1rem;
+            }
+            header h1 {
+                font-size: 2rem;
+            }
+            header p {
+                font-size: 1.05rem;
+            }
+            nav.course-nav ul li {
+                margin: 0 2px; /* تقليل المسافة أكثر */
+            }
+            nav.course-nav ul li a {
+                padding: 6px 8px; /* تقليل الحشو */
+                font-size: 0.85rem;
+            }
+            main.course-content {
+                padding: 0 15px;
+                margin-top: 20px; /* تقليل المسافة العلوية */
+                margin-bottom: 30px;
+            }
+            section {
+                padding: 20px;
+                margin-bottom: 25px;
+            }
+            section > h2 {
+                font-size: 1.7rem;
+                margin-bottom: 20px;
+                padding-bottom: 10px;
+            }
+            .lesson h3 {
+                font-size: 1.4rem;
+                margin-bottom: 15px;
+            }
+            .lesson h4 {
+                font-size: 1.15rem;
+            }
+            pre {
+                padding: 0.8rem 1rem;
+            }
+            code.language-pseudo {
+                font-size: 0.85rem;
+            }
+            details.solution summary {
+                padding: 10px 15px;
+            }
+            details.solution summary::after {
+                left: 15px;
+            }
+        }
+         @media (max-width: 480px) {
+            /* للشاشات الصغيرة جداً، يمكن جعل الروابط تحت بعضها */
+            nav.course-nav ul li {
+                display: block;
+                margin: 5px auto;
+            }
+             nav.course-nav ul li a {
+                display: block; /* تأكيد العرض الكامل */
+             }
+             html {
+               scroll-padding-top: 50px; /* قد تحتاج لتعديل هذا أكثر */
+             }
+         }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>دورة تعلم الخوارزميات خطوة بخطوة</h1>
+        <p>من الأساسيات إلى المفاهيم المتقدمة باستخدام Pseudo-code</p>
+    </header>
+
+    <!-- شريط التصفح العلوي -->
+    <nav class="course-nav" id="courseNavbar">
+        <ul>
+            <li><a href="#phase1" class="nav-link">المرحلة 1: الأساسيات</a></li>
+            <li><a href="#phase2" class="nav-link">المرحلة 2: الشروط والحلقات</a></li>
+            <li><a href="#phase3" class="nav-link">المرحلة 3: الجداول</a></li>
+            <li><a href="#phase3-enregistrements" class="nav-link">المرحلة 3 (تتمة): التسجيلات</a></li>
+            <li><a href="#phase4" class="nav-link">المرحلة 4: الدوال والإجراءات</a></li>
+            <li><a href="#phase5" class="nav-link">المرحلة 5: البحث والفرز</a></li>
+            <!-- أضف روابط للمراحل المتقدمة لاحقاً -->
+        </ul>
+    </nav>
+
+    <!-- تم إزالة div.container الخارجي -->
+    <main class="course-content"> <!-- استخدام كلاس جديد للحاوية الرئيسية -->
+        <!-- __________ المرحلة الأولى __________ -->
+        <section id="phase1">
+            <h2>المرحلة الأولى: الأساسيات والمفاهيم الأولية</h2>
+
+            <article class="lesson">
+                <h3>الدرس 1: مقدمة وتعريفات</h3>
+                <h4>المفاهيم:</h4>
+
+                <p><strong>ما هي الخوارزمية؟ (Qu'est-ce qu'un algorithme ?)</strong><br>
+                الخوارزمية هي ببساطة مجموعة دقيقة ومنظمة من التعليمات خطوة بخطوة لحل مشكلة معينة أو إنجاز مهمة محددة. يمكن تشبيهها بوصفة طبخ أو دليل تركيب. في عالم الحاسوب، هي الأساس لأي برنامج، وتتميز بالوضوح، المحدودية (بداية ونهاية)، والفعالية.</p>
+
+                <p><strong>لماذا نتعلم الخوارزميات؟ (Pourquoi apprendre les algorithmes ?)</strong><br>
+                تعلم الخوارزميات أساسي لأنه يعزز التفكير المنطقي وحل المشكلات، يمكنك من كتابة برامج أكثر كفاءة (أسرع وتستخدم موارد أقل)، ويُعتبر مهارة جوهرية في مجال البرمجة ومقابلات العمل التقنية.</p>
+
+                <p><strong>بنية الخوارزمية الأساسية (Structure de base)</strong><br>
+                تتبع الخوارزميات عادة هيكلًا بسيطًا:
+                <ul>
+                    <li><code>ALGORITHME Nom_Algorithme</code>: يحدد اسم الخوارزمية.</li>
+                    <li><code>CONSTANTES</code>: (اختياري) قسم لتعريف القيم الثابتة التي لا تتغير.</li>
+                    <li><code>VARIABLES</code>: قسم لتعريف جميع المتغيرات (حاويات البيانات) التي ستستخدمها ونوعها.</li>
+                    <li><code>DEBUT</code>: علامة بداية تنفيذ التعليمات الفعلية للخوارزمية.</li>
+                    <li><code>FIN</code>: علامة نهاية الخوارزمية.</li>
+                </ul>
+                </p>
+
+                <p><strong>الثوابت (Constantes)</strong><br>
+                الثابت هو اسم لقيمة <strong>لا يمكن تغييرها</strong> أثناء تنفيذ الخوارزمية.
+                <ul>
+                    <li><strong>فائدتها:</strong> زيادة وضوح الكود (<code>PI</code> بدلاً من 3.14159)، تسهيل الصيانة (تغيير القيمة في مكان واحد)، ومنع التغيير الخاطئ.</li>
+                    <li><strong>التعريف:</strong> عادة في قسم <code>CONSTANTES</code>. مثال: <code>CONST PI = 3.14159</code></li>
+                </ul>
+                </p>
+
+                <p><strong>المتغيرات وأنواعها (Variables et types)</strong><br>
+                المتغير هو اسم رمزي لمكان في الذاكرة نخزن فيه قيمة <strong>قد تتغير</strong>. يجب تحديد نوع البيانات لكل متغير، مثل:
+                <ul>
+                    <li><code>ENTIER</code>: للأعداد الصحيحة (e.g., 10, -3).</li>
+                    <li><code>REEL</code>: للأعداد العشرية (e.g., 9.5, -0.25).</li>
+                    <li><code>CARACTERE</code>: لحرف واحد (e.g., 'A', '?').</li>
+                    <li><code>CHAINE</code>: لسلسلة من الحروف (نص) (e.g., "السلام عليكم").</li>
+                    <li><code>BOOLEEN</code>: للقيمة المنطقية (<code>VRAI</code> أو <code>FAUX</code>).</li>
+                </ul>
+                </p>
+
+                <p><strong>عملية الإسناد (Affectation) (<code>←</code>)</strong><br>
+                تُستخدم لوضع قيمة في متغير. <code> متغير ← قيمة </code> تعني "المتغير يأخذ القيمة". مثال: <code>Score ← 100</code>. (لا يمكن استخدامها مع الثوابت بعد تعريفها الأولي).</p>
+
+                <p><strong>تعليمات الإدخال (<code>LIRE</code>)</strong><br>
+                للحصول على بيانات من المستخدم وتخزينها في متغير. <code>LIRE NomUtilisateur</code> تجعل البرنامج ينتظر إدخال المستخدم ويخزنه في <code>NomUtilisateur</code>.</p>
+
+                <p><strong>تعليمات الإخراج (<code>ECRIRE</code>)</strong><br>
+                لعرض المعلومات للمستخدم على الشاشة. يمكن عرض نص ثابت <code>ECRIRE "مرحباً"</code> أو قيمة متغير <code>ECRIRE Score</code> أو قيمة ثابت <code>ECRIRE PI</code> أو مزيج منهم.</p>
+
+
+                <h4>مثال Pseudo-code (مع ثابت):</h4>
+                <pre><code class="language-pseudo">ALGORITHME CalculCercle
+CONSTANTES
+    PI = 3.14159
+VARIABLES
+    Rayon : REEL
+    Surface : REEL
+    Perimetre : REEL
+DEBUT
+    ECRIRE "Entrez le rayon du cercle :"
+    LIRE Rayon
+
+    Surface ← PI * Rayon * Rayon // أو Rayon ^ 2
+    Perimetre ← 2 * PI * Rayon
+
+    ECRIRE "La surface du cercle est : ", Surface
+    ECRIRE "Le périmètre du cercle est : ", Perimetre
+FIN</code></pre>
+
+                <h4>تمارين:</h4>
+                <ol>
+                    <li>اكتب خوارزمية تطلب من المستخدم إدخال عمره ثم تطبع رسالة مثل "عمرك هو: [العمر]".</li>
+                    <li>اكتب خوارزمية تطلب إدخال سعر منتج وكميته، وتستخدم ثابتًا لنسبة الضريبة المضافة (مثلاً <code>TVA = 0.20</code>) لحساب السعر الإجمالي شامل الضريبة.</li>
+                </ol>
+
+                <h4>حلول:</h4>
+                <details class="solution">
+                    <summary>عرض/إخفاء حل تمرين 1</summary>
+                    <pre><code class="language-pseudo">ALGORITHME AfficherAge
+VARIABLES
+    Age : ENTIER
+DEBUT
+    ECRIRE "Entrez votre âge :"
+    LIRE Age
+    ECRIRE "Votre âge est : ", Age
+FIN</code></pre>
+                </details>
+                <details class="solution">
+                    <summary>عرض/إخفاء حل تمرين 2 (مع ثابت)</summary>
+                    <pre><code class="language-pseudo">ALGORITHME CalculTotalAvecTVA
+CONSTANTES
+    TAUX_TVA = 0.20 // 20%
+VARIABLES
+    PrixUnitaire : REEL
+    Quantite : ENTIER
+    PrixHorsTaxe : REEL
+    MontantTVA : REEL
+    PrixTotalTTC : REEL // TTC = Toutes Taxes Comprises
+DEBUT
+    ECRIRE "Entrez le prix unitaire (hors taxe) :"
+    LIRE PrixUnitaire
+    ECRIRE "Entrez la quantité :"
+    LIRE Quantite
+
+    PrixHorsTaxe ← PrixUnitaire * Quantite
+    MontantTVA ← PrixHorsTaxe * TAUX_TVA
+    PrixTotalTTC ← PrixHorsTaxe + MontantTVA
+    // Ou directement: PrixTotalTTC ← PrixHorsTaxe * (1 + TAUX_TVA)
+
+    ECRIRE "Le prix total hors taxe est : ", PrixHorsTaxe
+    ECRIRE "Le montant de la TVA est : ", MontantTVA
+    ECRIRE "Le prix total TTC est : ", PrixTotalTTC
+FIN</code></pre>
+                </details>
+            </article>
+        </section>
+        <!-- __________ نهاية المرحلة الأولى __________ -->
+
+        <!-- __________ المرحلة الثانية __________ -->
+        <section id="phase2">
+            <h2>المرحلة الثانية: هياكل التحكم (الشروط والحلقات)</h2>
+
+             <article class="lesson">
+                <h3>الدرس 2: الشروط (Structures Conditionnelles)</h3>
+                 <h4>المفاهيم:</h4>
+
+                <p><strong>الغرض:</strong> الشروط تسمح للخوارزمية باتخاذ قرارات وتنفيذ مسارات مختلفة بناءً على تحقق شرط منطقي (صحيح أو خطأ). هذا يمنح الخوارزميات القدرة على التكيف مع المواقف المختلفة.</p>
+
+                <p><strong>الشرط البسيط: <code>SI ... ALORS ... FINSI</code></strong><br>
+                يُنفذ مجموعة من التعليمات فقط إذا كان الشرط صحيحًا.
+                <pre><code class="language-pseudo">SI (Age >= 18) ALORS
+    ECRIRE "أنت بالغ."
+FINSI</code></pre>
+                 إذا كان العمر 18 أو أكثر، تطبع الرسالة؛ وإلا، لا يحدث شيء.</p>
+
+                <p><strong>الشرط مع البديل: <code>SI ... ALORS ... SINON ... FINSI</code></strong><br>
+                يوفر مسارين: واحد إذا كان الشرط صحيحًا، وآخر إذا كان خاطئًا.
+                 <pre><code class="language-pseudo">SI (Moyenne >= 10) ALORS
+    ECRIRE "ناجح."
+SINON
+    ECRIRE "راسب."
+FINSI</code></pre>
+                </p>
+
+                <p><strong>الشروط المتداخلة (Imbriquées):</strong><br> يمكن وضع شرط داخل شرط آخر لاتخاذ قرارات أكثر تعقيدًا. (مثال: التحقق من النجاح أولاً، ثم التحقق من التفوق).</p>
+
+                <p><strong>الشروط المتعددة: <code>SI ... SINON SI ... SINON ... FINSI</code></strong><br>
+                لفحص سلسلة من الشروط بالترتيب. يتم تنفيذ أول شرط صحيح فقط. مفيدة لتقسيم الحالات (مثل تقديرات الدرجات).
+                 <pre><code class="language-pseudo">SI (Note >= 16) ALORS
+    ECRIRE "ممتاز"
+SINON SI (Note >= 14) ALORS
+    ECRIRE "جيد جداً"
+SINON SI (Note >= 12) ALORS
+    ECRIRE "جيد"
+SINON SI (Note >= 10) ALORS
+    ECRIRE "مقبول"
+SINON
+    ECRIRE "ضعيف"
+FINSI</code></pre>
+                </p>
+
+                <p><strong>المعاملات المنطقية (<code>ET</code>, <code>OU</code>, <code>NON</code>)</strong><br>
+                تُستخدم لدمج الشروط:
+                <ul>
+                    <li><code>ET</code> (AND): كلا الشرطين يجب أن يكونا صحيحين.</li>
+                    <li><code>OU</code> (OR): أحد الشرطين على الأقل يجب أن يكون صحيحًا.</li>
+                    <li><code>NON</code> (NOT): يعكس حالة الشرط (صحيح يصبح خطأ والعكس).</li>
+                </ul>
+                </p>
+                 <pre><code class="language-pseudo">ALGORITHME VerificationAcces
+VARIABLES
+    Age : ENTIER
+    EstEtudiant : BOOLEEN
+DEBUT
+    ECRIRE "Entrez votre âge:" ; LIRE Age
+    ECRIRE "Êtes-vous étudiant? (VRAI/FAUX):" ; LIRE EstEtudiant
+    SI (Age < 25) ET (EstEtudiant = VRAI) ALORS
+        ECRIRE "Vous bénéficiez du tarif réduit."
+    SINON
+        ECRIRE "Tarif normal applicable."
+    FINSI
+FIN</code></pre>
+
+                <h4>مثال Pseudo-code:</h4>
+                <pre><code class="language-pseudo">ALGORITHME VerificationAgeMajeur
+VARIABLES
+    Age : ENTIER
+DEBUT
+    ECRIRE "Entrez votre âge :"
+    LIRE Age
+    SI Age >= 18 ALORS
+        ECRIRE "Vous êtes majeur."
+    SINON
+        ECRIRE "Vous êtes mineur."
+    FINSI
+FIN</code></pre>
+                <h4>تمارين:</h4>
+                <ol>
+                    <li>اكتب خوارزمية تطلب إدخال عدد وتحدد إذا كان موجبًا، سالبًا، أو صفرًا.</li>
+                    <li>اكتب خوارزمية تطلب إدخال درجة طالب (0-20) وتطبع التقدير (استخدم `SINON SI`).</li>
+                    <li>اكتب خوارزمية تطلب إدخال ثلاثة أعداد وتطبع العدد الأكبر بينها.</li>
+                </ol>
+                <h4>حلول:</h4>
+                <details class="solution"><summary>عرض/إخفاء حل تمرين 1</summary><pre><code class="language-pseudo">ALGORITHME SigneNombre
+VARIABLES
+    Nombre : REEL
+DEBUT
+    ECRIRE "Entrez un nombre :"
+    LIRE Nombre
+    SI Nombre > 0 ALORS
+        ECRIRE "Le nombre est positif."
+    SINON SI Nombre < 0 ALORS
+        ECRIRE "Le nombre est négatif."
+    SINON
+        ECRIRE "Le nombre est zéro."
+    FINSI
+FIN</code></pre></details>
+                <details class="solution"><summary>عرض/إخفاء حل تمرين 2</summary><pre><code class="language-pseudo">ALGORITHME EvaluationNote
+VARIABLES
+    Note : REEL
+DEBUT
+    ECRIRE "Entrez la note (0-20) :"
+    LIRE Note
+    SI Note > 20 OU Note < 0 ALORS // Vérification d'intervalle
+         ECRIRE "Note invalide."
+    SINON SI Note >= 16 ALORS
+        ECRIRE "Mention : Excellent"
+    SINON SI Note >= 14 ALORS
+        ECRIRE "Mention : Très Bien"
+    SINON SI Note >= 12 ALORS
+        ECRIRE "Mention : Bien"
+    SINON SI Note >= 10 ALORS
+        ECRIRE "Mention : Assez Bien (Passable)"
+    SINON
+        ECRIRE "Mention : Insuffisant (Ajourné)"
+    FINSI
+FIN</code></pre></details>
+                <details class="solution"><summary>عرض/إخفاء حل تمرين 3</summary><pre><code class="language-pseudo">ALGORITHME TrouverLePlusGrand
+VARIABLES
+    a, b, c, max : REEL
+DEBUT
+    ECRIRE "Entrez trois nombres :"
+    LIRE a
+    LIRE b
+    LIRE c
+
+    // Méthode 1: Comparaisons séquentielles
+    max ← a
+    SI b > max ALORS
+        max ← b
+    FINSI
+    SI c > max ALORS
+        max ← c
+    FINSI
+
+    // Méthode 2: Utilisation de SI imbriqués (moins lisible parfois)
+    (*
+    SI a > b ALORS
+        SI a > c ALORS
+            max ← a
+        SINON
+            max ← c
+        FINSI
+    SINON // b >= a
+        SI b > c ALORS
+            max ← b
+        SINON
+            max ← c
+        FINSI
+    FINSI
+    *)
+
+    ECRIRE "Le plus grand nombre est : ", max
+FIN</code></pre></details>
+            </article>
+
+             <article class="lesson">
+                <h3>الدرس 3: الحلقات (Structures Répétitives / Boucles)</h3>
+                <h4>المفاهيم:</h4>
+
+                 <p><strong>الغرض:</strong> الحلقات تسمح بتكرار تنفيذ جزء من الكود عدة مرات. هذا ضروري لمعالجة مجموعات البيانات، أو لتكرار عملية حتى يتحقق شرط معين.</p>
+
+                 <p><strong>الحلقة المحددة: <code>POUR ... DE ... A ... FAIRE ... FINPOUR</code></strong><br>
+                 تُستخدم عندما نعرف عدد التكرارات المطلوب مسبقًا.
+                 <ul>
+                     <li><code>compteur</code>: متغير يتغير تلقائيًا (عادة يزيد بـ 1).</li>
+                     <li><code>valeur_debut</code>: القيمة الابتدائية للعداد.</li>
+                     <li><code>valeur_fin</code>: القيمة النهائية للعداد.</li>
+                 </ul>
+                  <pre><code class="language-pseudo">POUR i DE 1 A 3 FAIRE
+    ECRIRE "الدورة رقم: ", i
+FINPOUR
+// ستطبع: الدورة رقم: 1، الدورة رقم: 2، الدورة رقم: 3</code></pre>
+                 </p>
+
+                 <p><strong>الحلقة غير المحددة: <code>TANTQUE ... FAIRE ... FINTANTQUE</code></strong><br>
+                 تُستخدم عندما يعتمد التكرار على شرط. يتم فحص الشرط **قبل** كل دورة.
+                 <ul>
+                     <li>تستمر الحلقة طالما أن الشرط <code>VRAI</code>.</li>
+                     <li>يجب التأكد من أن الشرط سيصبح <code>FAUX</code> في النهاية لتجنب حلقة لا نهائية.</li>
+                 </ul>
+                   <pre><code class="language-pseudo">VARIABLES Compteur : ENTIER
+DEBUT
+    Compteur ← 0
+    TANTQUE Compteur < 3 FAIRE
+        ECRIRE "العداد الآن: ", Compteur
+        Compteur ← Compteur + 1 // مهم: تغيير قيمة الشرط
+    FINTANTQUE
+    ECRIRE "انتهت الحلقة."
+// ستطبع: العداد الآن: 0، العداد الآن: 1، العداد الآن: 2، انتهت الحلقة.</code></pre>
+                 </p>
+
+                 <p><strong>الحلقة غير المحددة: <code>REPETER ... JUSQU'A ...</code></strong><br>
+                 مشابهة لـ `TANTQUE`, لكن يتم تنفيذ الكود **مرة واحدة على الأقل** قبل فحص الشرط.
+                 <ul>
+                     <li>تستمر الحلقة طالما أن الشرط <code>FAUX</code>. (تتوقف عندما يصبح الشرط <code>VRAI</code>).</li>
+                 </ul>
+                 <pre><code class="language-pseudo">VARIABLES CodeSecret, Tentative : ENTIER
+DEBUT
+    CodeSecret ← 1234
+    REPETER
+        ECRIRE "أدخل الرمز السري:"
+        LIRE Tentative
+    JUSQU'A (Tentative = CodeSecret) // تتوقف عندما يكون الإدخال صحيحًا
+    ECRIRE "تم الدخول بنجاح!"</code></pre>
+                 </p>
+
+                <h4>مثال (حلقة POUR):</h4>
+                <pre><code class="language-pseudo">ALGORITHME AfficherNombres1a5
+VARIABLES
+    i : ENTIER
+DEBUT
+    ECRIRE "Les nombres de 1 à 5 sont :"
+    POUR i DE 1 A 5 FAIRE
+        ECRIRE i
+    FINPOUR
+FIN</code></pre>
+                 <h4>مثال (حلقة TANTQUE):</h4>
+                 <pre><code class="language-pseudo">ALGORITHME SommeJusquaNegatif
+VARIABLES
+    Nombre, Somme : REEL
+DEBUT
+    Somme ← 0
+    ECRIRE "Entrez un nombre (négatif pour arrêter) :"
+    LIRE Nombre
+    TANTQUE Nombre >= 0 FAIRE
+        Somme ← Somme + Nombre
+        ECRIRE "Entrez un autre nombre (négatif pour arrêter) :"
+        LIRE Nombre
+    FINTANTQUE
+    ECRIRE "La somme des nombres positifs entrés est : ", Somme
+FIN</code></pre>
+                <h4>تمارين:</h4>
+                 <ol>
+                     <li>اكتب خوارزمية تحسب مضروب عدد (Factorial) N باستخدام حلقة <code>POUR</code>. (N! = 1 * 2 * ... * N).</li>
+                     <li>اكتب خوارزمية تطبع جدول الضرب لعدد معين يدخله المستخدم (مثلاً لـ 5: 5x1=5, 5x2=10... 5x10=30). استخدم <code>POUR</code>.</li>
+                     <li>اكتب خوارزمية تطلب من المستخدم تخمين عدد سري (مثلاً 42) وتستمر في طلب التخمين حتى يخمن المستخدم بشكل صحيح، مع إعطاء تلميح ("أكبر" أو "أصغر"). استخدم حلقة <code>TANTQUE</code> أو <code>REPETER</code>.</li>
+                 </ol>
+                <h4>حلول:</h4>
+                <details class="solution"><summary>عرض/إخفاء حل تمرين 1</summary><pre><code class="language-pseudo">ALGORITHME Factorielle
+VARIABLES
+    N, i : ENTIER
+    Fact : ENTIER // Peut nécessiter REEL pour de grandes valeurs de N
+DEBUT
+    ECRIRE "Entrez un entier positif N :"
+    LIRE N
+    SI N < 0 ALORS
+        ECRIRE "Le factoriel n'est pas défini pour les nombres négatifs."
+    SINON SI N = 0 ALORS
+        ECRIRE "0! = 1"
+    SINON
+        Fact ← 1
+        POUR i DE 1 A N FAIRE
+            Fact ← Fact * i
+        FINPOUR
+        ECRIRE N, "! = ", Fact
+    FINSI
+FIN</code></pre></details>
+                <details class="solution"><summary>عرض/إخفاء حل تمرين 2</summary><pre><code class="language-pseudo">ALGORITHME TableMultiplication
+VARIABLES
+    Nombre, i, Resultat : ENTIER
+DEBUT
+    ECRIRE "Entrez le nombre pour sa table de multiplication :"
+    LIRE Nombre
+    ECRIRE "Table de multiplication de ", Nombre, " :"
+    POUR i DE 1 A 10 FAIRE // Standard jusqu'à 10
+        Resultat ← Nombre * i
+        ECRIRE Nombre, " x ", i, " = ", Resultat
+    FINPOUR
+FIN</code></pre></details>
+                <details class="solution"><summary>عرض/إخفاء حل تمرين 3 (باستخدام TANTQUE)</summary><pre><code class="language-pseudo">ALGORITHME JeuDeDevinette
+VARIABLES
+    NombreSecret : ENTIER
+    Tentative : ENTIER
+DEBUT
+    NombreSecret ← 42 // Le nombre à deviner (peut être généré aléatoirement)
+    ECRIRE "J'ai choisi un nombre secret. Essayez de le deviner !"
+    ECRIRE "Entrez votre première tentative :"
+    LIRE Tentative
+
+    TANTQUE Tentative != NombreSecret FAIRE
+        SI Tentative < NombreSecret ALORS
+            ECRIRE "Trop petit ! Essayez un nombre plus grand :"
+        SINON // Tentative > NombreSecret
+            ECRIRE "Trop grand ! Essayez un nombre plus petit :"
+        FINSI
+        LIRE Tentative // Lire la nouvelle tentative
+    FINTANTQUE
+
+    ECRIRE "Bravo ! Vous avez trouvé le nombre secret : ", NombreSecret
+FIN</code></pre></details>
+            </article>
+        </section>
+        <!-- __________ نهاية المرحلة الثانية __________ -->
+
+        <!-- __________ المرحلة الثالثة: الجداول (المصفوفات) __________ -->
+        <section id="phase3">
+          <h2>المرحلة الثالثة: الجداول (المصفوفات - Tableaux) - تعريف الأنواع (الصيغة المحددة)</h2>
+
+          <article class="lesson">
+              <h3>الدرس 3: استخدام الأنواع لتعريف المصفوفات </h3>
+              <h4>المفاهيم:</h4>
+
+              <p><strong>طريقة تعريف المصفوفات باستخدام الأنواع (Types)</strong><br>
+              يمكن تعريف "نموذج" أو "نوع" مخصص للمصفوفة في قسم <code>TYPE</code>، ثم نستخدم هذا النوع لإنشاء متغيرات المصفوفة في قسم <code>VARIABLES</code>.</p>
+
+              <p><strong>1. تعريف النوع (Définition du Type):</strong><br>
+              نستخدم الصيغة التالية في قسم <code>TYPE</code>:
+              <ul>
+                  <li><code>TYPE nom_du_type = TABLEAU[Taille] type_elements</code></li>
+                  <li><strong>الفهرسة:</strong> بهذه الصيغة، نفترض أن الفهارس تبدأ من <strong>1</strong> وتصل إلى <strong>Taille</strong>.</li>
+              </ul>
+              </p>
+
+              <p><strong>2. التصريح عن متغير من النوع (Déclaration de Variable):</strong><br>
+              في قسم <code>VARIABLES</code>، نعلن عن المتغير ونوعه:
+              <ul>
+                  <li><code>VARIABLES nom_variable : nom_du_type</code></li>
+              </ul>
+              </p>
+
+              <h4>مثال التعريف والتصريح:</h4>
+              <pre><code class="language-pseudo">TYPE TypeNotes = TABLEAU[5] ENTIER // نوع لمصفوفة 5 أعداد صحيحة (فهارس 1..5)
+VARIABLES
+  Scores : TypeNotes // متغير من نوع مصفوفة 5 أعداد صحيحة
+</code></pre>
+
+              <p><strong>3. الوصول إلى العناصر والمرور عليها:</strong><br>
+              يتم الوصول للمتغيرات المعرفة بهذا النوع باستخدام <code>nom_variable[index]</code>. الحلقة <code>POUR</code> تمر على الفهارس من 1 إلى الحجم `Taille`.</p>
+
+              <h4>مثال الوصول (فهرسة 1..3):</h4>
+              <pre><code class="language-pseudo">ALGORITHME ExempleAccesTableau_TypeSansDE
+TYPE
+  NotesType = TABLEAU[3] ENTIER // نوع لمصفوفة 3 أعداد صحيحة (فهارس 1..3)
+VARIABLES
+  Notes : NotesType
+  NoteSpecifique : ENTIER
+DEBUT
+  Notes[1] ← 95 // تخزين في الخانة الأولى
+  Notes[2] ← 70
+  Notes[3] ← 88 // تخزين في الخانة الثالثة
+
+  NoteSpecifique ← Notes[2] // قراءة من الخانة الثانية
+  ECRIRE "La note à l'index 2 est : ", NoteSpecifique // يطبع 70
+
+  ECRIRE "La note à l'index 3 est : ", Notes[3] // يطبع 88
+
+  Notes[1] ← Notes[1] - 10 // تحديث القيمة في الخانة الأولى
+  ECRIRE "La nouvelle note à l'index 1 est : ", Notes[1] // يطبع 85
+FIN</code></pre>
+
+              <h4>مثال: حساب مجموع عناصر مصفوفة (فهرسة 1..4)</h4>
+              <pre><code class="language-pseudo">ALGORITHME SommeTableau_TypeSansDE
+TYPE
+  TableauQuatre = TABLEAU[4] ENTIER // نوع لمصفوفة 4 أعداد (فهارس 1..4)
+VARIABLES
+  MesNotes : TableauQuatre
+  Somme : ENTIER
+  i : ENTIER
+DEBUT
+  MesNotes[1] ← 15
+  MesNotes[2] ← 12
+  MesNotes[3] ← 18
+  MesNotes[4] ← 10
+
+  Somme ← 0
+  POUR i DE 1 A 4 FAIRE // المرور على الفهارس من 1 إلى 4
+      Somme ← Somme + MesNotes[i]
+  FINPOUR
+
+  ECRIRE "La somme des notes est : ", Somme // المتوقع: 55
+FIN</code></pre>
+
+              <p><strong>4. الأنواع للمصفوفات متعددة الأبعاد :</strong><br>
+               <ul>
+                   <li><strong>تعريف النوع:</strong> <code>TYPE nom_type = TABLEAU[NbLignes, NbColonnes] type_elements</code> (الفهارس 1..NbLignes, 1..NbColonnes)</li>
+               </ul>
+               </p>
+
+              <h4>مثال: طباعة عناصر مصفوفة ثنائية الأبعاد (2x3) باستخدام نوع </h4>
+               <pre><code class="language-pseudo">ALGORITHME ImprimerMatrice_TypeSansDE
+TYPE
+  MatriceType = TABLEAU[2, 3] ENTIER // فهارس الصفوف: 1..2, الأعمدة: 1..3
+VARIABLES
+  MaMatrice : MatriceType
+  ligne, colonne : ENTIER
+DEBUT
+  // تعبئة المصفوفة
+  MaMatrice[1, 1] ← 1; MaMatrice[1, 2] ← 2; MaMatrice[1, 3] ← 3;
+  MaMatrice[2, 1] ← 4; MaMatrice[2, 2] ← 5; MaMatrice[2, 3] ← 6;
+
+  ECRIRE "Contenu de la matrice (indices 1..2, 1..3):"
+  POUR ligne DE 1 A 2 FAIRE // المرور على الصفوف 1 و 2
+      POUR colonne DE 1 A 3 FAIRE // المرور على الأعمدة 1, 2, 3
+          // طباعة العنصر الحالي متبوعاً بمسافة أو tab
+          ECRIRE MaMatrice[ligne, colonne], " "
+      FINPOUR
+      ECRIRE "" // سطر جديد بعد كل صف
+  FINPOUR
+FIN</code></pre>
+              <p><strong>النتيجة المتوقعة للمثال الأخير:</strong></p>
+              <pre style="background-color:#fff; border:none; padding: 5px; direction: ltr; text-align:left;"><code>Contenu de la matrice (indices 1..2, 1..3):
+1 2 3
+4 5 6</code></pre>
+
+              <h4>تمارين (مع تعريف الأنواع بدون DE وفهرسة تبدأ من 1):</h4>
+              <ol>
+                  <li>اكتب خوارزمية تعرف نوعًا `TypeCinqEntiers = TABLEAU[5] ENTIER`، تصرح عن متغير منه، تطلب من المستخدم إدخال 5 قيم، ثم تطبع العنصر الأخير (فهرس 5).</li>
+                  <li>اكتب خوارزمية تعرف نوعًا `TypeSixEntiers = TABLEAU[6] ENTIER`، تصرح عن متغير منه، تعطيه قيمًا مسبقة، ثم تحسب عدد العناصر الزوجية.</li>
+              </ol>
+
+              <h4>حلول (مع تعريف الأنواع بدون DE وفهرسة تبدأ من 1):</h4>
+              <details class="solution">
+                  <summary>عرض/إخفاء حل تمرين 1</summary>
+                  <pre><code class="language-pseudo">ALGORITHME LireEtAfficherDernier_TypeSansDE
+TYPE
+  TypeCinqEntiers = TABLEAU[5] ENTIER // فهارس 1..5
+VARIABLES
+  Nombres : TypeCinqEntiers
+  i : ENTIER
+DEBUT
+  ECRIRE "Veuillez entrer 5 nombres entiers :"
+  POUR i DE 1 A 5 FAIRE
+      ECRIRE "Entrez le nombre ", i, " : "
+      LIRE Nombres[i]
+  FINPOUR
+  ECRIRE "Le dernier élément entré (à l'index 5) est : ", Nombres[5]
+FIN</code></pre>
+              </details>
+              <details class="solution">
+                  <summary>عرض/إخفاء حل تمرين 2</summary>
+                  <pre><code class="language-pseudo">ALGORITHME CompterElementsPairs_TypeSansDE
+TYPE
+  TypeSixEntiers = TABLEAU[6] ENTIER // فهارس 1..6
+VARIABLES
+  MesNombres : TypeSixEntiers
+  CompteurPairs : ENTIER
+  i : ENTIER
+DEBUT
+  MesNombres[1] ← 4
+  MesNombres[2] ← 7
+  MesNombres[3] ← 12
+  MesNombres[4] ← 3
+  MesNombres[5] ← 8
+  MesNombres[6] ← 10
+
+  CompteurPairs ← 0
+  POUR i DE 1 A 6 FAIRE
+      // للتحقق من زوجية عدد، نستخدم باقي القسمة على 2 (MOD)
+      SI (MesNombres[i] MOD 2) = 0 ALORS
+          CompteurPairs ← CompteurPairs + 1
+      FINSI
+  FINPOUR
+  ECRIRE "Le nombre d'éléments pairs dans le tableau est : ", CompteurPairs // المتوقع: 4
+FIN</code></pre>
+              </details>
+          </article>
+        </section>
+        <!-- __________ نهاية المرحلة الثالثة __________ -->
+
+        <!-- __________ المرحلة الثالثة (تتمة): التسجيلات __________ -->
+        <section id="phase3-enregistrements">
+            <h2>المرحلة الثالثة (تتمة): هياكل البيانات - التسجيلات</h2>
+
+             <article class="lesson">
+                 <h3>الدرس 5: التسجيلات (Enregistrements / Records / Structs)</h3>
+                <h4>المفاهيم:</h4>
+
+                <p><strong>ما هو التسجيل؟ (Qu'est-ce qu'un Enregistrement ?)</strong><br>
+                التسجيل هو هيكل بيانات يسمح بتجميع عدة عناصر بيانات (تسمى <strong>حقول - Champs</strong>)، والتي يمكن أن تكون من <strong>أنواع مختلفة</strong>، تحت اسم واحد. فكر فيه كـ "نموذج" أو "بطاقة معلومات" لكيان معين مثل طالب، كتاب، أو منتج. وهو يختلف عن الجدول (المصفوفة) الذي يحتوي عادةً على عناصر من نفس النوع.</p>
+
+                <p><strong>لماذا نستخدم التسجيلات؟</strong><br>
+                <ul>
+                    <li><strong>التنظيم المنطقي:</strong> تجميع البيانات ذات الصلة معًا (اسم الطالب، رقمه، معدله).</li>
+                    <li><strong>الوضوح:</strong> جعل الكود أقرب إلى طريقة تفكيرنا في كيانات العالم الحقيقي.</li>
+                    <li><strong>التعامل الموحد:</strong> تسهيل تمرير مجموعة معلومات كاملة كوحدة واحدة للدوال.</li>
+                    <li><strong>الأساس لمفاهيم متقدمة:</strong> تمهيد لفهم الكائنات في البرمجة الشيئية.</li>
+                </ul>
+                </p>
+
+                <p><strong>تعريف نوع التسجيل (Définir un type Enregistrement):</strong><br>
+                نستخدم <code>TYPE ... = ENREGISTREMENT</code> لتعريف قالب التسجيل وحقوله.
+                <pre><code class="language-pseudo">TYPE T_Etudiant = ENREGISTREMENT
+    NomComplet : CHAINE
+    ID         : ENTIER
+    Moyenne    : REEL
+FIN ENREGISTREMENT</code></pre>
+                هنا، قمنا بتعريف نوع جديد اسمه <code>T_Etudiant</code>.</p>
+
+                <p><strong>التصريح عن متغير من نوع تسجيل (Déclarer une variable):</strong><br>
+                نستخدم اسم النوع الذي عرفناه لتعريف متغيرات.
+                <pre><code class="language-pseudo">VARIABLES
+    Etud1 : T_Etudiant  // متغير لتخزين بيانات طالب واحد
+</code></pre>
+                </p>
+
+                <p><strong>الوصول إلى الحقول (Accéder aux champs):</strong><br>
+                نستخدم النقطة (<code>.</code>) بعد اسم المتغير للوصول إلى حقل معين.
+                <pre><code class="language-pseudo">Etud1.NomComplet ← "لبنى كريم"
+LIRE Etud1.Moyenne
+ECRIRE "رقم الطالب: ", Etud1.ID</code></pre>
+                </p>
+
+                <p><strong>الجداول (المصفوفات) من التسجيلات (Tableaux d'Enregistrements):</strong><br>
+                يمكن إنشاء جدول يحتوي كل عنصر فيه على تسجيل كامل. هذا مفيد جداً لتمثيل مجموعات (قائمة طلاب، قائمة منتجات). نستخدم النوع الذي عرفناه كنوع لعناصر الجدول.
+                <pre><code class="language-pseudo">TYPE TypePromotion = TABLEAU [1..50] DE T_Etudiant // نوع لجدول من الطلاب
+VARIABLES
+    Promotion2023 : TypePromotion // جدول يسع 50 طالبًا
+DEBUT
+    // الوصول لبيانات الطالب في الخانة 5
+    Promotion2023[5].NomComplet ← "يوسف علي"
+    SI Promotion2023[5].Moyenne >= 10 ALORS ...
+    ...
+FIN</code></pre>
+                </p>
+
+                <p><strong>تمرير التسجيلات للدوال/الإجراءات:</strong><br>
+                يمكن تمرير متغير تسجيل كمعامل. يتم عادةً تمريره بالقيمة (نسخة)، لكن يمكن استخدام <code>VAR</code> لتمريره بالمرجع (يؤثر التعديل على الأصل وقد يكون أكفأ للتسجيلات الكبيرة).</p>
+
+                <h4>مثال Pseudo-code (تعريف واستخدام تسجيل طالب):</h4>
+                 <pre><code class="language-pseudo">// 1. تعريف النوع
+TYPE T_Etudiant = ENREGISTREMENT
+    NomComplet : CHAINE
+    ID         : ENTIER
+    Moyenne    : REEL
+FIN ENREGISTREMENT
+
+// 2. الخوارزمية الرئيسية
+ALGORITHME GestionSimpleEtudiant
+VARIABLES
+    UnEtudiant : T_Etudiant // تعريف متغير من نوع التسجيل
+DEBUT
+    // 3. إسناد قيم للحقول
+    UnEtudiant.NomComplet ← "فاطمة الزهراء بناني"
+    UnEtudiant.ID ← 112233
+    ECRIRE "أدخل معدل الطالب ", UnEtudiant.NomComplet, ":"
+    LIRE UnEtudiant.Moyenne
+
+    // 4. استخدام قيم الحقول
+    ECRIRE "--- بطاقة الطالب ---"
+    ECRIRE "الاسم: ", UnEtudiant.NomComplet
+    ECRIRE "الرقم الجامعي: ", UnEtudiant.ID
+    ECRIRE "المعدل: ", UnEtudiant.Moyenne
+
+    SI UnEtudiant.Moyenne >= 10 ALORS
+        ECRIRE "النتيجة: ناجح"
+    SINON
+        ECRIRE "النتيجة: راسب"
+    FINSI
+FIN</code></pre>
+
+                 <h4>تمارين:</h4>
+                 <ol>
+                     <li>عرّف نوع تسجيل <code>T_Livre</code> (كتاب) يحتوي على حقول: `Titre` (عنوان - CHAINE)، `Auteur` (مؤلف - CHAINE)، `AnneePublication` (سنة النشر - ENTIER)، `Prix` (السعر - REEL). ثم اكتب خوارزمية تعرف متغيرًا من هذا النوع، تطلب من المستخدم إدخال بيانات الكتاب، ثم تطبعها.</li>
+                     <li>باستخدام نوع <code>T_Etudiant</code> المعرّف أعلاه، اكتب خوارزمية تعرف جدولاً (مصفوفة) `Classe` يسع 3 طلاب. املأ بيانات الطلاب الثلاثة (يمكن إدخالها من المستخدم أو تعيينها مباشرة في الكود)، ثم ابحث في الجدول عن الطالب صاحب أعلى معدل وقم بطباعة اسمه ومعدله. (تلميح: عرف نوعًا للجدول أولاً مثل `TYPE TypeClasse = TABLEAU [1..3] DE T_Etudiant`).</li>
+                 </ol>
+                 <h4>حلول:</h4>
+                <details class="solution"><summary>عرض/إخفاء حل تمرين 1 (الكتاب)</summary><pre><code class="language-pseudo">// 1. تعريف النوع
+TYPE T_Livre = ENREGISTREMENT
+    Titre           : CHAINE
+    Auteur          : CHAINE
+    AnneePublication : ENTIER
+    Prix            : REEL
+FIN ENREGISTREMENT
+
+// 2. الخوارزمية الرئيسية
+ALGORITHME GestionSimpleLivre
+VARIABLES
+    MonLivre : T_Livre // تعريف متغير من نوع الكتاب
+DEBUT
+    ECRIRE "--- أدخل معلومات الكتاب ---"
+    ECRIRE "العنوان:"
+    LIRE MonLivre.Titre
+    ECRIRE "المؤلف:"
+    LIRE MonLivre.Auteur
+    ECRIRE "سنة النشر:"
+    LIRE MonLivre.AnneePublication
+    ECRIRE "السعر:"
+    LIRE MonLivre.Prix
+
+    ECRIRE " " // سطر فارغ
+    ECRIRE "--- معلومات الكتاب المدخلة ---"
+    ECRIRE "العنوان: ", MonLivre.Titre
+    ECRIRE "المؤلف: ", MonLivre.Auteur
+    ECRIRE "سنة النشر: ", MonLivre.AnneePublication
+    ECRIRE "السعر: ", MonLivre.Prix, " د.م" // (مثال عملة)
+FIN</code></pre></details>
+                <details class="solution"><summary>عرض/إخفاء حل تمرين 2 (أعلى معدل في جدول الطلاب)</summary><pre><code class="language-pseudo">// 1. تعريف نوع الطالب (يجب أن يكون معرفًا قبل النوع التالي والخوارزمية)
+TYPE T_Etudiant = ENREGISTREMENT
+    NomComplet : CHAINE
+    ID         : ENTIER
+    Moyenne    : REEL
+FIN ENREGISTREMENT
+
+// 2. تعريف نوع جدول الطلاب
+TYPE TypeClasse = TABLEAU [1..3] DE T_Etudiant // جدول لـ 3 طلاب
+
+// 3. الخوارزمية الرئيسية
+ALGORITHME TrouverMeilleurEtudiant
+VARIABLES
+    Classe : TypeClasse // تعريف متغير الجدول
+    i : ENTIER
+    IndexMeilleur : ENTIER // لتخزين فهرس الطالب الأفضل
+    MoyenneMax : REEL    // لتخزين أعلى معدل تم العثور عليه
+DEBUT
+    // 4. ملء بيانات الطلاب (مثال للإدخال المباشر)
+    Classe[1].NomComplet ← "أحمد"; Classe[1].ID ← 101; Classe[1].Moyenne ← 14.5;
+    Classe[2].NomComplet ← "مريم"; Classe[2].ID ← 102; Classe[2].Moyenne ← 16.0;
+    Classe[3].NomComplet ← "ياسين"; Classe[3].ID ← 103; Classe[3].Moyenne ← 15.2;
+
+    // يمكن استبدال الجزء أعلاه بحلقة POUR لقراءة البيانات من المستخدم
+    (*
+    POUR i DE 1 A 3 FAIRE
+        ECRIRE "أدخل اسم الطالب ", i, ":" ; LIRE Classe[i].NomComplet
+        ECRIRE "أدخل رقم الطالب ", i, ":" ; LIRE Classe[i].ID
+        ECRIRE "أدخل معدل الطالب ", i, ":" ; LIRE Classe[i].Moyenne
+    FINPOUR
+    *)
+
+    // 5. البحث عن الطالب صاحب أعلى معدل
+    // نفترض أن الطالب الأول هو الأفضل مبدئيًا
+    IndexMeilleur ← 1
+    MoyenneMax ← Classe[1].Moyenne
+
+    // المرور على باقي الطلاب (من 2 إلى 3) للمقارنة
+    POUR i DE 2 A 3 FAIRE
+        SI Classe[i].Moyenne > MoyenneMax ALORS
+            // وجدنا طالبًا أفضل
+            MoyenneMax ← Classe[i].Moyenne
+            IndexMeilleur ← i
+        FINSI
+    FINPOUR
+
+    // 6. طباعة النتيجة
+    ECRIRE "الطالب صاحب أعلى معدل هو:"
+    ECRIRE "الاسم: ", Classe[IndexMeilleur].NomComplet
+    ECRIRE "المعدل: ", Classe[IndexMeilleur].Moyenne // أو MoyenneMax
+FIN</code></pre></details>
+            </article>
+        </section>
+        <!-- __________ نهاية القسم الخاص بالتسجيلات __________ -->
+
+        <!-- __________ المرحلة الرابعة __________ -->
+        <section id="phase4">
+            <h2>المرحلة الرابعة: الدوال والإجراءات (التجزئة)</h2>
+            <article class="lesson">
+                <h3>الدرس 5: الدوال (Fonctions) والإجراءات (Procédures)</h3>
+                <h4>المفاهيم:</h4>
+                <ul>
+                <li>أهمية التجزئة (Modularité): تقسيم المشكلة الكبيرة إلى أجزاء صغيرة (وحدات) قابلة للإدارة وإعادة الاستخدام.</li>
+                <li>الفرق بين الدالة والإجراء:
+                    <ul>
+                        <li><strong>الدالة (Fonction):</strong> تعيد قيمة واحدة نتيجة لعملها (مثل `Carre` التي تعيد مربع العدد).</li>
+                        <li><strong>الإجراء (Procédure):</strong> ينفذ مهمة معينة ولا يعيد قيمة بشكل مباشر (مثل `AfficherMessageBienvenue` التي تطبع رسالة). قد يغير قيم المتغيرات الممررة إليه بالمرجع (باستخدام `VAR`).</li>
+                    </ul>
+                </li>
+                <li>التعريف والاستدعاء: كيفية كتابة الدالة/الإجراء (الرأس، المتغيرات المحلية، الجسم) وكيفية استخدامها (استدعاؤها) في الخوارزمية الرئيسية أو من دالة/إجراء آخر.</li>
+                <li>المعاملات (Paramètres): القيم التي يتلقاها الدالة/الإجراء عند استدعائه.
+                    <ul>
+                        <li><strong>التمرير بالقيمة (Passage par valeur):</strong> (الافتراضي) يتم إنشاء نسخة من القيمة داخل الدالة/الإجراء، وأي تعديل عليها لا يؤثر على المتغير الأصلي خارجها.</li>
+                        <li><strong>التمرير بالمرجع (Passage par variable/adresse - باستخدام `VAR`):</strong> يتم تمرير عنوان المتغير الأصلي، وأي تعديل عليه داخل الدالة/الإجراء يؤثر مباشرة على المتغير الأصلي. ضروري للإجراءات التي تحتاج لتغيير أكثر من قيمة أو لتجنب نسخ هياكل بيانات كبيرة.</li>
+                    </ul>
+                </li>
+                <li>المتغيرات المحلية والعامة:
+                    <ul>
+                        <li><strong>المتغيرات المحلية (Locales):</strong> تُعرّف داخل دالة/إجراء وتكون مرئية ومتاحة فقط داخلها.</li>
+                        <li><strong>المتغيرات العامة (Globales):</strong> تُعرّف في قسم `VARIABLES` الرئيسي للخوارزمية وتكون متاحة في كل مكان (يفضل تجنبها قدر الإمكان لتقليل الأعراض الجانبية وجعل الكود أوضح).</li>
+                    </ul>
+                </li>
+                </ul>
+                <h4>مثال (دالة):</h4>
+                <pre><code class="language-pseudo">FONCTION Carre(Nombre : REEL) : REEL
+DEBUT
+    RETOURNER Nombre * Nombre
+FINFONCTION
+
+(* Algorithme principal pour utiliser la fonction *)
+ALGORITHME UtiliserFonctionCarre
+VARIABLES
+    x, Resultat : REEL
+DEBUT
+    ECRIRE "Entrez un nombre :"
+    LIRE x
+    Resultat ← Carre(x) // Appel de la fonction
+    ECRIRE "Le carré de ", x, " est : ", Resultat
+FIN</code></pre>
+                <h4>مثال (إجراء وتمرير بالمرجع):</h4>
+                <pre><code class="language-pseudo">// الإجراء يأخذ متغيرين بالمرجع (VAR) ليتمكن من تبديل قيمهما الأصلية
+PROCEDURE Echanger(VAR Val1 : REEL, VAR Val2 : REEL)
+VARIABLES
+    temp : REEL // متغير محلي مؤقت للتبديل
+DEBUT
+    temp ← Val1
+    Val1 ← Val2
+    Val2 ← temp
+    // لا يوجد RETOURNER لأن الإجراء يغير القيم الأصلية مباشرة
+FINPROCEDURE
+
+(* Algorithme principal pour utiliser la procédure *)
+ALGORITHME UtiliserProcedureEchange
+VARIABLES
+    a, b : REEL // المتغيرات الأصلية التي ستتأثر
+DEBUT
+    a ← 10.5
+    b ← 25.0
+    ECRIRE "Avant échange: a=", a, ", b=", b
+    Echanger(a, b) // استدعاء الإجراء وتمرير a و b بالمرجع
+    ECRIRE "Après échange: a=", a, ", b=", b // ستظهر القيم معكوسة
+FIN</code></pre>
+                <h4>تمارين:</h4>
+                <ol>
+                <li>اكتب <strong>دالة</strong> `Somme(a: ENTIER, b: ENTIER)` تعيد مجموع العددين. ثم اكتب خوارزمية رئيسية تستخدمها.</li>
+                <li>اكتب <strong>إجراءً</strong> `Incrementer(VAR Compteur: ENTIER)` يزيد قيمة المتغير الممرر له بمقدار واحد. ثم اكتب خوارزمية رئيسية تستخدمه.</li>
+                <li>أعد كتابة خوارزمية إيجاد أكبر عنصر في مصفوفة (من درس سابق) بحيث تستخدم <strong>دالة</strong> `TrouverMax(T : MonTableauType, Taille : ENTIER)` تعيد أكبر قيمة في المصفوفة `T`. (افترض أن `MonTableauType` هو نوع معرف مسبقًا).</li>
+                </ol>
+                <h4>حلول:</h4>
+                <details class="solution">
+                <summary>حل تمرين 1 (دالة الجمع)</summary>
+                <pre><code class="language-pseudo">FONCTION Somme(a: ENTIER, b: ENTIER) : ENTIER
+DEBUT
+    RETOURNER a + b
+FINFONCTION
+
+ALGORITHME TesterSomme
+VARIABLES
+    n1, n2, resultat : ENTIER
+DEBUT
+    ECRIRE "Entrez deux entiers :"
+    LIRE n1
+    LIRE n2
+    resultat ← Somme(n1, n2) // استدعاء الدالة وتخزين النتيجة
+    ECRIRE "La somme est : ", resultat
+FIN</code></pre>
+                </details>
+                <details class="solution">
+                <summary>حل تمرين 2 (إجراء الزيادة)</summary>
+                <pre><code class="language-pseudo">PROCEDURE Incrementer(VAR Compteur: ENTIER)
+DEBUT
+    Compteur ← Compteur + 1
+FINPROCEDURE
+
+ALGORITHME TesterIncrementer
+VARIABLES
+    MonCompteur : ENTIER
+DEBUT
+    MonCompteur ← 5
+    ECRIRE "Valeur initiale du compteur : ", MonCompteur
+    Incrementer(MonCompteur) // استدعاء الإجراء لتعديل MonCompteur
+    ECRIRE "Valeur après incrémentation : ", MonCompteur // سيطبع 6
+FIN</code></pre>
+                </details>
+                <details class="solution">
+                <summary>حل تمرين 3 (دالة إيجاد الأكبر في مصفوفة)</summary>
+                <pre><code class="language-pseudo">// افتراض أن هذا النوع معرف مسبقاً
+// TYPE MonTableauType = TABLEAU [1..100] DE REEL;
+
+FONCTION TrouverMax(T : MonTableauType; Taille : ENTIER) : REEL
+VARIABLES
+    i : ENTIER
+    MaxCourant : REEL
+DEBUT
+    // يجب معالجة حالة الجدول الفارغ أو بحجم غير صالح
+    SI Taille <= 0 ALORS
+        ECRIRE "Erreur: Tableau vide ou taille invalide."
+        // يمكن إعادة قيمة خاصة أو إثارة خطأ حسب لغة البرمجة
+        // هنا سنعيد قيمة صغيرة جداً كإشارة (غير مثالي)
+        RETOURNER -Infini // (مفهوم نظري) أو -999999.99
+    SINON
+        // نفترض أن العنصر الأول هو الأكبر مبدئياً
+        MaxCourant ← T[1]
+        // نبدأ المقارنة من العنصر الثاني
+        POUR i DE 2 A Taille FAIRE
+            SI T[i] > MaxCourant ALORS
+                MaxCourant ← T[i]
+            FINSI
+        FINPOUR
+        // إعادة القيمة الأكبر التي وجدناها
+        RETOURNER MaxCourant
+    FINSI
+FINFONCTION
+
+ALGORITHME PrincipalTrouverMax
+// افتراض أن هذا النوع معرف مسبقاً
+TYPE MonTableauType = TABLEAU [1..5] DE REEL; // مثال بحجم 5
+VARIABLES
+    MonTableau : MonTableauType
+    LeMax : REEL
+    TailleReelle : ENTIER
+DEBUT
+    // ملء الجدول (كمثال)
+    TailleReelle ← 5
+    MonTableau[1] ← 12.5
+    MonTableau[2] ← 8.0
+    MonTableau[3] ← 19.2
+    MonTableau[4] ← 5.5
+    MonTableau[5] ← 10.0
+
+    // استدعاء الدالة للحصول على القيمة القصوى
+    LeMax ← TrouverMax(MonTableau, TailleReelle)
+
+    // طباعة النتيجة
+    ECRIRE "L'élément maximum du tableau est : ", LeMax // يجب أن يطبع 19.2
+FIN</code></pre>
+                </details>
+            </article>
+        </section>
+        <!-- __________ نهاية المرحلة الرابعة __________ -->
+
+
+        <!-- __________ المرحلة الخامسة __________ -->
+        <section id="phase5">
+            <h2>المرحلة الخامسة: خوارزميات البحث والفرز الأساسية</h2>
+
+            <article class="lesson">
+                <h3>الدرس 6: البحث الثنائي (Recherche Dichotomique)</h3>
+                <h4>المفاهيم:</h4>
+                <ul>
+                <li>
+                    متى يُستخدم البحث الثنائي؟ (الجدول يجب أن يكون
+                    <strong>مرتبًا تصاعديًا أو تنازليًا</strong>).
+                </li>
+                <li>
+                    فكرة التقسيم المتكرر للمجال: مقارنة العنصر المطلوب (القيمة) مع العنصر
+                    الأوسط في الجزء الحالي من الجدول.
+                </li>
+                <li>
+                    تحديث حدود البحث (`Debut`, `Fin`):
+                    <ul>
+                        <li>إذا كانت القيمة تساوي العنصر الأوسط: تم العثور عليها.</li>
+                        <li>إذا كانت القيمة أصغر من العنصر الأوسط: تجاهل النصف الأيمن (بما فيه الأوسط) وابحث في النصف الأيسر (Fin ← Milieu - 1).</li>
+                        <li>إذا كانت القيمة أكبر من العنصر الأوسط: تجاهل النصف الأيسر (بما فيه الأوسط) وابحث في النصف الأيمن (Debut ← Milieu + 1).</li>
+                    </ul>
+                </li>
+                 <li>شرط التوقف: تستمر الحلقة طالما أن `Debut <= Fin` ولم يتم العثور على القيمة. إذا أصبح `Debut > Fin`، فهذا يعني أن القيمة غير موجودة.</li>
+                <li>
+                    كفاءة البحث الثنائي: أسرع بكثير من البحث الخطي للجداول الكبيرة. عدد المقارنات يتناسب مع لوغاريتم حجم الجدول (O(log n)). كل خطوة تقلل مساحة البحث إلى النصف.
+                </li>
+                </ul>
+
+                <h4>مثال Pseudo-code (دالة البحث الثنائي):</h4>
+                <pre><code class="language-pseudo">// افتراض النوع معرف: TYPE TabEntiers = TABLEAU [1..N] DE ENTIER;
+// الدالة تعيد فهرس العنصر إذا وجد، أو -1 إذا لم يوجد.
+FONCTION RechercheDichotomique(TabTrie : TabEntiers; Taille : ENTIER; ValeurCherchee : ENTIER) : ENTIER
+VARIABLES
+    Debut, Fin, Milieu : ENTIER
+    IndexTrouve : ENTIER
+DEBUT
+    Debut ← 1
+    Fin ← Taille
+    IndexTrouve ← -1 // القيمة الابتدائية (لم يتم العثور عليه)
+
+    // استمر في البحث طالما أن هناك جزء صالح للبحث (Debut <= Fin)
+    // ولم يتم العثور على العنصر بعد (IndexTrouve = -1)
+    TANTQUE (Debut <= Fin) ET (IndexTrouve = -1) FAIRE
+        // حساب الفهرس الأوسط (استخدام القسمة الصحيحة)
+        Milieu ← (Debut + Fin) DIV 2
+
+        // المقارنة مع العنصر الأوسط
+        SI TabTrie[Milieu] = ValeurCherchee ALORS
+            IndexTrouve ← Milieu // وجدنا العنصر!
+        SINON SI ValeurCherchee < TabTrie[Milieu] ALORS
+            // القيمة أصغر، ابحث في النصف الأيسر
+            Fin ← Milieu - 1
+        SINON // ValeurCherchee > TabTrie[Milieu]
+            // القيمة أكبر، ابحث في النصف الأيمن
+            Debut ← Milieu + 1
+        FINSI
+    FINTANTQUE
+
+    // إعادة الفهرس الذي تم العثور عليه أو -1
+    RETOURNER IndexTrouve
+FINFONCTION
+
+// --- خوارزمية اختبار ---
+ALGORITHME TesterRechercheDicho
+TYPE TabEntiers = TABLEAU [1..7] DE ENTIER; // تعريف نوع محدد للاختبار
+VARIABLES
+    MonTab : TabEntiers
+    IndexResultat : ENTIER
+DEBUT
+    // Tableau trié OBLIGATOIREMENT
+    MonTab[1]← 2; MonTab[2]← 5; MonTab[3]← 8; MonTab[4]← 12; MonTab[5]← 16; MonTab[6]← 23; MonTab[7]← 38;
+
+    // البحث عن قيمة موجودة
+    IndexResultat ← RechercheDichotomique(MonTab, 7, 16)
+    SI IndexResultat != -1 ALORS
+        ECRIRE "Valeur 16 trouvée à l'index : ", IndexResultat // النتيجة المتوقعة: 5
+    SINON
+        ECRIRE "Valeur 16 non trouvée."
+    FINSI
+
+    // البحث عن قيمة غير موجودة
+    IndexResultat ← RechercheDichotomique(MonTab, 7, 99)
+    SI IndexResultat != -1 ALORS
+        ECRIRE "Valeur 99 trouvée à l'index : ", IndexResultat
+    SINON
+        ECRIRE "Valeur 99 non trouvée." // النتيجة المتوقعة: non trouvée (-1)
+    FINSI
+FIN</code></pre>
+
+                <h4>تمارين:</h4>
+                <ol>
+                <li>
+                    تتبع (Trace) خوارزمية البحث الثنائي خطوة بخطوة للبحث عن القيمة 5
+                    في الجدول `[2, 5, 8, 12, 16, 23, 38]`.
+                </li>
+                <li>تتبع الخوارزمية للبحث عن القيمة 40 في نفس الجدول.</li>
+                <li>ماذا يحدث إذا حاولت استخدام البحث الثنائي على جدول غير مرتب مثل `[12, 5, 38, 2, 16]` للبحث عن القيمة 16؟ هل ستعمل بشكل صحيح دائمًا؟</li>
+                </ol>
+
+                <h4>حلول:</h4>
+                <details class="solution">
+                <summary>عرض/إخفاء حل تمرين 1 (تتبع البحث عن 5)</summary>
+                <p>
+                    <strong>البيانات:</strong> TabTrie = [2, 5, 8, 12, 16, 23, 38],
+                    Taille = 7, ValeurCherchee = 5
+                </p>
+                <ul>
+                    <li>
+                    <strong>التهيئة:</strong> Debut = 1, Fin = 7, IndexTrouve = -1
+                    </li>
+                    <li>
+                    <strong>الدورة 1 (TANTQUE):</strong> (1 <= 7) ET (-1 = -1) -> VRAI.
+                    <ul>
+                        <li>Milieu = (1 + 7) DIV 2 = 4.</li>
+                        <li>TabTrie[4](12) = 5 ? -> FAUX.</li>
+                        <li>5 < TabTrie[4](12) ? -> VRAI.</li>
+                        <li>Fin ← Milieu - 1 = 4 - 1 = 3.</li>
+                    </ul>
+                    </li>
+                    <li>
+                    <strong>الدورة 2 (TANTQUE):</strong> (1 <= 3) ET (-1 = -1) -> VRAI.
+                    <ul>
+                        <li>Milieu = (1 + 3) DIV 2 = 2.</li>
+                        <li>TabTrie[2](5) = 5 ? -> VRAI.</li>
+                        <li>IndexTrouve ← 2.</li>
+                    </ul>
+                    </li>
+                    <li>
+                    <strong>نهاية TANTQUE:</strong> الشرط (IndexTrouve = -1) أصبح
+                    خطأ.
+                    </li>
+                    <li>
+                    <strong>النتيجة:</strong> RETOURNER IndexTrouve (الذي قيمته 2). القيمة 5 وُجدت في الفهرس 2.
+                    </li>
+                </ul>
+                </details>
+                <details class="solution">
+                <summary>عرض/إخفاء حل تمرين 2 (تتبع البحث عن 40)</summary>
+                <p>
+                    <strong>البيانات:</strong> TabTrie = [2, 5, 8, 12, 16, 23, 38],
+                    Taille = 7, ValeurCherchee = 40
+                </p>
+                <ul>
+                    <li>
+                    <strong>التهيئة:</strong> Debut = 1, Fin = 7, IndexTrouve = -1
+                    </li>
+                    <li>
+                    <strong>الدورة 1 (TANTQUE):</strong> (1 <= 7) ET (-1 = -1) -> VRAI.
+                    <ul>
+                        <li>Milieu = (1 + 7) DIV 2 = 4.</li>
+                        <li>TabTrie[4](12) = 40 ? -> FAUX.</li>
+                        <li>40 < TabTrie[4](12) ? -> FAUX.</li>
+                        <li>(SINON) -> VRAI.</li>
+                        <li>Debut ← Milieu + 1 = 4 + 1 = 5.</li>
+                    </ul>
+                    </li>
+                    <li>
+                    <strong>الدورة 2 (TANTQUE):</strong> (5 <= 7) ET (-1 = -1) -> VRAI.
+                    <ul>
+                        <li>Milieu = (5 + 7) DIV 2 = 6.</li>
+                        <li>TabTrie[6](23) = 40 ? -> FAUX.</li>
+                        <li>40 < TabTrie[6](23) ? -> FAUX.</li>
+                        <li>(SINON) -> VRAI.</li>
+                        <li>Debut ← Milieu + 1 = 6 + 1 = 7.</li>
+                    </ul>
+                    </li>
+                    <li>
+                    <strong>الدورة 3 (TANTQUE):</strong> (7 <= 7) ET (-1 = -1) -> VRAI.
+                    <ul>
+                        <li>Milieu = (7 + 7) DIV 2 = 7.</li>
+                        <li>TabTrie[7](38) = 40 ? -> FAUX.</li>
+                        <li>40 < TabTrie[7](38) ? -> FAUX.</li>
+                        <li>(SINON) -> VRAI.</li>
+                        <li>Debut ← Milieu + 1 = 7 + 1 = 8.</li>
+                    </ul>
+                    </li>
+                     <li>
+                    <strong>الدورة 4 (TANTQUE):</strong> (Debut <= Fin) -> (8 <= 7) -> FAUX.
+                    </li>
+                    <li>
+                    <strong>نهاية TANTQUE:</strong> الشرط (Debut <= Fin) أصبح خطأ.
+                    </li>
+                    <li>
+                    <strong>النتيجة:</strong> RETOURNER IndexTrouve (الذي ما زال -1). القيمة 40 لم توجد.
+                    </li>
+                </ul>
+                </details>
+                 <details class="solution">
+                <summary>عرض/إخفاء حل تمرين 3 (البحث في جدول غير مرتب)</summary>
+                <p>
+                    إذا حاولت استخدام البحث الثنائي على جدول غير مرتب مثل `[12, 5, 38, 2, 16]` للبحث عن القيمة 16، <strong>لن تعمل الخوارزمية بشكل صحيح وموثوق</strong>. قد تعطي نتيجة صحيحة بالصدفة في بعض الحالات، لكنها ستفشل في حالات أخرى أو تعطي نتائج خاطئة.
+                </p>
+                <p>
+                    <strong>لماذا؟</strong> لأن البحث الثنائي يعتمد بشكل أساسي على افتراض أن العناصر مرتبة. عندما يقارن القيمة المطلوبة بالعنصر الأوسط، فإنه يقرر أي نصف من الجدول يجب تجاهله بناءً على هذا الترتيب. إذا كان الجدول غير مرتب، فإن قرار تجاهل نصف الجدول قد يكون خاطئًا، وقد يتم تجاهل النصف الذي يحتوي بالفعل على القيمة المطلوبة.
+                </p>
+                <p>
+                    <strong>مثال للتتبع (بحث عن 16 في [12, 5, 38, 2, 16]):</strong>
+                    <ul>
+                        <li>Debut=1, Fin=5. Milieu = (1+5) DIV 2 = 3. Tab[3]=38.</li>
+                        <li>16 < 38؟ نعم. إذن Fin ← Milieu - 1 = 2. (هنا تم تجاهل النصف الأيمن الذي يحتوي على 16!).</li>
+                        <li>Debut=1, Fin=2. Milieu = (1+2) DIV 2 = 1. Tab[1]=12.</li>
+                        <li>16 < 12؟ لا. Debut ← Milieu + 1 = 2.</li>
+                        <li>Debut=2, Fin=2. Milieu = (2+2) DIV 2 = 2. Tab[2]=5.</li>
+                        <li>16 < 5؟ لا. Debut ← Milieu + 1 = 3.</li>
+                        <li>Debut=3, Fin=2. الآن Debut > Fin. تتوقف الحلقة.</li>
+                        <li>النتيجة: -1 (لم يتم العثور عليها)، وهي نتيجة خاطئة.</li>
+                    </ul>
+                     <strong>الخلاصة:</strong> البحث الثنائي يتطلب جدولاً مرتبًا ليعمل بشكل صحيح.
+                </p>
+                </details>
+            </article>
+
+            <article class="lesson">
+                <h3>الدرس 7: الفرز البسيط (مثال: الفرز الفقاعي - Tri à Bulles)</h3>
+                <h4>المفاهيم:</h4>
+                <ul>
+                <li>
+                    فكرة الفرز الفقاعي: المرور على الجدول عدة مرات، وفي كل مرة نقارن كل عنصر بالعنصر التالي له. إذا كانا في غير الترتيب الصحيح (الأول أكبر من الثاني للترتيب التصاعدي)، نقوم بتبديلهما.
+                </li>
+                <li>
+                    تكرار العملية: في كل مرور كامل على الجدول (يسمى "دورة" أو "pass")، أكبر عنصر غير مرتب "يطفو" أو "يتبقل" إلى مكانه الصحيح في نهاية الجزء غير المرتب من الجدول. لذلك، في الدورة التالية، نحتاج للمرور على جزء أصغر من الجدول.
+                </li>
+                <li>
+                    الحلقات المتداخلة:
+                    <ul>
+                        <li>الحلقة الخارجية: تتحكم في عدد الدورات (نحتاج إلى n-1 دورات في أسوأ الأحوال لضمان الترتيب).</li>
+                        <li>الحلقة الداخلية: تقوم بالمقارنات والتبديلات داخل الدورة الواحدة. في كل دورة، تقل عدد المقارنات اللازمة.</li>
+                    </ul>
+                </li>
+                <li>
+                    التحسين الممكن (Optimized Bubble Sort): يمكن إضافة متغير منطقي (flag) لتتبع ما إذا كان قد حدث أي تبديل في دورة ما. إذا مرت دورة كاملة دون حدوث أي تبديل، فهذا يعني أن الجدول أصبح مرتبًا ويمكن التوقف مبكرًا دون إكمال باقي الدورات.
+                </li>
+                <li>كفاءة زمنية: يعتبر الفرز الفقاعي (حتى مع التحسين) غير فعال للجداول الكبيرة، حيث أن تعقيده الزمني في المتوسط وفي أسوأ الأحوال هو O(n²). يعني أن الوقت اللازم للفرز يزداد بشكل كبير مع زيادة حجم الجدول. هو جيد للتعلم وللجداول الصغيرة جداً فقط.</li>
+                </ul>
+
+                <h4>مثال Pseudo-code (فرز فقاعي بسيط ومحسن):</h4>
+                 <h5>النسخة البسيطة (بدون تحسين التوقف المبكر):</h5>
+                <pre><code class="language-pseudo">PROCEDURE TriABullesSimple(VAR Tab : TABLEAU [1..N] DE ENTIER, Taille : ENTIER)
+VARIABLES
+    i, j : ENTIER
+    temp : ENTIER // لعملية التبديل
+DEBUT
+    // الحلقة الخارجية للدورات (n-1 دورات)
+    POUR i DE 1 A Taille - 1 FAIRE
+        // الحلقة الداخلية للمقارنات (تقل في كل دورة)
+        POUR j DE 1 A Taille - i FAIRE
+            // المقارنة بين العنصر الحالي والتالي
+            SI Tab[j] > Tab[j+1] ALORS
+                // التبديل إذا كانا غير مرتبين
+                temp ← Tab[j]
+                Tab[j] ← Tab[j+1]
+                Tab[j+1] ← temp
+            FINSI
+        FINPOUR
+    FINPOUR
+FINPROCEDURE</code></pre>
+
+                <h5>النسخة المحسنة (مع تحسين التوقف المبكر):</h5>
+                <pre><code class="language-pseudo">PROCEDURE TriABullesAmeliore(VAR Tab : TABLEAU [1..N] DE ENTIER, Taille : ENTIER)
+VARIABLES
+    i, j : ENTIER
+    temp : ENTIER
+    EchangeFait : BOOLEEN // لتتبع حدوث تبديل
+    Limite : ENTIER // لتحديد نهاية الحلقة الداخلية
+DEBUT
+    Limite ← Taille
+    REPETER
+        EchangeFait ← FAUX // نفترض عدم حدوث تبديل في هذه الدورة
+        // المرور على الجزء غير المرتب
+        POUR j DE 1 A Limite - 1 FAIRE
+            SI Tab[j] > Tab[j+1] ALORS
+                // تبديل
+                temp ← Tab[j]
+                Tab[j] ← Tab[j+1]
+                Tab[j+1] ← temp
+                EchangeFait ← VRAI // حدث تبديل
+            FINSI
+        FINPOUR
+        // تقليص الجزء الذي نحتاج للمرور عليه في المرة القادمة
+        // لأن أكبر عنصر قد وصل لنهايته
+        Limite ← Limite - 1
+    // التوقف إذا لم يحدث تبديل أو وصلنا لنهاية الجدول
+    JUSQU'A (EchangeFait = FAUX) OU (Limite <= 1)
+FINPROCEDURE
+
+// --- خوارزمية اختبار ---
+ALGORITHME TesterTriBulles
+TYPE TabEntiers = TABLEAU [1..5] DE ENTIER;
+VARIABLES
+    MonTab : TabEntiers
+    k : ENTIER
+DEBUT
+    MonTab[1]← 5; MonTab[2]← 1; MonTab[3]← 4; MonTab[4]← 2; MonTab[5]← 8;
+
+    ECRIRE "Tableau avant tri :"
+    POUR k DE 1 A 5 FAIRE ECRIRE MonTab[k], " " FINPOUR // يطبع: 5 1 4 2 8
+    ECRIRE "" // سطر جديد
+
+    // اختر إحدى الدالتين للفرز
+    // TriABullesSimple(MonTab, 5)
+    TriABullesAmeliore(MonTab, 5)
+
+    ECRIRE "Tableau après tri :"
+    POUR k DE 1 A 5 FAIRE ECRIRE MonTab[k], " " FINPOUR // يجب أن يطبع: 1 2 4 5 8
+    ECRIRE ""
+FIN</code></pre>
+
+                <h4>تمارين:</h4>
+                <ol>
+                <li>
+                    تتبع خوارزمية الفرز الفقاعي (النسخة البسيطة أو المحسنة) خطوة بخطوة لفرز الجدول
+                    `[5, 1, 4]`.
+                </li>
+                <li>
+                    اكتب خوارزمية **الفرز بالاختيار (Tri par Sélection)**: في كل دورة `i` (من 1 إلى n-1)، ابحث عن فهرس (`IndexMin`) أصغر عنصر في الجزء المتبقي من الجدول (`Tab[i..Taille]`). بعد العثور عليه، قم بتبديل العنصر في `Tab[i]` مع العنصر في `Tab[IndexMin]`.
+                </li>
+                </ol>
+
+                <h4>حلول:</h4>
+                <details class="solution">
+                <summary>
+                    عرض/إخفاء حل تمرين 1 (تتبع فرز [5, 1, 4] بالنسخة البسيطة)
+                </summary>
+                <p><strong>البيانات:</strong> Tab = [5, 1, 4], Taille = 3</p>
+                <ul>
+                    <li><strong>الدورة الخارجية i = 1:</strong>
+                    <ul>
+                        <li><strong>الدورة الداخلية j = 1 (إلى 3-1=2):</strong>
+                            <ul>
+                            <li>j=1: SI Tab[1](5) > Tab[2](1) -> VRAI. تبديل -> Tab = [1, 5, 4].</li>
+                            <li>j=2: SI Tab[2](5) > Tab[3](4) -> VRAI. تبديل -> Tab = [1, 4, 5].</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    </li>
+                     <li><strong>الدورة الخارجية i = 2:</strong>
+                    <ul>
+                        <li><strong>الدورة الداخلية j = 1 (إلى 3-2=1):</strong>
+                            <ul>
+                            <li>j=1: SI Tab[1](1) > Tab[2](4) -> FAUX. لا تبديل.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    </li>
+                    <li><strong>نهاية الحلقات.</strong></li>
+                    <li><strong>النتيجة النهائية:</strong> Tab = [1, 4, 5].</li>
+                </ul>
+                </details>
+                <details class="solution">
+                <summary>عرض/إخفاء حل تمرين 2 (الفرز بالاختيار)</summary>
+                <pre><code class="language-pseudo">PROCEDURE TriParSelection(VAR Tab : TABLEAU [1..N] DE ENTIER, Taille : ENTIER)
+VARIABLES
+    i, j, IndexMin : ENTIER
+    temp : ENTIER // لعملية التبديل
+DEBUT
+    // المرور على الجدول من العنصر الأول حتى قبل الأخير
+    POUR i DE 1 A Taille - 1 FAIRE
+        // افتراض أن العنصر الحالي هو الأصغر في الجزء المتبقي
+        IndexMin ← i
+        // البحث عن الأصغر فعلياً في الجزء من i+1 إلى النهاية
+        POUR j DE i + 1 A Taille FAIRE
+            SI Tab[j] < Tab[IndexMin] ALORS
+                // وجدنا عنصراً أصغر، نحدث فهرس الأصغر
+                IndexMin ← j
+            FINSI
+        FINPOUR
+
+        // إذا وجدنا عنصراً أصغر في مكان آخر (ليس i نفسه)
+        // نقوم بتبديله مع العنصر في الموضع i
+        SI IndexMin != i ALORS
+            temp ← Tab[i]
+            Tab[i] ← Tab[IndexMin]
+            Tab[IndexMin] ← temp
+        FINSI
+        // بعد هذه الدورة، العنصر في Tab[i] هو الأصغر في مكانه الصحيح
+    FINPOUR
+FINPROCEDURE
+
+// --- خوارزمية اختبار ---
+ALGORITHME TesterTriSelection
+TYPE TabEntiers = TABLEAU [1..5] DE ENTIER;
+VARIABLES
+    MonTab : TabEntiers
+    k : ENTIER
+DEBUT
+    MonTab[1]← 5; MonTab[2]← 1; MonTab[3]← 4; MonTab[4]← 2; MonTab[5]← 8;
+
+    ECRIRE "Tableau avant tri (Sélection) :"
+    POUR k DE 1 A 5 FAIRE ECRIRE MonTab[k], " " FINPOUR
+    ECRIRE ""
+
+    TriParSelection(MonTab, 5)
+
+    ECRIRE "Tableau après tri (Sélection) :"
+    POUR k DE 1 A 5 FAIRE ECRIRE MonTab[k], " " FINPOUR // يجب أن يطبع: 1 2 4 5 8
+    ECRIRE ""
+FIN</code></pre>
+                </details>
+            </article>
+        </section>
+         <!-- __________ نهاية المرحلة الخامسة __________ -->
+
+
+        <!-- أضف باقي المراحل هنا بنفس الطريقة -->
+
+    </main>
+
+    <footer>
+        <p>© 2024 دورة تعلم الخوارزميات. جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <!-- يمكنك إضافة ملف JavaScript هنا لتحسينات إضافية -->
+    <!-- مثال: سكربت لجعل الرابط في النافبار 'active' عند التمرير -->
+    <script>
+        // جعل الـ details يعمل بشكل صحيح (إغلاق الأخرى عند فتح واحدة) - اختياري
+        const detailsElements = document.querySelectorAll('.solution');
+        detailsElements.forEach(details => {
+            details.addEventListener('toggle', event => {
+                if (details.open) {
+                    detailsElements.forEach(otherDetails => {
+                        if (otherDetails !== details && otherDetails.open) {
+                            otherDetails.removeAttribute('open');
+                        }
+                    });
+                }
+            });
+        });
+
+       // ----- تفعيل الرابط النشط في شريط التصفح عند التمرير -----
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.course-nav a.nav-link');
+        const navHeight = document.getElementById('courseNavbar')?.offsetHeight || 80; // ارتفاع النافبار للتعويض
+
+        function changeActiveLink() {
+            let index = sections.length;
+
+            while(--index && window.scrollY + navHeight + 50 < sections[index].offsetTop) {} // 50 بكسل كهامش إضافي
+
+            navLinks.forEach((link) => link.classList.remove('active'));
+            // التأكد من وجود رابط مطابق للقسم الحالي
+            const activeLink = document.querySelector(`.course-nav a[href="#${sections[index].id}"]`);
+            if(activeLink) {
+                 activeLink.classList.add('active');
+            }
+        }
+
+        // استدعاء الدالة عند التحميل الأولي وعند التمرير
+        changeActiveLink();
+        window.addEventListener('scroll', changeActiveLink);
+
+    </script>
+</body>
+</html>

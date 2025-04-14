@@ -1,0 +1,1650 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>حلول تمارين الخوارزميات - السلسلة 4</title>
+    <!-- إضافة خط Cairo من Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* --- خطوط وألوان أساسية محسنة --- */
+      :root {
+        --primary-color: #0d6efd;
+        --primary-darker: #0a58ca;
+        --secondary-color: #f8f9fa;
+        --light-gray: #e9ecef;
+        --text-color: #212529;
+        --text-muted: #6c757d;
+        --header-bg: linear-gradient(135deg, #0b5ed7 0%, #0d6efd 100%);
+        --code-bg: #f1f3f5;
+        --code-text-color: #212529;
+        --border-color: #dee2e6;
+        --link-color: var(--primary-color);
+        --link-hover-color: var(--primary-darker);
+        --shadow-color: rgba(0, 0, 0, 0.08);
+        --accent-color: #fd7e14;
+        --warning-bg: #fff3cd;
+        --warning-border: #ffc107;
+        --warning-text: #664d03;
+
+        --font-main: "Cairo", sans-serif;
+        --font-code: "SFMono-Regular", Consolas, "Liberation Mono", Menlo,
+          Courier, monospace;
+
+        --border-radius-sm: 0.25rem;
+        --border-radius-md: 0.375rem;
+        --border-radius-lg: 0.5rem;
+        --navbar-height: 60px; /* تعريف متغير لارتفاع النافبار */
+      }
+
+      /* --- إعادة تعيين وتنسيقات عامة --- */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+        /* إضافة حشو علوي لتعويض ارتفاع النافبار الثابت */
+        scroll-padding-top: calc(
+          var(--navbar-height) + 10px
+        ); /* استخدام المتغير + هامش صغير */
+      }
+      body {
+        font-family: var(--font-main);
+        line-height: 1.7;
+        color: var(--text-color);
+        background-color: #fdfdff;
+        direction: rtl;
+        font-size: 16px;
+        /* تعديل Body لتعويض ارتفاع Navbar */
+        padding-top: var(--navbar-height); /* استخدام المتغير */
+        min-height: 100vh;
+      }
+
+      /* --- الهيدر --- */
+      header {
+        background: var(--header-bg);
+        color: white;
+        padding: 2.5rem 1.5rem;
+        text-align: center;
+        /* margin-bottom: 30px; /* يمكن إزالته أو تقليله إذا أردت المحتوى أقرب للهيدر */
+        margin-top: 0;
+      }
+      header h1 {
+        margin-bottom: 0;
+        font-size: 2.5rem;
+        font-weight: 700;
+      }
+
+      /* --- شريط تصفح التمارين العلوي الثابت --- */
+      nav.exercise-nav {
+        /* <<--- استخدام كلاس جديد أو تعديل .course-nav */
+        background-color: var(--secondary-color); /* خلفية رمادية فاتحة */
+        padding: 8px 0; /* تقليل الحشو العمودي */
+        text-align: center;
+        border-bottom: 1px solid var(--border-color);
+        box-shadow: 0 2px 5px var(--shadow-color);
+        position: fixed; /* جعل الشريط ثابتاً */
+        top: 0; /* لصقه بأعلى الصفحة */
+        left: 0; /* لضمان الامتداد الأفقي الصحيح */
+        width: 100%; /* جعله يمتد بعرض الشاشة */
+        z-index: 1000; /* لضمان بقائه فوق المحتوى */
+        height: var(--navbar-height); /* تحديد ارتفاع ثابت للنافبار */
+        overflow-x: auto; /* السماح بالتمرير الأفقي إذا كانت الروابط كثيرة */
+        white-space: nowrap; /* منع الروابط من النزول لسطر جديد */
+      }
+
+      nav.exercise-nav ul {
+        list-style: none;
+        padding: 0 15px; /* إضافة حشو أفقي للقائمة */
+        margin: 0;
+        display: inline-block; /* لتوسيط القائمة */
+        line-height: calc(
+          var(--navbar-height) - 16px
+        ); /* محاذاة الروابط عمودياً (الارتفاع - الحشو * 2) */
+      }
+
+      nav.exercise-nav ul li {
+        display: inline-block;
+        margin: 0 4px; /* تقليل المسافة بين الروابط */
+      }
+
+      nav.exercise-nav ul li a {
+        text-decoration: none;
+        color: var(--link-color);
+        font-weight: bold;
+        font-size: 0.9rem; /* تصغير الخط قليلاً */
+        padding: 6px 12px; /* تعديل الحشو */
+        border-radius: var(--border-radius-md);
+        transition: background-color 0.2s ease, color 0.2s ease;
+        border: 1px solid transparent;
+      }
+
+      nav.exercise-nav ul li a:hover,
+      nav.exercise-nav ul li a.active {
+        /* تفعيل نفس الستايل للهوفر والحالة النشطة */
+        color: white;
+        background-color: var(--link-hover-color);
+        border-color: var(--link-hover-color);
+      }
+
+      /* --- حاوية المحتوى الرئيسية للصفحة --- */
+      main {
+        max-width: 950px;
+        margin: 30px auto 40px auto; /* إضافة هامش علوي للمحتوى الرئيسي */
+        padding: 0 20px;
+      }
+
+      /* --- قسم التمرين --- */
+      section.exercise {
+        background-color: #ffffff;
+        margin-bottom: 35px;
+        padding: 30px;
+        border-radius: var(--border-radius-lg);
+        border: 1px solid var(--border-color);
+        box-shadow: 0 4px 15px var(--shadow-color);
+        transition: box-shadow 0.3s ease;
+      }
+      section.exercise h2 {
+        color: var(--primary-darker);
+        margin-top: 0;
+        margin-bottom: 25px;
+        font-size: 1.8rem;
+        font-weight: 700;
+        border-bottom: 3px solid var(--primary-color);
+        padding-bottom: 12px;
+      }
+      section.exercise h3 {
+        color: var(--text-color);
+        margin-top: 25px;
+        margin-bottom: 15px;
+        font-size: 1.4rem;
+        font-weight: 700;
+      }
+      section.exercise p {
+        margin-bottom: 1rem;
+        color: var(--text-muted);
+      }
+      section.exercise ul {
+        margin-right: 25px;
+        margin-bottom: 15px;
+        padding-right: 0;
+        color: var(--text-muted);
+      }
+      section.exercise ul li::marker {
+        color: var(--primary-color);
+      }
+      section.exercise ul li {
+        margin-bottom: 0.5rem;
+      }
+
+      /* --- تنسيق الكود المحسن --- */
+      pre {
+        background-color: var(--code-bg);
+        border: 1px solid var(--border-color);
+        border-left: 5px solid var(--primary-color);
+        border-radius: var(--border-radius-md);
+        padding: 1rem 1.5rem;
+        overflow-x: auto;
+        margin-top: 1rem;
+        margin-bottom: 1.5rem;
+        direction: ltr;
+        text-align: left;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
+      code {
+        font-family: var(--font-code);
+        font-size: 0.9rem;
+        color: var(--code-text-color);
+        line-height: 1.6;
+        white-space: inherit;
+        background: none;
+        padding: 0;
+        border: none;
+        display: block;
+      }
+      pre code strong {
+        color: var(--accent-color);
+        font-weight: bold;
+      }
+
+      /* --- تنسيق صندوق المقارنة --- */
+      .comparison {
+        background-color: var(--warning-bg);
+        border: 1px solid var(--warning-border);
+        border-right-width: 4px;
+        padding: 15px 20px;
+        border-radius: var(--border-radius-md);
+        margin-top: 25px;
+        color: var(--warning-text);
+      }
+      .comparison strong {
+        color: var(--warning-text);
+        font-weight: 700;
+      }
+      .comparison ul {
+        margin-top: 10px;
+        margin-right: 20px;
+        padding-right: 0;
+        color: inherit;
+      }
+      .comparison ul li::marker {
+        color: var(--warning-text);
+      }
+
+      /* --- الفوتر --- */
+      footer {
+        text-align: center;
+        margin-top: 50px;
+        padding: 25px;
+        background-color: #343a40;
+        color: #adb5bd;
+        font-size: 0.9rem;
+        border-top: 3px solid var(--primary-color);
+      }
+
+      /* --- استجابة للشاشات الصغيرة (Responsive Design) --- */
+      @media (max-width: 768px) {
+        :root {
+          --navbar-height: 50px;
+        } /* تقليل ارتفاع النافبار للشاشات الأصغر */
+        body {
+          font-size: 15px;
+          padding-top: var(--navbar-height);
+        }
+        header {
+          padding: 2rem 1rem;
+          margin-bottom: 20px;
+        }
+        header h1 {
+          font-size: 2rem;
+        }
+        nav.exercise-nav ul {
+          line-height: calc(var(--navbar-height) - 16px);
+        }
+        nav.exercise-nav ul li {
+          margin: 0 2px;
+        }
+        nav.exercise-nav ul li a {
+          padding: 5px 10px;
+          font-size: 0.85rem;
+        }
+        main {
+          padding: 0 15px;
+          margin-top: 20px;
+          margin-bottom: 30px;
+        }
+        section.exercise {
+          padding: 20px;
+          margin-bottom: 25px;
+        }
+        section.exercise h2 {
+          font-size: 1.6rem;
+          margin-bottom: 20px;
+          padding-bottom: 10px;
+        }
+        section.exercise h3 {
+          font-size: 1.3rem;
+        }
+        pre {
+          padding: 0.8rem 1rem;
+        }
+        code {
+          font-size: 0.85rem;
+        }
+        .comparison {
+          padding: 12px 15px;
+        }
+        html {
+          scroll-padding-top: calc(var(--navbar-height) + 10px);
+        }
+      }
+      @media (max-width: 480px) {
+        nav.exercise-nav ul li a {
+          padding: 5px 8px;
+          font-size: 0.8rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>حلول تمارين الخوارزميات - السلسلة 4</h1>
+    </header>
+
+    <!-- شريط تصفح التمارين العلوي الثابت -->
+    <nav class="exercise-nav" id="exerciseNavbar">
+      <ul>
+        <li><a href="#ex1" class="nav-link">تمرين 1</a></li>
+        <li><a href="#ex2" class="nav-link">تمرين 2</a></li>
+        <li><a href="#ex3" class="nav-link">تمرين 3</a></li>
+        <li><a href="#ex4" class="nav-link">تمرين 4</a></li>
+        <li><a href="#ex5" class="nav-link">تمرين 5</a></li>
+        <li><a href="#ex6" class="nav-link">تمرين 6</a></li>
+        <li><a href="#ex7" class="nav-link">تمرين 7</a></li>
+        <li><a href="#ex8" class="nav-link">تمرين 8</a></li>
+        <li><a href="#ex9" class="nav-link">تمرين 9</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <!-- تم حذف nav.internal-nav القديم -->
+
+      <!-- قسم التمارين يبدأ هنا -->
+      <section class="exercise" id="ex1">
+        <h2>التمرين 1: تعريف، قراءة وعرض مصفوفة</h2>
+        <pre><code>
+<strong>// 1. Définition du type et constante</strong>
+<strong>Constante</strong> max = 100;
+<strong>Type</strong> Table = <strong>tableau</strong> [1..max] <strong>entier</strong>;
+
+<strong>// 2. Déclaration de la variable</strong>
+<strong>Var</strong> A: Table;
+
+<strong>// 3. Algorithme Lecture et Affichage</strong>
+<strong>Algorithme</strong> LireAfficherTableau;
+    <strong>Var</strong>
+        A: Table;
+        n: <strong>entier</strong>; // Taille réelle du tableau
+        i: <strong>entier</strong>; // Compteur
+
+    <strong>Debut</strong>
+        <strong>// --- Saisie de la taille avec validation ---</strong>
+        <strong>Repeter</strong>
+            <strong>ecrire</strong> ("Donnez la taille du tableau (entre 1 et ", max, ") : ");
+            <strong>lire</strong> (n);
+        <strong>Jusqu'à</strong> (n > 0 <strong>et</strong> n <= max);
+
+        <strong>// --- Lecture des éléments ---</strong>
+        <strong>ecrire</strong> ("Entrez les ", n, " elements du tableau :");
+        <strong>Pour</strong> i <strong>de</strong> 1 <strong>a</strong> n <strong>faire</strong>
+            <strong>ecrire</strong> ("Element A[", i, "] : ");
+            <strong>lire</strong> (A[i]);
+        <strong>FinPour</strong>;
+
+        <strong>// --- Affichage des éléments ---</strong>
+        <strong>ecrire</strong> ("Le tableau contient les elements suivants :");
+        <strong>Pour</strong> i <strong>de</strong> 1 <strong>a</strong> n <strong>faire</strong>
+            <strong>ecrire</strong> (A[i], " "); // Affiche les éléments sur la même ligne
+        <strong>FinPour</strong>;
+        <strong>ecrire</strong> (""); // Saut de ligne à la fin
+    <strong>Fin</strong>
+            </code></pre>
+      </section>
+
+      <section class="exercise" id="ex2">
+        <h2>التمرين 2: استعراض المصفوفة (الأصغر، الأكبر، المتوسط، العد)</h2>
+        <pre><code>
+<strong>Algorithme</strong> AnalyseTableau;
+
+    <strong>Constante</strong> max = 100;
+    <strong>Type</strong> Table = <strong>tableau</strong> [1..max] <strong>entier</strong>;
+
+    <strong>Var</strong>
+        A: Table;
+        n: <strong>entier</strong>;
+        i: <strong>entier</strong>;
+        minVal, maxVal: <strong>entier</strong>;
+        somme: <strong>entier</strong>; // Ou reel si besoin
+        moyenne: <strong>reel</strong>;
+        nbPositifNul: <strong>entier</strong>;
+        nbNegatif: <strong>entier</strong>;
+
+    <strong>Debut</strong>
+        <strong>// --- Lecture du tableau (similaire à Exercice 1.3) ---</strong>
+        <strong>Repeter</strong>
+            <strong>ecrire</strong> ("Donnez la taille du tableau (entre 1 et ", max, ") : ");
+            <strong>lire</strong> (n);
+        <strong>Jusqu'à</strong> (n > 0 <strong>et</strong> n <= max);
+        <strong>ecrire</strong> ("Entrez les ", n, " elements du tableau :");
+        <strong>Pour</strong> i <strong>de</strong> 1 <strong>a</strong> n <strong>faire</strong> <strong>lire</strong> (A[i]); <strong>FinPour</strong>;
+
+        <strong>// --- Initialisations et Calculs ---</strong>
+        <strong>Si</strong> n > 0 <strong>Alors</strong>
+            // Initialiser min, max, somme avec le premier élément
+            minVal ← A[1];
+            maxVal ← A[1];
+            somme ← A[1];
+            // Initialiser les compteurs
+            nbPositifNul ← 0;
+            nbNegatif ← 0;
+            <strong>Si</strong> A[1] >= 0 <strong>Alors</strong> nbPositifNul ← 1; <strong>Sinon</strong> nbNegatif ← 1; <strong>FinSi</strong>;
+
+            // Parcours pour calculs (à partir du 2ème élément)
+            <strong>Pour</strong> i <strong>de</strong> 2 <strong>a</strong> n <strong>faire</strong>
+                // Mettre à jour min et max
+                <strong>Si</strong> A[i] < minVal <strong>Alors</strong> minVal ← A[i]; <strong>FinSi</strong>;
+                <strong>Si</strong> A[i] > maxVal <strong>Alors</strong> maxVal ← A[i]; <strong>FinSi</strong>;
+                // Ajouter à la somme
+                somme ← somme + A[i];
+                // Mettre à jour les compteurs +/-
+                <strong>Si</strong> A[i] >= 0 <strong>Alors</strong> nbPositifNul ← nbPositifNul + 1; <strong>Sinon</strong> nbNegatif ← nbNegatif + 1; <strong>FinSi</strong>;
+            <strong>FinPour</strong>;
+
+            // Calcul Moyenne
+            moyenne ← somme / n;
+
+            <strong>// --- Affichage des résultats ---</strong>
+            <strong>ecrire</strong> ("Minimum : ", minVal);
+            <strong>ecrire</strong> ("Maximum : ", maxVal);
+            <strong>ecrire</strong> ("Moyenne : ", moyenne);
+            <strong>ecrire</strong> ("Nombre d'elements positifs ou nuls : ", nbPositifNul);
+            <strong>ecrire</strong> ("Nombre d'elements negatifs : ", nbNegatif);
+        <strong>Sinon</strong>
+            <strong>ecrire</strong> ("Le tableau est vide.");
+        <strong>FinSi</strong>;
+
+    <strong>Fin</strong>
+            </code></pre>
+      </section>
+
+      <section class="exercise" id="ex3">
+        <h2>التمرين 3: الجداء السلمي والجداء المتجهي (عنصر بعنصر)</h2>
+        <pre><code>
+<strong>Algorithme</strong> ProduitsVecteurs;
+
+    <strong>Constante</strong> max = 100;
+    <strong>Type</strong> Vecteur = <strong>tableau</strong> [1..max] <strong>entier</strong>; // Ou reel
+
+    <strong>Var</strong>
+        tu, tv: Vecteur; // Vecteurs u et v
+        w: Vecteur;     // Pour le produit vectoriel (element-wise)
+        n: <strong>entier</strong>;      // Taille commune
+        i: <strong>entier</strong>;
+        produitScalaire: <strong>entier</strong>; // Ou reel
+
+    <strong>Debut</strong>
+        <strong>// --- Saisie de la taille ---</strong>
+        <strong>Repeter</strong>
+            <strong>ecrire</strong> ("Donnez la taille commune des vecteurs (<= ", max, ") : ");
+            <strong>lire</strong> (n);
+        <strong>Jusqu'à</strong> (n > 0 <strong>et</strong> n <= max);
+
+        <strong>// --- Lecture du premier vecteur (tu) ---</strong>
+        <strong>ecrire</strong> ("Entrez les composantes du vecteur u :");
+        <strong>Pour</strong> i <strong>de</strong> 1 <strong>a</strong> n <strong>faire</strong> <strong>lire</strong> (tu[i]); <strong>FinPour</strong>;
+
+        <strong>// --- Lecture du deuxième vecteur (tv) ---</strong>
+        <strong>ecrire</strong> ("Entrez les composantes du vecteur v :");
+        <strong>Pour</strong> i <strong>de</strong> 1 <strong>a</strong> n <strong>faire</strong> <strong>lire</strong> (tv[i]); <strong>FinPour</strong>;
+
+        <strong>// --- Calcul du produit scalaire ---</strong>
+        produitScalaire ← 0;
+        <strong>Pour</strong> i <strong>de</strong> 1 <strong>a</strong> n <strong>faire</strong>
+            produitScalaire ← produitScalaire + (tu[i] * tv[i]);
+        <strong>FinPour</strong>;
+
+        <strong>// --- Calcul du produit vectoriel (element-wise) dans w ---</strong>
+        <strong>Pour</strong> i <strong>de</strong> 1 <strong>a</strong> n <strong>faire</strong>
+            w[i] ← tu[i] * tv[i];
+        <strong>FinPour</strong>;
+
+        <strong>// --- Affichage des résultats ---</strong>
+        <strong>ecrire</strong> ("Le produit scalaire u * v = ", produitScalaire);
+        <strong>ecrire</strong> ("Le produit vectoriel (element par element) w = (");
+        <strong>Pour</strong> i <strong>de</strong> 1 <strong>a</strong> n <strong>faire</strong>
+            <strong>ecrire</strong> (w[i]);
+            // Ajouter une virgule sauf pour le dernier élément
+            <strong>Si</strong> i < n <strong>Alors</strong> <strong>ecrire</strong> (", "); <strong>FinSi</strong>;
+        <strong>FinPour</strong>;
+        <strong>ecrire</strong> (")");
+
+    <strong>Fin</strong>
+            </code></pre>
+      </section>
+
+      <section class="exercise" id="ex4">
+        <h2>التمرين 4: ترتيب مصفوفة</h2>
+
+        <h3>4.1 الترتيب بالتبديل (Tri par permutations / Tri à bulles)</h3>
+        <pre><code>
+<strong>Algorithme</strong> TriPermutations; // (Tri à bulles simple)
+
+    <strong>Constante</strong> max = 100;
+    <strong>Type</strong> Table = <strong>tableau</strong> [1..max] <strong>entier</strong>;
+
+    <strong>Var</strong>
+        A: Table;
+        n: <strong>entier</strong>;
+        i, j: <strong>entier</strong>;
+        temp: <strong>entier</strong>; // Pour l'échange
+
+    <strong>Debut</strong>
+        <strong>// --- Lecture du tableau ---</strong>
+        <strong>Repeter</strong> <strong>ecrire</strong> ("Taille tableau (<= ", max, ") : "); <strong>lire</strong> (n); <strong>Jusqu'à</strong> (n > 0 <strong>et</strong> n <= max);
+        <strong>ecrire</strong> ("Entrez les ", n, " elements :");
+        <strong>Pour</strong> i <strong>de</strong> 1 <strong>a</strong> n <strong>faire</strong> <strong>lire</strong> (A[i]); <strong>FinPour</strong>;
+
+        <strong>// --- Tri par permutations (simple) ---</strong>
+        // Pour chaque passe (de 1 à n-1)
+        <strong>Pour</strong> i <strong>de</strong> 1 <strong>a</strong> n - 1 <strong>faire</strong>
+            // Comparer les éléments adjacents dans la partie non triée
+            <strong>Pour</strong> j <strong>de</strong> 1 <strong>a</strong> n - i <strong>faire</strong>
+                // Si l'élément actuel est plus grand que le suivant
+                <strong>Si</strong> A[j] > A[j+1] <strong>Alors</strong>
+                     // Echanger les éléments
+                     temp ← A[j];
+                     A[j] ← A[j+1];
+                     A[j+1] ← temp;
+                <strong>FinSi</strong>;
+            <strong>FinPour</strong>; // Fin comparaison j
+        <strong>FinPour</strong>; // Fin passe i
+
+        <strong>// --- Affichage du tableau trié ---</strong>
+        <strong>ecrire</strong> ("Tableau trie par permutations :");
+        <strong>Pour</strong> i <strong>de</strong> 1 <strong>a</strong> n <strong>faire</strong> <strong>ecrire</strong> (A[i], " "); <strong>FinPour</strong>;
+        <strong>ecrire</strong> ("");
+
+    <strong>Fin</strong>
+            </code></pre>
+
+        <h3>4.2 الترتيب بالاختيار (Tri par Sélection)</h3>
+        <pre><code>
+<strong>Algorithme</strong> TriSelection;
+
+    <strong>Constante</strong> max = 100;
+    <strong>Type</strong> Table = <strong>tableau</strong> [1..max] <strong>entier</strong>;
+
+    <strong>Var</strong>
+        A: Table;
+        n: <strong>entier</strong>;
+        i, j, minIdx: <strong>entier</strong>;
+        temp: <strong>entier</strong>; // Pour l'échange
+
+    <strong>Debut</strong>
+        <strong>// --- Lecture du tableau ---</strong>
+        <strong>Repeter</strong> <strong>ecrire</strong> ("Taille tableau (<= ", max, ") : "); <strong>lire</strong> (n); <strong>Jusqu'à</strong> (n > 0 <strong>et</strong> n <= max);
+        <strong>ecrire</strong> ("Entrez les ", n, " elements :");
+        <strong>Pour</strong> i <strong>de</strong> 1 <strong>a</strong> n <strong>faire</strong> <strong>lire</strong> (A[i]); <strong>FinPour</strong>;
+
+        <strong>// --- Tri par Sélection ---</strong>
+        // Pour chaque position i (de 1 à n-1)
+        <strong>Pour</strong> i <strong>de</strong> 1 <strong>a</strong> n - 1 <strong>faire</strong>
+            // Trouver l'index du minimum dans la partie non triée (A[i..n])
+            minIdx ← i; // Supposer que le minimum est à l'index i
+            <strong>Pour</strong> j <strong>de</strong> i + 1 <strong>a</strong> n <strong>faire</strong>
+                <strong>Si</strong> A[j] < A[minIdx] <strong>Alors</strong>
+                    // Mettre à jour l'index du minimum trouvé
+                    minIdx ← j;
+                <strong>FinSi</strong>;
+            <strong>FinPour</strong>; // Fin recherche minimum j
+
+            // Echanger l'élément minimum trouvé (A[minIdx])
+            // avec l'élément à la position i, si nécessaire
+            <strong>Si</strong> minIdx <> i <strong>Alors</strong>
+                temp ← A[i];
+                A[i] ← A[minIdx];
+                A[minIdx] ← temp;
+            <strong>FinSi</strong>;
+        <strong>FinPour</strong>; // Fin position i
+
+        <strong>// --- Affichage du tableau trié ---</strong>
+        <strong>ecrire</strong> ("Tableau trie par selection :");
+        <strong>Pour</strong> i <strong>de</strong> 1 <strong>a</strong> n <strong>faire</strong> <strong>ecrire</strong> (A[i], " "); <strong>FinPour</strong>;
+        <strong>ecrire</strong> ("");
+
+    <strong>Fin</strong>
+            </code></pre>
+      </section>
+
+      <section class="exercise" id="ex5">
+        <h2>التمرين 5: البحث عن قيمة في مصفوفة</h2>
+
+        <h3>5.1 البحث التسلسلي البسيط</h3>
+        <pre><code>
+<strong>Algorithme</strong> RechercheSequentielle;
+
+    <strong>Constante</strong> max = 100;
+    <strong>Type</strong> TableReelle = <strong>tableau</strong> [1..max] <strong>reel</strong>;
+
+    <strong>Var</strong>
+        A: TableReelle;
+        n: <strong>entier</strong>;
+        x: <strong>reel</strong>; // Valeur recherchée
+        i: <strong>entier</strong>;
+        trouve: <strong>booleen</strong>;
+
+    <strong>Debut</strong>
+        <strong>// --- Lecture du tableau ---</strong>
+        <strong>Repeter</strong> <strong>ecrire</strong> ("Taille tableau (<= ", max, ") : "); <strong>lire</strong> (n); <strong>Jusqu'à</strong> (n > 0 <strong>et</strong> n <= max);
+        <strong>ecrire</strong> ("Entrez les ", n, " elements reels :");
+        <strong>Pour</strong> i <strong>de</strong> 1 <strong>a</strong> n <strong>faire</strong> <strong>lire</strong> (A[i]); <strong>FinPour</strong>;
+
+        <strong>// --- Saisie de la valeur à rechercher ---</strong>
+        <strong>ecrire</strong> ("Entrez la valeur reelle x a rechercher : "); <strong>lire</strong> (x);
+
+        <strong>// --- Recherche séquentielle ---</strong>
+        trouve ← Faux; // Initialiser 'trouve' à Faux
+        i ← 1;         // Commencer la recherche à l'index 1
+        // Tant que l'index est valide ET qu'on n'a pas trouvé la valeur
+        <strong>TantQue</strong> (i <= n) <strong>et</strong> (trouve = Faux) <strong>faire</strong>
+            // Vérifier si l'élément courant est égal à x
+            <strong>Si</strong> A[i] = x <strong>Alors</strong>
+                trouve ← Vrai; // Mettre 'trouve' à Vrai si égalité
+            <strong>FinSi</strong>;
+            // Passer à l'élément suivant
+            i ← i + 1;
+        <strong>FinTantQue</strong>;
+
+        <strong>// --- Affichage du résultat ---</strong>
+        <strong>Si</strong> trouve <strong>Alors</strong>
+            <strong>ecrire</strong> (x, " existe dans le tableau.");
+        <strong>Sinon</strong>
+            <strong>ecrire</strong> (x, " n'existe pas dans le tableau.");
+        <strong>FinSi</strong>;
+
+    <strong>Fin</strong>
+            </code></pre>
+
+        <h3>5.2 البحث التسلسلي في مصفوفة مرتبة</h3>
+        <pre><code>
+<strong>Algorithme</strong> RechercheSeqTriee;
+
+    <strong>Constante</strong> max = 100;
+    <strong>Type</strong> TableReelle = <strong>tableau</strong> [1..max] <strong>reel</strong>; // Supposé trié
+
+    <strong>Var</strong>
+        A: TableReelle;
+        n: <strong>entier</strong>;
+        x: <strong>reel</strong>;      // Valeur recherchée
+        i: <strong>entier</strong>;
+        trouve: <strong>booleen</strong>;
+        stopRecherche: <strong>booleen</strong>; // Pour arrêter tôt si on dépasse x
+
+    <strong>Debut</strong>
+        <strong>// --- Lecture tableau (supposé trié) ---</strong>
+        <strong>Repeter</strong> <strong>ecrire</strong> ("Taille tableau TRIE (<= ", max, ") : "); <strong>lire</strong> (n); <strong>Jusqu'à</strong> (n > 0 <strong>et</strong> n <= max);
+        <strong>ecrire</strong> ("Entrez les ", n, " elements reels (ordre croissant) :");
+        <strong>Pour</strong> i <strong>de</strong> 1 <strong>a</strong> n <strong>faire</strong> <strong>lire</strong> (A[i]); <strong>FinPour</strong>;
+
+        <strong>// --- Saisie valeur ---</strong>
+        <strong>ecrire</strong> ("Entrez la valeur reelle x a rechercher : "); <strong>lire</strong> (x);
+
+        <strong>// --- Recherche séquentielle optimisée ---</strong>
+        trouve ← Faux;
+        stopRecherche ← Faux; // Initialiser le flag d'arrêt
+        i ← 1;
+        // Tant que l'index est valide ET non trouvé ET recherche non arrêtée
+        <strong>TantQue</strong> (i <= n) <strong>et</strong> (trouve = Faux) <strong>et</strong> (stopRecherche = Faux) <strong>faire</strong>
+            <strong>Si</strong> A[i] = x <strong>Alors</strong>
+                trouve ← Vrai; // Trouvé!
+            <strong>SinonSi</strong> A[i] > x <strong>Alors</strong>
+                // Comme le tableau est trié, si A[i] > x, x ne peut pas être plus loin
+                stopRecherche ← Vrai; // Arrêter la recherche
+            <strong>FinSi</strong>;
+            // Passer à l'élément suivant (seulement si non trouvé et non arrêté)
+            i ← i + 1;
+        <strong>FinTantQue</strong>;
+
+        <strong>// --- Affichage ---</strong>
+        <strong>Si</strong> trouve <strong>Alors</strong>
+            <strong>ecrire</strong> (x, " existe dans le tableau trié.");
+        <strong>Sinon</strong>
+            <strong>ecrire</strong> (x, " n'existe pas dans le tableau trié.");
+        <strong>FinSi</strong>;
+
+    <strong>Fin</strong>
+            </code></pre>
+
+        <h3>5.3 البحث الثنائي (Dichotomique)</h3>
+        <pre><code>
+<strong>Algorithme</strong> RechercheDichotomique;
+
+    <strong>Constante</strong> max = 100;
+    <strong>Type</strong> TableReelle = <strong>tableau</strong> [1..max] <strong>reel</strong>; // Doit être trié
+
+    <strong>Var</strong>
+        A: TableReelle;
+        n: <strong>entier</strong>;
+        x: <strong>reel</strong>;      // Valeur recherchée
+        trouve: <strong>booleen</strong>;
+        debut, fin, milieu: <strong>entier</strong>; // Indices pour la recherche
+
+    <strong>Debut</strong>
+        <strong>// --- Lecture tableau (doit être trié) ---</strong>
+        <strong>Repeter</strong> <strong>ecrire</strong> ("Taille tableau TRIE (<= ", max, ") : "); <strong>lire</strong> (n); <strong>Jusqu'à</strong> (n > 0 <strong>et</strong> n <= max);
+        <strong>ecrire</strong> ("Entrez les ", n, " elements reels (ordre croissant) :");
+        <strong>Pour</strong> i <strong>de</strong> 1 <strong>a</strong> n <strong>faire</strong> <strong>lire</strong> (A[i]); <strong>FinPour</strong>;
+
+        <strong>// --- Saisie valeur ---</strong>
+        <strong>ecrire</strong> ("Entrez la valeur reelle x a rechercher : "); <strong>lire</strong> (x);
+
+        <strong>// --- Recherche dichotomique ---</strong>
+        trouve ← Faux;
+        debut ← 1;   // Début de la zone de recherche
+        fin ← n;     // Fin de la zone de recherche
+
+        // Tant que la zone de recherche est valide (debut <= fin) ET non trouvé
+        <strong>TantQue</strong> (debut <= fin) <strong>et</strong> (trouve = Faux) <strong>faire</strong>
+            // Calculer l'indice du milieu (division entière)
+            milieu ← (debut + fin) <strong>div</strong> 2;
+
+            // Comparer x avec l'élément du milieu
+            <strong>Si</strong> A[milieu] = x <strong>Alors</strong>
+                trouve ← Vrai; // Trouvé!
+            <strong>SinonSi</strong> x < A[milieu] <strong>Alors</strong>
+                // Si x est plus petit, chercher dans la moitié inférieure
+                fin ← milieu - 1;
+            <strong>Sinon</strong> // x > A[milieu]
+                // Si x est plus grand, chercher dans la moitié supérieure
+                debut ← milieu + 1;
+            <strong>FinSi</strong>;
+        <strong>FinTantQue</strong>;
+
+        <strong>// --- Affichage ---</strong>
+        <strong>Si</strong> trouve <strong>Alors</strong>
+            <strong>ecrire</strong> (x, " existe dans le tableau trié.");
+        <strong>Sinon</strong>
+            <strong>ecrire</strong> (x, " n'existe pas dans le tableau trié.");
+        <strong>FinSi</strong>;
+
+    <strong>Fin</strong>
+             </code></pre>
+
+        <div class="comparison">
+          <strong>مقارنة خوارزميات البحث (تمرين 5):</strong>
+          <ul>
+            <li>
+              <strong>البحث التسلسلي (5.1):</strong> بسيط، لا يتطلب مصفوفة
+              مرتبة. الكفاءة O(n).
+            </li>
+            <li>
+              <strong>البحث التسلسلي المرتب (5.2):</strong> تحسين طفيف للبحث
+              التسلسلي إذا كانت القيمة غير موجودة أو أصغر من كثير من العناصر،
+              يتطلب مصفوفة مرتبة. الكفاءة في أسوأ الأحوال O(n).
+            </li>
+            <li>
+              <strong>البحث الثنائي (5.3):</strong> فعال جداً للمصفوفات الكبيرة
+              (O(log n))، ولكنه <strong>يتطلب مصفوفة مرتبة</strong> بشكل إلزامي.
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="exercise" id="ex6">
+        <h2>التمرين 6: العمليات على المجموعات (Opérations ensemblistes)</h2>
+
+        <h3>6.1 دمج مصفوفتين مرتبتين</h3>
+        <pre><code>
+<strong>Algorithme</strong> FusionTableauxTries;
+
+    <strong>Constante</strong> max = 100; // أو حجم مناسب
+    <strong>Type</strong> Table = <strong>tableau</strong> [1..max] <strong>entier</strong>;
+    <strong>Type</strong> TableFusionnee = <strong>tableau</strong> [1..(2*max)] <strong>entier</strong>; // Taille suffisante
+
+    <strong>Var</strong>
+        A, B: Table;           // Tableaux sources (supposés triés)
+        C: TableFusionnee;     // Tableau résultat
+        n, m: <strong>entier</strong>;          // Tailles réelles de A et B
+        i, j, k: <strong>entier</strong>;       // Indices pour A, B, C
+
+    <strong>Debut</strong>
+        <strong>// --- Lecture de A (trié) ---</strong>
+        <strong>Repeter</strong> <strong>ecrire</strong> ("Taille A (<= ", max, ") : "); <strong>lire</strong> (n); <strong>Jusqu'à</strong> (n > 0 <strong>et</strong> n <= max);
+        <strong>ecrire</strong> ("Elements de A (tries):"); <strong>Pour</strong> i <strong>de</strong> 1 <strong>a</strong> n <strong>faire</strong> <strong>lire</strong> (A[i]); <strong>FinPour</strong>;
+
+        <strong>// --- Lecture de B (trié) ---</strong>
+        <strong>Repeter</strong> <strong>ecrire</strong> ("Taille B (<= ", max, ") : "); <strong>lire</strong> (m); <strong>Jusqu'à</strong> (m > 0 <strong>et</strong> m <= max);
+        <strong>ecrire</strong> ("Elements de B (tries):"); <strong>Pour</strong> j <strong>de</strong> 1 <strong>a</strong> m <strong>faire</strong> <strong>lire</strong> (B[j]); <strong>FinPour</strong>;
+
+        <strong>// --- Fusion ---</strong>
+        i ← 1; // Indice pour A
+        j ← 1; // Indice pour B
+        k ← 1; // Indice pour C
+
+        // Tant qu'il reste des éléments dans les deux tableaux A et B
+        <strong>TantQue</strong> (i <= n) <strong>et</strong> (j <= m) <strong>faire</strong>
+            // Comparer les éléments courants de A et B
+            <strong>Si</strong> A[i] < B[j] <strong>Alors</strong>
+                // Copier l'élément de A (le plus petit) dans C
+                C[k] ← A[i];
+                i ← i + 1; // Avancer dans A
+            <strong>SinonSi</strong> B[j] < A[i] <strong>Alors</strong>
+                // Copier l'élément de B (le plus petit) dans C
+                C[k] ← B[j];
+                j ← j + 1; // Avancer dans B
+            <strong>Sinon</strong> // A[i] = B[j]
+                // Gérer les doublons: ici on copie l'élément une seule fois
+                C[k] ← A[i]; // Ou B[j]
+                i ← i + 1; // Avancer dans A
+                j ← j + 1; // Avancer dans B
+            <strong>FinSi</strong>;
+            // Dans tous les cas, avancer dans C
+            k ← k + 1;
+        <strong>FinTantQue</strong>;
+
+        <strong>// --- Copier les éléments restants (s'il y en a) ---</strong>
+        // S'il reste des éléments dans A
+        <strong>TantQue</strong> i <= n <strong>faire</strong>
+            C[k] ← A[i];
+            i ← i + 1;
+            k ← k + 1;
+        <strong>FinTantQue</strong>;
+        // S'il reste des éléments dans B
+        <strong>TantQue</strong> j <= m <strong>faire</strong>
+            C[k] ← B[j];
+            j ← j + 1;
+            k ← k + 1;
+        <strong>FinTantQue</strong>;
+
+        <strong>// --- Affichage de C (le tableau fusionné) ---</strong>
+        <strong>ecrire</strong> ("Tableau C fusionne et trie :");
+        // k-1 est la taille réelle de C après la fusion
+        <strong>Pour</strong> i <strong>de</strong> 1 <strong>a</strong> k - 1 <strong>faire</strong>
+            <strong>ecrire</strong> (C[i], " ");
+        <strong>FinPour</strong>;
+        <strong>ecrire</strong> ("");
+
+    <strong>Fin</strong>
+            </code></pre>
+
+        <h3>6.2 التحقق من انتماء عنصر لاتحاد مجموعتين (x ∈ E1 ∪ E2)</h3>
+        <pre><code>
+<strong>Algorithme</strong> AppartientUnion;
+
+    <strong>Constante</strong> max = 100;
+    <strong>Type</strong> Ensemble = <strong>tableau</strong> [1..max] <strong>entier</strong>; // Représentation simple d'un ensemble
+
+    <strong>Var</strong>
+        E1, E2: Ensemble;
+        n, m: <strong>entier</strong>; // Tailles réelles de E1 et E2
+        x: <strong>entier</strong>;   // Element à rechercher
+        i: <strong>entier</strong>;
+        trouve: <strong>booleen</strong>;
+
+    <strong>Debut</strong>
+        <strong>// --- Lecture de E1 ---</strong>
+        <strong>Repeter</strong> <strong>ecrire</strong> ("Taille E1 (0..", max, ") : "); <strong>lire</strong> (n); <strong>Jusqu'à</strong> (n >= 0 <strong>et</strong> n <= max); // Permettre taille 0
+        <strong>Si</strong> n > 0 <strong>Alors</strong>
+            <strong>ecrire</strong> ("Elements de E1 :"); <strong>Pour</strong> i <strong>de</strong> 1 <strong>a</strong> n <strong>faire</strong> <strong>lire</strong> (E1[i]); <strong>FinPour</strong>;
+        <strong>FinSi</strong>;
+
+        <strong>// --- Lecture de E2 ---</strong>
+        <strong>Repeter</strong> <strong>ecrire</strong> ("Taille E2 (0..", max, ") : "); <strong>lire</strong> (m); <strong>Jusqu'à</strong> (m >= 0 <strong>et</strong> m <= max);
+        <strong>Si</strong> m > 0 <strong>Alors</strong>
+             <strong>ecrire</strong> ("Elements de E2 :"); <strong>Pour</strong> i <strong>de</strong> 1 <strong>a</strong> m <strong>faire</strong> <strong>lire</strong> (E2[i]); <strong>FinPour</strong>;
+        <strong>FinSi</strong>;
+
+        <strong>// --- Saisie de l'élément x à rechercher ---</strong>
+        <strong>ecrire</strong> ("Entrez l'entier x a rechercher : "); <strong>lire</strong> (x);
+
+        <strong>// --- Recherche dans E1 ---</strong>
+        trouve ← Faux;
+        i ← 1;
+        <strong>TantQue</strong> (i <= n) <strong>et</strong> (trouve = Faux) <strong>faire</strong>
+            <strong>Si</strong> E1[i] = x <strong>Alors</strong>
+                trouve ← Vrai;
+            <strong>FinSi</strong>;
+            i ← i + 1;
+        <strong>FinTantQue</strong>;
+
+        <strong>// --- Recherche dans E2 (seulement si non trouvé dans E1) ---</strong>
+        <strong>Si</strong> trouve = Faux <strong>Alors</strong>
+            i ← 1; // Réinitialiser l'indice pour E2
+            <strong>TantQue</strong> (i <= m) <strong>et</strong> (trouve = Faux) <strong>faire</strong>
+                <strong>Si</strong> E2[i] = x <strong>Alors</strong>
+                    trouve ← Vrai;
+                <strong>FinSi</strong>;
+                i ← i + 1;
+            <strong>FinTantQue</strong>;
+        <strong>FinSi</strong>; // Fin de la recherche dans E2
+
+        <strong>// --- Affichage du résultat ---</strong>
+        <strong>Si</strong> trouve <strong>Alors</strong>
+            <strong>ecrire</strong> (x, " appartient a E1 U E2.");
+        <strong>Sinon</strong>
+            <strong>ecrire</strong> (x, " n'appartient pas a E1 U E2.");
+        <strong>FinSi</strong>;
+
+    <strong>Fin</strong>
+            </code></pre>
+
+        <h3>6.3 التحقق من احتواء مصفوفة في أخرى (T1 ⊆ T2)</h3>
+        <pre><code>
+<strong>Algorithme</strong> VerifierContenu; // Vérifie si T1 est inclus dans T2
+
+    <strong>Constante</strong> max = 100;
+    <strong>Type</strong> Table = <strong>tableau</strong> [1..max] <strong>entier</strong>;
+
+    <strong>Var</strong>
+        T1, T2: Table;
+        m, n: <strong>entier</strong>;        // Tailles T1 et T2 (supposées > 0)
+        i, j: <strong>entier</strong>;
+        elementTrouve: <strong>booleen</strong>; // Flag pour chaque élément de T1
+        contenu: <strong>booleen</strong>;     // Résultat final (Vrai si T1 inclus dans T2)
+
+    <strong>Debut</strong>
+        <strong>// --- Lecture T1 ---</strong>
+        <strong>Repeter</strong> <strong>ecrire</strong> ("Taille T1 (1..", max, ") : "); <strong>lire</strong> (m); <strong>Jusqu'à</strong> (m > 0 <strong>et</strong> m <= max);
+        <strong>ecrire</strong> ("Elements de T1 :"); <strong>Pour</strong> i <strong>de</strong> 1 <strong>a</strong> m <strong>faire</strong> <strong>lire</strong> (T1[i]); <strong>FinPour</strong>;
+
+        <strong>// --- Lecture T2 ---</strong>
+        <strong>Repeter</strong> <strong>ecrire</strong> ("Taille T2 (1..", max, ") : "); <strong>lire</strong> (n); <strong>Jusqu'à</strong> (n > 0 <strong>et</strong> n <= max);
+        <strong>ecrire</strong> ("Elements de T2 :"); <strong>Pour</strong> i <strong>de</strong> 1 <strong>a</strong> n <strong>faire</strong> <strong>lire</strong> (T2[i]); <strong>FinPour</strong>;
+
+        <strong>// --- Vérification du contenu ---</strong>
+        contenu ← Vrai; // Supposer que T1 est contenu au début
+        i ← 1;         // Commencer avec le premier élément de T1
+
+        // Pour chaque élément de T1, vérifier s'il existe dans T2
+        // Arrêter dès qu'on trouve un élément de T1 non présent dans T2
+        <strong>TantQue</strong> (i <= m) <strong>et</strong> (contenu = Vrai) <strong>faire</strong>
+            // Rechercher l'élément T1[i] dans tout le tableau T2
+            elementTrouve ← Faux; // Réinitialiser le flag pour cet élément
+            j ← 1;
+            <strong>TantQue</strong> (j <= n) <strong>et</strong> (elementTrouve = Faux) <strong>faire</strong>
+                <strong>Si</strong> T1[i] = T2[j] <strong>Alors</strong>
+                    elementTrouve ← Vrai; // Trouvé dans T2!
+                <strong>FinSi</strong>;
+                j ← j + 1;
+            <strong>FinTantQue</strong>; // Fin recherche dans T2
+
+            // Si après avoir cherché dans tout T2, l'élément T1[i] n'a pas été trouvé
+            <strong>Si</strong> elementTrouve = Faux <strong>Alors</strong>
+                contenu ← Faux; // Alors T1 n'est pas contenu dans T2
+            <strong>FinSi</strong>;
+
+            // Passer à l'élément suivant de T1 (si contenu est toujours Vrai)
+            i ← i + 1;
+        <strong>FinTantQue</strong>; // Fin de la vérification pour tous les éléments de T1
+
+        <strong>// --- Affichage du résultat ---</strong>
+        <strong>Si</strong> contenu <strong>Alors</strong>
+            <strong>ecrire</strong> ("T1 est contenu dans T2.");
+        <strong>Sinon</strong>
+            <strong>ecrire</strong> ("T1 n'est PAS contenu dans T2.");
+        <strong>FinSi</strong>;
+
+    <strong>Fin</strong>
+            </code></pre>
+      </section>
+
+      <section class="exercise" id="ex7">
+        <h2>التمرين 7: الإجراءات/الدوال الممررة (Action paramétrée)</h2>
+        <p>
+          هذا التمرين يطلب إعادة كتابة الخوارزميات السابقة باستخدام إجراءات
+          ودوال (مثل القراءة، العرض، البحث، الترتيب، الدمج) ثم ترجمتها إلى لغة
+          C. هنا سنعرض أمثلة لتعريف بعض هذه الإجراءات والدوال بالكود الزائف.
+        </p>
+
+        <h3>أمثلة على الإجراءات والدوال</h3>
+        <pre><code>
+<strong>// --- Types Globaux (Supposés définis avant les procédures/fonctions) ---</strong>
+<strong>// Constante</strong> max = 100;
+<strong>// Type</strong> Table = <strong>tableau</strong> [1..max] <strong>entier</strong>;
+<strong>// Type</strong> TableReelle = <strong>tableau</strong> [1..max] <strong>reel</strong>;
+
+<strong>// --- Procédure pour lire un tableau d'entiers ---</strong>
+<strong>Procedure</strong> LireTableauEntier (<strong>Var</strong> T: Table; <strong>Var</strong> taille: <strong>entier</strong>; tailleMax: <strong>entier</strong>);
+    <strong>Var</strong> i: <strong>entier</strong>;
+<strong>Debut</strong>
+    <strong>// Saisie et validation de la taille</strong>
+    <strong>Repeter</strong>
+        <strong>ecrire</strong> ("Donnez la taille (1..", tailleMax, ") : ");
+        <strong>lire</strong> (taille);
+    <strong>Jusqu'à</strong> (taille > 0 <strong>et</strong> taille <= tailleMax);
+
+    <strong>// Lecture des éléments</strong>
+    <strong>ecrire</strong> ("Entrez les ", taille, " elements entiers:");
+    <strong>Pour</strong> i <strong>de</strong> 1 <strong>a</strong> taille <strong>faire</strong>
+        <strong>ecrire</strong> ("Element [", i, "] : ");
+        <strong>lire</strong> (T[i]);
+    <strong>FinPour</strong>;
+<strong>FinProcedure</strong>;
+
+<strong>// --- Procédure pour afficher un tableau d'entiers ---</strong>
+<strong>Procedure</strong> AfficherTableauEntier (T: Table; taille: <strong>entier</strong>);
+    <strong>Var</strong> i: <strong>entier</strong>;
+<strong>Debut</strong>
+    <strong>Si</strong> taille > 0 <strong>Alors</strong>
+        <strong>Pour</strong> i <strong>de</strong> 1 <strong>a</strong> taille <strong>faire</strong>
+            <strong>ecrire</strong> (T[i], " ");
+        <strong>FinPour</strong>;
+        <strong>ecrire</strong> (""); // Saut de ligne
+    <strong>Sinon</strong>
+        <strong>ecrire</strong> ("(Tableau vide)");
+    <strong>FinSi</strong>;
+<strong>FinProcedure</strong>;
+
+<strong>// --- Fonction pour recherche séquentielle dans un tableau de réels ---</strong>
+<strong>Fonction</strong> RechercheSeqReel (T: TableReelle; taille: <strong>entier</strong>; val: <strong>reel</strong>) : <strong>booleen</strong>;
+    <strong>Var</strong>
+        i: <strong>entier</strong>;
+        trouve: <strong>booleen</strong>;
+<strong>Debut</strong>
+    trouve ← Faux;
+    i ← 1;
+    <strong>TantQue</strong> (i <= taille) <strong>et</strong> (trouve = Faux) <strong>faire</strong>
+        <strong>Si</strong> T[i] = val <strong>Alors</strong> // Attention: égalité des réels peut être problématique
+            trouve ← Vrai;
+        <strong>FinSi</strong>;
+        i ← i + 1;
+    <strong>FinTantQue</strong>;
+    <strong>Retourner</strong> trouve;
+<strong>FinFonction</strong>;
+
+<strong>// --- Fonction pour recherche dichotomique dans un tableau de réels TRIÉ ---</strong>
+<strong>Fonction</strong> RechercheDichoReel (T: TableReelle; taille: <strong>entier</strong>; val: <strong>reel</strong>) : <strong>booleen</strong>;
+    <strong>Var</strong>
+        debut, fin, milieu: <strong>entier</strong>;
+        trouve: <strong>booleen</strong>;
+<strong>Debut</strong>
+    trouve ← Faux;
+    debut ← 1;
+    fin ← taille;
+    <strong>TantQue</strong> (debut <= fin) <strong>et</strong> (trouve = Faux) <strong>faire</strong>
+        milieu ← (debut + fin) <strong>div</strong> 2;
+        <strong>Si</strong> T[milieu] = val <strong>Alors</strong> // Problème d'égalité des réels
+            trouve ← Vrai;
+        <strong>SinonSi</strong> val < T[milieu] <strong>Alors</strong>
+            fin ← milieu - 1;
+        <strong>Sinon</strong> // val > T[milieu]
+            debut ← milieu + 1;
+        <strong>FinSi</strong>;
+    <strong>FinTantQue</strong>;
+    <strong>Retourner</strong> trouve;
+<strong>FinFonction</strong>;
+
+<strong>// --- Procédure pour Tri par Sélection (tableau d'entiers) ---</strong>
+<strong>Procedure</strong> TriSelectionEntier (<strong>Var</strong> T: Table; taille: <strong>entier</strong>);
+    <strong>Var</strong> i, j, minIdx, temp: <strong>entier</strong>;
+<strong>Debut</strong>
+    <strong>Pour</strong> i <strong>de</strong> 1 <strong>a</strong> taille - 1 <strong>faire</strong>
+        minIdx ← i;
+        <strong>Pour</strong> j <strong>de</strong> i + 1 <strong>a</strong> taille <strong>faire</strong>
+            <strong>Si</strong> T[j] < T[minIdx] <strong>Alors</strong>
+                minIdx ← j;
+            <strong>FinSi</strong>;
+        <strong>FinPour</strong>;
+        // Echanger si nécessaire
+        <strong>Si</strong> minIdx <> i <strong>Alors</strong>
+            temp ← T[i];
+            T[i] ← T[minIdx];
+            T[minIdx] ← temp;
+        <strong>FinSi</strong>;
+    <strong>FinPour</strong>;
+<strong>FinProcedure</strong>;
+
+<strong>// --- Exemple d'utilisation (Recherche Séquentielle avec Fonction) ---</strong>
+<strong>Algorithme</strong> ExempleRechercheSeqAvecFonction;
+    <strong>Constante</strong> max = 100;
+    <strong>Type</strong> TableReelle = <strong>tableau</strong> [1..max] <strong>reel</strong>;
+
+    <strong>Var</strong>
+        A: TableReelle;
+        n: <strong>entier</strong>;
+        x: <strong>reel</strong>;
+        resultat: <strong>booleen</strong>;
+        i: <strong>entier</strong>; // Indice pour la boucle de lecture manuelle
+
+    <strong>Debut</strong>
+        <strong>// --- Lire le tableau (supposons qu'on a une procédure LireTableauReel) ---</strong>
+        // LireTableauReel(A, n, max);
+        // Ou manuellement pour l'exemple:
+        <strong>Repeter</strong> <strong>ecrire</strong> ("Taille A (1..", max, ") : "); <strong>lire</strong> (n); <strong>Jusqu'à</strong> (n > 0 <strong>et</strong> n <= max);
+        <strong>ecrire</strong> ("Elements reels de A :"); <strong>Pour</strong> i <strong>de</strong> 1 <strong>a</strong> n <strong>faire</strong> <strong>lire</strong> (A[i]); <strong>FinPour</strong>;
+
+
+        <strong>// --- Lire la valeur à rechercher ---</strong>
+        <strong>ecrire</strong> ("Valeur x (reel) a rechercher : "); <strong>lire</strong> (x);
+
+        <strong>// --- Appeler la fonction de recherche ---</strong>
+        resultat ← RechercheSeqReel(A, n, x);
+
+        <strong>// --- Afficher le résultat ---</strong>
+        <strong>Si</strong> resultat = Vrai <strong>Alors</strong> // ou juste Si resultat Alors
+            <strong>ecrire</strong> ("La valeur ", x, " a été trouvée.");
+        <strong>Sinon</strong>
+            <strong>ecrire</strong> ("La valeur ", x, " n'a pas été trouvée.");
+        <strong>FinSi</strong>;
+
+        // AfficherTableauReel(A, n); // Si on a une procédure d'affichage
+    <strong>Fin</strong>
+
+            </code></pre>
+        <p>
+          <strong>ملاحظة:</strong> الترجمة إلى لغة C تتطلب معرفة بصياغة لغة C
+          لكتابة الدوال، التعامل مع المؤشرات للمصفوفات، وتضمين المكتبات المناسبة
+          (مثل `stdio.h`). يجب الانتباه بشكل خاص لمقارنة الأعداد الحقيقية
+          (reel/float/double) في لغة C، حيث يُفضل استخدام هامش صغير للخطأ
+          (epsilon) بدلاً من المقارنة المباشرة `==`.
+        </p>
+      </section>
+
+      <section class="exercise" id="ex8">
+        <h2>التمرين 8: السلاسل النصية (Chaines de caractères)</h2>
+        <p>
+          نعتبر السلسلة النصية `S` كجدول من الحروف `tableau [1..N] caractere`,
+          حيث `N <= 80`.
+        </p>
+
+        <h3>8.1.a دالة للتحقق من حرف علة (estVoyelle)</h3>
+        <pre><code>
+<strong>Fonction</strong> estVoyelle (c: <strong>caractere</strong>) : <strong>booleen</strong>;
+    // Retourne Vrai si c est une voyelle (minuscule ou majuscule), Faux sinon.
+    <strong>Var</strong>
+        voyelles: <strong>chaine</strong>;
+        i: <strong>entier</strong>;
+        trouve: <strong>booleen</strong>;
+<strong>Debut</strong>
+    voyelles ← "aeiouyAEIOUY"; // Liste des voyelles
+    trouve ← Faux;
+    i ← 1;
+    // Recherche séquentielle dans la chaîne des voyelles
+    <strong>TantQue</strong> (i <= longueur(voyelles)) <strong>et</strong> (trouve = Faux) <strong>faire</strong>
+        <strong>Si</strong> c = voyelles[i] <strong>Alors</strong> // Accès au caractère i de la chaine
+            trouve ← Vrai;
+        <strong>FinSi</strong>;
+        i ← i + 1;
+    <strong>FinTantQue</strong>;
+    <strong>Retourner</strong> trouve;
+<strong>FinFonction</strong>;
+            </code></pre>
+
+        <h3>8.1.b إجراء لحساب عدد حروف العلة (nbVoyelles)</h3>
+        <pre><code>
+<strong>Procedure</strong> nbVoyelles (S: <strong>chaine</strong>; <strong>Var</strong> compte: <strong>entier</strong>);
+    // Compte le nombre de voyelles dans la chaîne S et met le résultat dans 'compte'.
+    <strong>Var</strong> i: <strong>entier</strong>;
+<strong>Debut</strong>
+    compte ← 0; // Initialiser le compteur
+    // Parcourir chaque caractère de la chaîne S
+    <strong>Pour</strong> i <strong>de</strong> 1 <strong>a</strong> longueur(S) <strong>faire</strong>
+        // Utiliser la fonction estVoyelle pour vérifier le caractère S[i]
+        <strong>Si</strong> estVoyelle(S[i]) = Vrai <strong>Alors</strong>
+            compte ← compte + 1; // Incrémenter si c'est une voyelle
+        <strong>FinSi</strong>;
+    <strong>FinPour</strong>;
+    // Le résultat est dans la variable 'compte' passée par référence (Var)
+<strong>FinProcedure</strong>;
+            </code></pre>
+
+        <h3>8.1.c برنامج رئيسي لقراءة سلسلة وعرض عدد حروف العلة</h3>
+        <pre><code>
+<strong>Algorithme</strong> CompterVoyellesUtilisateur;
+    <strong>Constante</strong> maxLen = 80;
+    // Type ChaineType = chaine; // Type prédéfini 'chaine' souvent utilisé
+    <strong>Type</strong> ChaineType = <strong>tableau</strong> [1..maxLen] <strong>caractere</strong>; // Ou définition explicite
+
+    <strong>Var</strong>
+        S: ChaineType;
+        // N: entier; // Taille réelle (pas forcément nécessaire si 'longueur' est disponible)
+        nombreVoy: <strong>entier</strong>; // Pour stocker le résultat de nbVoyelles
+
+    <strong>Debut</strong>
+        <strong>// --- Saisie de la chaîne ---</strong>
+        <strong>ecrire</strong> ("Entrez une chaine de caracteres (max ", maxLen, " caracteres):");
+        <strong>lire</strong> (S); // Lire la chaine
+
+        <strong>// --- Comptage des voyelles ---</strong>
+        // Appel de la procédure qui modifie 'nombreVoy' directement
+        nbVoyelles(S, nombreVoy);
+
+        <strong>// --- Affichage du résultat ---</strong>
+        <strong>ecrire</strong> ("Le nombre de voyelles dans la chaine est : ", nombreVoy);
+    <strong>Fin</strong>
+            </code></pre>
+
+        <h3>8.2.a دالة مقارنة سلسلتين (strcmp)</h3>
+        <pre><code>
+<strong>Fonction</strong> strcmp (S1, S2: <strong>chaine</strong>) : <strong>entier</strong>;
+    // Compare S1 et S2 lexicographiquement.
+    // Retourne:
+    //   0 si S1 = S2
+    //   1 si S1 > S2
+    //  -1 si S1 < S2
+    <strong>Var</strong>
+        i: <strong>entier</strong>;
+        len1, len2: <strong>entier</strong>;
+        resultat: <strong>entier</strong>;
+        fini: <strong>booleen</strong>;
+    <strong>Debut</strong>
+        len1 ← longueur(S1);
+        len2 ← longueur(S2);
+        i ← 1;
+        resultat ← 0; // Supposer égal au début
+        fini ← Faux; // Flag pour arrêter dès la première différence
+
+        // Comparer caractère par caractère tant qu'on est dans les limites des deux chaînes
+        // et qu'aucune différence n'a été trouvée
+        <strong>TantQue</strong> (i <= len1) <strong>et</strong> (i <= len2) <strong>et</strong> (fini = Faux) <strong>faire</strong>
+            <strong>Si</strong> S1[i] < S2[i] <strong>Alors</strong>
+                resultat ← -1; // S1 est plus petite
+                fini ← Vrai;    // Arrêter la comparaison
+            <strong>SinonSi</strong> S1[i] > S2[i] <strong>Alors</strong>
+                resultat ← 1;  // S1 est plus grande
+                fini ← Vrai;   // Arrêter la comparaison
+            <strong>FinSi</strong>;
+            // Si égaux, continuer au caractère suivant
+            i ← i + 1;
+        <strong>FinTantQue</strong>;
+
+        // Si on a fini la boucle sans trouver de différence (fini = Faux)
+        // il faut vérifier les longueurs pour déterminer l'ordre
+        <strong>Si</strong> fini = Faux <strong>Alors</strong>
+            <strong>Si</strong> len1 < len2 <strong>Alors</strong>
+                resultat ← -1; // S1 est plus courte (donc plus petite)
+            <strong>SinonSi</strong> len1 > len2 <strong>Alors</strong>
+                resultat ← 1;  // S1 est plus longue (donc plus grande)
+            // Sinon (len1 = len2), resultat reste 0 (égales)
+            <strong>FinSi</strong>;
+        <strong>FinSi</strong>;
+
+        <strong>Retourner</strong> resultat;
+    <strong>FinFonction</strong>;
+            </code></pre>
+
+        <h3>8.2.b دالة البحث عن أول ظهور لحرف (strchr)</h3>
+        <pre><code>
+<strong>Fonction</strong> strchr (S: <strong>chaine</strong>; c: <strong>caractere</strong>) : <strong>entier</strong>;
+    // Recherche la première occurrence du caractère 'c' dans la chaîne 'S'.
+    // Retourne l'indice (position >= 1) si trouvé, ou -1 sinon.
+    <strong>Var</strong>
+        i: <strong>entier</strong>;
+        indiceTrouve: <strong>entier</strong>;
+    <strong>Debut</strong>
+        indiceTrouve ← -1; // Initialiser à non trouvé
+        i ← 1;
+        // Parcourir la chaîne tant qu'on n'a pas trouvé le caractère
+        <strong>TantQue</strong> (i <= longueur(S)) <strong>et</strong> (indiceTrouve = -1) <strong>faire</strong>
+            <strong>Si</strong> S[i] = c <strong>Alors</strong>
+                indiceTrouve ← i; // Stocker l'indice et arrêter (car indiceTrouve != -1)
+            <strong>FinSi</strong>;
+            i ← i + 1;
+        <strong>FinTantQue</strong>;
+        <strong>Retourner</strong> indiceTrouve;
+    <strong>FinFonction</strong>;
+            </code></pre>
+
+        <h3>8.2.c دالة حساب تكرار حرف (freqChr)</h3>
+        <pre><code>
+<strong>Fonction</strong> freqChr (S: <strong>chaine</strong>; c: <strong>caractere</strong>) : <strong>entier</strong>;
+    // Calcule et retourne le nombre d'occurrences du caractère 'c' dans la chaîne 'S'.
+    <strong>Var</strong>
+        i: <strong>entier</strong>;
+        frequence: <strong>entier</strong>;
+    <strong>Debut</strong>
+        frequence ← 0; // Initialiser le compteur
+        // Parcourir toute la chaîne
+        <strong>Pour</strong> i <strong>de</strong> 1 <strong>a</strong> longueur(S) <strong>faire</strong>
+            <strong>Si</strong> S[i] = c <strong>Alors</strong>
+                frequence ← frequence + 1; // Incrémenter si le caractère correspond
+            <strong>FinSi</strong>;
+        <strong>FinPour</strong>;
+        <strong>Retourner</strong> frequence;
+    <strong>FinFonction</strong>;
+            </code></pre>
+
+        <h3>8.2.d إجراء لعكس سلسلة نصية (miroir)</h3>
+        <pre><code>
+<strong>Procedure</strong> miroir (S: <strong>chaine</strong>; <strong>Var</strong> S_inverse: <strong>chaine</strong>);
+    // Crée l'inverse de la chaîne S dans la variable S_inverse.
+    // S_inverse doit être de taille suffisante (au moins longueur(S)).
+    <strong>Var</strong>
+        i, j: <strong>entier</strong>;
+        N: <strong>entier</strong>; // Longueur de S
+    <strong>Debut</strong>
+        N ← longueur(S);
+        // S_inverse sera construite caractère par caractère
+        j ← 1; // Indice pour S_inverse (commence à 1)
+        // Parcourir S de la fin (N) vers le début (1)
+        <strong>Pour</strong> i <strong>de</strong> N <strong>a</strong> 1 <strong>pas</strong> -1 <strong>faire</strong>
+            S_inverse[j] ← S[i]; // Copier le caractère de S vers S_inverse
+            j ← j + 1;           // Avancer dans S_inverse
+        <strong>FinPour</strong>;
+        // Note: En pseudo-code, on suppose que S_inverse a la bonne longueur.
+        // En C, il faudrait gérer la taille et le caractère nul '\0'.
+    <strong>FinProcedure</strong>;
+
+<strong>// --- Alternative : inversion sur place (modifie la chaîne originale) ---</strong>
+<strong>Procedure</strong> miroirEnPlace (<strong>Var</strong> S: <strong>chaine</strong>);
+    // Inverse la chaîne S directement (modification sur place).
+    <strong>Var</strong>
+        i, j: <strong>entier</strong>;
+        N: <strong>entier</strong>;
+        temp: <strong>caractere</strong>; // Pour l'échange
+    <strong>Debut</strong>
+        N ← longueur(S);
+        i ← 1; // Indice du début
+        j ← N; // Indice de la fin
+        // Tant que les indices ne se sont pas croisés
+        <strong>TantQue</strong> i < j <strong>faire</strong>
+            // Echanger les caractères aux positions i et j
+            temp ← S[i];
+            S[i] ← S[j];
+            S[j] ← temp;
+            // Rapprocher les indices
+            i ← i + 1;
+            j ← j - 1;
+        <strong>FinTantQue</strong>;
+    <strong>FinProcedure</strong>;
+            </code></pre>
+
+        <h3>8.2.e إجراء للتحقق من كون السلسلة متناظرة (isPalindrome)</h3>
+        <pre><code>
+<strong>// --- Méthode 1: Comparaison directe des caractères opposés ---</strong>
+<strong>Fonction</strong> isPalindrome (S: <strong>chaine</strong>) : <strong>booleen</strong>;
+    // Vérifie si la chaîne S est un palindrome.
+    <strong>Var</strong>
+        i, j: <strong>entier</strong>;
+        N: <strong>entier</strong>;
+        estPal: <strong>booleen</strong>;
+    <strong>Debut</strong>
+        N ← longueur(S);
+        estPal ← Vrai; // Supposer que c'est un palindrome au début
+        i ← 1; // Indice du début
+        j ← N; // Indice de la fin
+
+        // Comparer les caractères opposés en allant vers le centre
+        // Arrêter si les indices se croisent ou si on trouve une différence
+        <strong>TantQue</strong> (i < j) <strong>et</strong> (estPal = Vrai) <strong>faire</strong>
+            <strong>Si</strong> S[i] <> S[j] <strong>Alors</strong>
+                // Si les caractères sont différents, ce n'est pas un palindrome
+                estPal ← Faux;
+            <strong>FinSi</strong>;
+            // Passer aux caractères suivants (vers le centre)
+            i ← i + 1;
+            j ← j - 1;
+        <strong>FinTantQue</strong>;
+        <strong>Retourner</strong> estPal;
+    <strong>FinFonction</strong>;
+
+<strong>// --- Méthode 2: Utilisation de miroir et strcmp (moins efficace) ---</strong>
+<strong>Fonction</strong> isPalindromeV2 (S: <strong>chaine</strong>) : <strong>booleen</strong>;
+    // Vérifie si S est un palindrome en la comparant avec son inverse.
+    <strong>Var</strong> S_inv: <strong>chaine</strong>; // Pour stocker l'inverse de S
+<strong>Debut</strong>
+    // 1. Obtenir l'inverse de S (nécessite que S_inv soit déclarée de taille suffisante)
+    miroir(S, S_inv);
+
+    // 2. Comparer S avec son inverse S_inv
+    // Si strcmp retourne 0, les chaînes sont identiques
+    <strong>Si</strong> strcmp(S, S_inv) = 0 <strong>Alors</strong>
+        <strong>Retourner</strong> Vrai;
+    <strong>Sinon</strong>
+        <strong>Retourner</strong> Faux;
+    <strong>FinSi</strong>;
+<strong>FinFonction</strong>;
+            </code></pre>
+      </section>
+
+      <section class="exercise" id="ex9">
+        <h2>التمرين 9: المصفوفات (Matrices - tableaux à deux dimensions)</h2>
+        <p>نفترض `m, n <= 20`.</p>
+
+        <h3>9.1 تعريف نوع المصفوفة</h3>
+        <pre><code>
+<strong>Constante</strong> maxL = 20; // Max lignes
+<strong>Constante</strong> maxC = 20; // Max colonnes
+<strong>Type</strong> Mat = <strong>tableau</strong> [1..maxL, 1..maxC] <strong>entier</strong>; // Ou reel selon besoin
+             </code></pre>
+
+        <h3>9.2 قراءة مصفوفتين وجمعهما، حساب الأثر والحد الأقصى للقطر</h3>
+        <pre><code>
+<strong>// --- Procédure pour lire une matrice ---</strong>
+<strong>Procedure</strong> LireMatrice (<strong>Var</strong> M: Mat; <strong>Var</strong> nbL: <strong>entier</strong>; <strong>Var</strong> nbC: <strong>entier</strong>; maxLig: <strong>entier</strong>; maxCol: <strong>entier</strong>);
+    // Lit les dimensions et les éléments d'une matrice M.
+    <strong>Var</strong> i, j: <strong>entier</strong>;
+<strong>Debut</strong>
+    // Saisie et validation des dimensions
+    <strong>Repeter</strong> <strong>ecrire</strong> ("Nb Lignes (1..", maxLig, ") : "); <strong>lire</strong> (nbL); <strong>Jusqu'à</strong> (nbL > 0 <strong>et</strong> nbL <= maxLig);
+    <strong>Repeter</strong> <strong>ecrire</strong> ("Nb Colonnes (1..", maxCol, ") : "); <strong>lire</strong> (nbC); <strong>Jusqu'à</strong> (nbC > 0 <strong>et</strong> nbC <= maxCol);
+
+    // Lecture des éléments
+    <strong>ecrire</strong> ("Entrez les elements de la matrice (", nbL, "x", nbC, "):");
+    <strong>Pour</strong> i <strong>de</strong> 1 <strong>a</strong> nbL <strong>faire</strong>
+        <strong>Pour</strong> j <strong>de</strong> 1 <strong>a</strong> nbC <strong>faire</strong>
+            <strong>ecrire</strong> ("M[", i, ",", j, "] : ");
+            <strong>lire</strong> (M[i, j]);
+        <strong>FinPour</strong>;
+    <strong>FinPour</strong>;
+<strong>FinProcedure</strong>;
+
+<strong>// --- Procédure pour afficher une matrice ---</strong>
+<strong>Procedure</strong> AfficherMatrice (M: Mat; nbL: <strong>entier</strong>; nbC: <strong>entier</strong>);
+    // Affiche les éléments de la matrice M.
+    <strong>Var</strong> i, j: <strong>entier</strong>;
+<strong>Debut</strong>
+    <strong>ecrire</strong> ("Contenu de la matrice (", nbL, "x", nbC, "):");
+    <strong>Pour</strong> i <strong>de</strong> 1 <strong>a</strong> nbL <strong>faire</strong>
+        <strong>Pour</strong> j <strong>de</strong> 1 <strong>a</strong> nbC <strong>faire</strong>
+            // Afficher l'élément avec une tabulation pour l'alignement
+            <strong>ecrire</strong> (M[i, j], "\t");
+        <strong>FinPour</strong>;
+        <strong>ecrire</strong> (""); // Saut de ligne après chaque ligne de la matrice
+    <strong>FinPour</strong>;
+<strong>FinProcedure</strong>;
+
+<strong>// --- Algorithme principal pour somme, trace et max diagonale ---</strong>
+<strong>Algorithme</strong> SommeMatricesEtAnalyseDiag;
+    <strong>Var</strong>
+        M1, M2, M_Somme: Mat; // Les matrices
+        m, n: <strong>entier</strong>; // Dimensions réelles (lignes, colonnes)
+        traceM: <strong>entier</strong>; // Ou reel - Pour la trace de M_Somme
+        maxDiagVal: <strong>entier</strong>; // Ou reel - Pour le max de la diagonale
+        posLigne, posCol: <strong>entier</strong>; // Position du max sur la diagonale
+        i, j: <strong>entier</strong>; // Indices de boucle
+
+    <strong>Debut</strong>
+        <strong>// --- Lecture des matrices M1 et M2 ---</strong>
+        <strong>ecrire</strong> ("--- Saisie de la Matrice M1 ---");
+        LireMatrice(M1, m, n, maxL, maxC); // Lit M1 et ses dimensions m, n
+        <strong>ecrire</strong> ("--- Saisie de la Matrice M2 (doit être de taille ", m, "x", n, ") ---");
+        // Note: Idéalement, LireMatrice devrait permettre de spécifier m et n attendus
+        // pour M2 ou il faudrait vérifier après la lecture si les dimensions correspondent.
+        // Ici, on suppose que l'utilisateur entre les bonnes dimensions pour M2.
+        LireMatrice(M2, m, n, maxL, maxC); // Réutilise m, n lus pour M1
+
+        <strong>// --- Calculer M_Somme = M1 + M2 ---</strong>
+        <strong>Pour</strong> i <strong>de</strong> 1 <strong>a</strong> m <strong>faire</strong>
+            <strong>Pour</strong> j <strong>de</strong> 1 <strong>a</strong> n <strong>faire</strong>
+                M_Somme[i, j] ← M1[i, j] + M2[i, j];
+            <strong>FinPour</strong>;
+        <strong>FinPour</strong>;
+
+        <strong>// --- Affichage des matrices ---</strong>
+        AfficherMatrice(M1, m, n);
+        AfficherMatrice(M2, m, n);
+        ecrire("--- Matrice Somme M = M1 + M2 ---");
+        AfficherMatrice(M_Somme, m, n);
+
+        <strong>// --- Calculs sur la diagonale (si la matrice somme est carrée) ---</strong>
+        <strong>Si</strong> m = n <strong>Alors</strong> // Vérifier si M_Somme est carrée
+            <strong>ecrire</strong> ("--- Analyse de la diagonale de la matrice somme (carrée) ---");
+            // Calcul de la trace (somme des éléments de la diagonale principale)
+            traceM ← 0;
+            <strong>Pour</strong> i <strong>de</strong> 1 <strong>a</strong> m <strong>faire</strong> // m ou n, car m=n
+                traceM ← traceM + M_Somme[i, i];
+            <strong>FinPour</strong>;
+            <strong>ecrire</strong> ("Trace de la matrice somme = ", traceM);
+
+            // Recherche du maximum sur la diagonale principale
+            <strong>Si</strong> m > 0 <strong>Alors</strong> // S'assurer que la matrice n'est pas vide (0x0)
+                 // Initialiser avec le premier élément diagonal
+                 maxDiagVal ← M_Somme[1, 1];
+                 posLigne ← 1; posCol ← 1;
+                 // Parcourir le reste de la diagonale
+                 <strong>Pour</strong> i <strong>de</strong> 2 <strong>a</strong> m <strong>faire</strong>
+                     <strong>Si</strong> M_Somme[i, i] > maxDiagVal <strong>Alors</strong>
+                         // Mettre à jour le max et sa position
+                         maxDiagVal ← M_Somme[i, i];
+                         posLigne ← i;
+                         posCol ← i; // posCol sera toujours égal à posLigne ici
+                     <strong>FinSi</strong>;
+                 <strong>FinPour</strong>;
+                 <strong>ecrire</strong> ("Maximum sur la diagonale = ", maxDiagVal, " a la position (", posLigne, ",", posCol, ")");
+             <strong>FinSi</strong>; // Fin Si m > 0
+        <strong>Sinon</strong>
+            <strong>ecrire</strong> ("La matrice somme n'est pas carrée, calculs de trace/diagonale non applicables.");
+        <strong>FinSi</strong>; // Fin Si m = n
+    <strong>Fin</strong>
+            </code></pre>
+
+        <h3>9.3 إجراء لحساب جداء المصفوفات (ProduitMatriciel)</h3>
+        <pre><code>
+<strong>Procedure</strong> ProduitMatriciel (A: Mat; B: Mat; <strong>Var</strong> C: Mat; m: <strong>entier</strong>; n: <strong>entier</strong>; p: <strong>entier</strong>);
+    // Calcule le produit C = A * B.
+    // A est de taille (m x n).
+    // B est de taille (n x p).  <-- Condition: nb colonnes de A = nb lignes de B
+    // C sera de taille (m x p).
+    <strong>Var</strong>
+        i, j, k: <strong>entier</strong>; // Indices de boucle
+        somme: <strong>entier</strong>; // Ou reel - Pour accumuler le produit scalaire partiel
+    <strong>Debut</strong>
+        // La vérification de compatibilité (n de A = n de B) devrait idéalement être faite
+        // AVANT d'appeler cette procédure, mais on peut l'inclure ici aussi.
+        // Exemple: Si DimensionColonne(A) != DimensionLigne(B) Alors Erreur FinSi
+
+        // Parcourir chaque ligne de la matrice résultat C (indice i)
+        <strong>Pour</strong> i <strong>de</strong> 1 <strong>a</strong> m <strong>faire</strong>
+            // Parcourir chaque colonne de la matrice résultat C (indice j)
+            <strong>Pour</strong> j <strong>de</strong> 1 <strong>a</strong> p <strong>faire</strong>
+                // Calculer l'élément C[i, j]
+                // C[i, j] est le produit scalaire de la ligne i de A et de la colonne j de B
+                somme ← 0; // Initialiser la somme pour cet élément
+                // Boucle pour le produit scalaire (indice k)
+                <strong>Pour</strong> k <strong>de</strong> 1 <strong>a</strong> n <strong>faire</strong> // n est la dimension commune
+                    somme ← somme + (A[i, k] * B[k, j]);
+                <strong>FinPour</strong>; // Fin calcul somme (produit scalaire)
+                // Stocker le résultat dans C[i, j]
+                C[i, j] ← somme;
+            <strong>FinPour</strong>; // Fin colonne j
+        <strong>FinPour</strong>; // Fin ligne i
+    <strong>FinProcedure</strong>;
+
+<strong>// --- Exemple d'appel (dans une autre algorithme) ---</strong>
+/*
+<strong>Algorithme</strong> TestProduitMatriciel;
+    <strong>Constante</strong> maxL=20; maxC=20;
+    <strong>Type</strong> Mat = <strong>tableau</strong> [1..maxL, 1..maxC] <strong>entier</strong>;
+    <strong>Var</strong>
+        MatA, MatB, MatC: Mat;
+        lignesA, colsA, lignesB, colsB: <strong>entier</strong>;
+    <strong>Debut</strong>
+        // Lire MatA
+        LireMatrice(MatA, lignesA, colsA, maxL, maxC);
+        // Lire MatB
+        LireMatrice(MatB, lignesB, colsB, maxL, maxC);
+
+        // Vérifier la compatibilité pour la multiplication
+        <strong>Si</strong> colsA = lignesB <strong>Alors</strong>
+            // Appeler la procédure de multiplication
+            ProduitMatriciel(MatA, MatB, MatC, lignesA, colsA, colsB);
+            // Afficher le résultat
+            <strong>ecrire</strong>("--- Produit C = A * B ---");
+            AfficherMatrice(MatC, lignesA, colsB); // Dimensions de C: lignesA x colsB
+        <strong>Sinon</strong>
+            <strong>ecrire</strong>("Erreur: Dimensions incompatibles pour la multiplication (", colsA, " != ", lignesB, ")");
+        <strong>FinSi</strong>;
+    <strong>Fin</strong>
+*/
+            </code></pre>
+
+        <h3>9.4 حساب وعرض مثلث الكرجي/باسكال</h3>
+        <pre><code>
+<strong>Algorithme</strong> TrianglePascal;
+
+    <strong>Constante</strong> maxN = 20;
+    // Utiliser une indexation à partir de 0 est souvent pratique pour Pascal
+    <strong>Type</strong> MatTriangle = <strong>tableau</strong> [0..maxN, 0..maxN] <strong>entier</strong>;
+
+    <strong>Var</strong>
+        M: MatTriangle; // La matrice pour stocker le triangle
+        n: <strong>entier</strong>; // Taille demandée (nombre de lignes, index 0 à n)
+        i, j: <strong>entier</strong>; // Indices de boucle
+
+    <strong>Debut</strong>
+        <strong>// --- Saisie de la taille n ---</strong>
+        <strong>Repeter</strong>
+            <strong>ecrire</strong> ("Donnez la taille n du triangle (0..", maxN, ") : ");
+            <strong>lire</strong> (n);
+        <strong>Jusqu'à</strong> (n >= 0 <strong>et</strong> n <= maxN); // Permettre n=0
+
+        <strong>// --- Initialisation de la matrice (Optionnel mais bon pour la clarté) ---</strong>
+        // On pourrait sauter ça car on remplit les valeurs nécessaires,
+        // mais mettre à 0 évite des valeurs indéfinies dans les cases non utilisées.
+        <strong>Pour</strong> i <strong>de</strong> 0 <strong>a</strong> n <strong>faire</strong>
+            <strong>Pour</strong> j <strong>de</strong> 0 <strong>a</strong> n <strong>faire</strong>
+                M[i, j] ← 0;
+            <strong>FinPour</strong>;
+        <strong>FinPour</strong>;
+
+        <strong>// --- Calcul des coefficients du triangle ---</strong>
+        // Parcourir les lignes du triangle (de 0 à n)
+        <strong>Pour</strong> i <strong>de</strong> 0 <strong>a</strong> n <strong>faire</strong>
+            // La première colonne (j=0) est toujours 1
+            M[i, 0] ← 1;
+            // Les éléments de la diagonale (j=i) sont aussi toujours 1
+            M[i, i] ← 1;
+
+            // Calculer les éléments intérieurs de la ligne i (de j=1 à j=i-1)
+            // en utilisant la ligne précédente (i-1)
+            <strong>Pour</strong> j <strong>de</strong> 1 <strong>a</strong> i - 1 <strong>faire</strong>
+                // La règle de Pascal: C(i,j) = C(i-1, j) + C(i-1, j-1)
+                // Correspondant aux indices de la matrice: M[i,j] = M[i-1, j] + M[i-1, j-1]
+                M[i, j] ← M[i-1, j] + M[i-1, j-1];
+            <strong>FinPour</strong>;
+        <strong>FinPour</strong>;
+
+        <strong>// --- Affichage du triangle (partie utile) ---</strong>
+        <strong>ecrire</strong> ("Triangle de Pascal/Al Kharaji de taille ", n, ":");
+        <strong>Pour</strong> i <strong>de</strong> 0 <strong>a</strong> n <strong>faire</strong>
+            // Pour chaque ligne i, afficher les éléments de la colonne 0 jusqu'à i
+            <strong>Pour</strong> j <strong>de</strong> 0 <strong>a</strong> i <strong>faire</strong>
+                <strong>ecrire</strong> (M[i, j], "\t"); // Utiliser une tabulation pour l'alignement
+            <strong>FinPour</strong>;
+            <strong>ecrire</strong> (""); // Passer à la ligne suivante
+        <strong>FinPour</strong>;
+
+    <strong>Fin</strong>
+            </code></pre>
+      </section>
+    </main>
+
+    <footer>
+      <p>© 2024 حلول تمارين الخوارزميات. جميع الحقوق محفوظة.</p>
+      <p>BY ADDAR MOHAMED AKRAM</p>
+    </footer>
+
+    <!-- سكربت لتفعيل الروابط في النافبار عند التمرير -->
+    <script>
+      const sections = document.querySelectorAll("section.exercise[id]");
+      const navLinks = document.querySelectorAll(".exercise-nav a.nav-link");
+      const navHeight =
+        document.getElementById("exerciseNavbar")?.offsetHeight || 60; // استخدام ارتفاع النافبار الجديد
+
+      function changeActiveLink() {
+        let index = sections.length;
+
+        while (
+          --index >= 0 &&
+          window.scrollY + navHeight + 50 < sections[index].offsetTop
+        ) {}
+
+        navLinks.forEach((link) => link.classList.remove("active"));
+
+        if (index >= 0) {
+          // التأكد من أن الفهرس صالح
+          const activeLink = document.querySelector(
+            `.exercise-nav a[href="#${sections[index].id}"]`
+          );
+          if (activeLink) {
+            activeLink.classList.add("active");
+          }
+        }
+      }
+
+      // استدعاء الدالة عند التحميل الأولي وعند التمرير
+      window.addEventListener("DOMContentLoaded", changeActiveLink); // لتفعيل الرابط الأول عند تحميل الصفحة
+      window.addEventListener("scroll", changeActiveLink);
+    </script>
+  </body>
+</html>
