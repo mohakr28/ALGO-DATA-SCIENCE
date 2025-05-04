@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>حل تمارين الخوارزميات (كامل)</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+        color: #333;
+        direction: rtl; /* Right-to-left for Arabic */
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      }
+
+      h1,
+      h2,
+      h3 {
+        color: #0056b3; /* A nice blue */
+        margin-bottom: 15px;
+      }
+
+      h1 {
+        text-align: center;
+        border-bottom: 2px solid #0056b3;
+        padding-bottom: 10px;
+        margin-bottom: 30px;
+      }
+
+      h2 {
+        background-color: #e7f1ff; /* Light blue background for exercise titles */
+        padding: 10px;
+        border-radius: 5px;
+        border-right: 5px solid #0056b3;
+        margin-top: 30px;
+      }
+
+      h3 {
+        color: #007bff;
+        border-bottom: 1px dashed #ccc;
+        padding-bottom: 5px;
+        margin-top: 25px;
+      }
+
+      h4 {
+        color: #17a2b8; /* Teal color for sub-sub-headings */
+        margin-top: 20px;
+        margin-bottom: 10px;
+      }
+
+      p {
+        margin-bottom: 15px;
+        text-align: justify; /* Justify text for better readability */
+      }
+
+      .explanation {
+        background-color: #fdfdfd;
+        padding: 15px;
+        border: 1px solid #eee;
+        border-radius: 5px;
+        margin-bottom: 20px;
+      }
+
+      pre {
+        background-color: #eef; /* Light purple background for code */
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 15px;
+        overflow-x: auto; /* Handle long lines of code */
+        direction: ltr; /* Code is Left-to-Right */
+        text-align: left;
+      }
+
+      code {
+        font-family: "Courier New", Courier, monospace;
+        font-size: 0.95em;
+        color: #333;
+        display: block; /* Ensure code block takes full width */
+        white-space: pre; /* Preserve whitespace and line breaks */
+      }
+
+      .param-list {
+        list-style-type: none;
+        padding-right: 20px; /* Indent list */
+      }
+      .param-list li {
+        margin-bottom: 8px;
+      }
+      .param-list code {
+        display: inline; /* Make code snippets inline */
+        background-color: #f0f0f0;
+        padding: 2px 5px;
+        border-radius: 3px;
+        font-size: 0.9em;
+        color: #c7254e; /* Reddish color for inline code */
+      }
+
+      .footer {
+        text-align: center;
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 1px solid #ccc;
+        font-size: 0.9em;
+        color: #777;
+      }
+
+      /* Specific styles for French code comments */
+      code .comment {
+        color: #008000; /* Green color for comments */
+        font-style: italic;
+      }
+
+      /* Add some spacing */
+      .explanation + pre,
+      pre + .explanation,
+      pre + h4,
+      h4 + pre {
+        margin-top: 20px;
+      }
+
+      ul,
+      ol {
+        padding-right: 20px; /* Indent lists */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>حلول تمارين الخوارزميات (كامل)</h1>
+
+      <!-- ==================== Exercice 2 ==================== -->
+      <section class="exercise-section">
+        <h2>
+          التمرين الثاني (Exercice 2 - 6 نقاط) - Répondre en langage
+          algorithmique
+        </h2>
+
+        <div class="explanation">
+          <p>
+            التمرين هذا يحكي على زوج مفاهيم: الأعداد المتعاكسة (opposés)
+            والأعداد المقلوبة (inverses).
+          </p>
+          <ul>
+            <li>
+              <strong>الأعداد المتعاكسة:</strong> هما عددان المجموع نتاعهم يساوي
+              صفر (0). مثلاً: 5 و -5.
+            </li>
+            <li>
+              <strong>الأعداد المقلوبة:</strong> هما عددان الجداء (الضرب) نتاعهم
+              يساوي واحد (1). مثلاً: 4 و 1/4 (يعني 0.25).
+            </li>
+          </ul>
+        </div>
+
+        <!-- Question 2.a -->
+        <div class="question-block">
+          <h3>أ) دالة التحقق من عددين (opposés ou inverses)</h3>
+          <div class="explanation">
+            <p>
+              يطلب منك تكتب دالة (Fonction) ترجع <code>Vrai</code> (صحيح) إذا
+              كان العددان اللي تمدّهملها (<code>x</code> و <code>y</code>)
+              متعاكسين <strong>أو</strong> مقلوبين، وترجع
+              <code>Faux</code> (خطأ) إذا ماكانوش.
+            </p>
+          </div>
+          <pre><code class="language-algorithme"><span class="comment">// الخوارزمية بالفرنسية</span>
+Fonction sontOpposesOuInverses (x : Reel, y : Reel) : Booléen
+<span class="comment">// Description : Retourne Vrai si x et y sont opposés OU inverses, Faux sinon.</span>
+<span class="comment">// Données : x, y - les deux nombres à vérifier.</span>
+<span class="comment">// Résultat : Vrai ou Faux.</span>
+Variables
+    <span class="comment">// Aucune variable locale nécessaire</span>
+Début
+    Si (x + y = 0) Ou (x * y = 1) Alors
+        Retourner Vrai
+    Sinon
+        Retourner Faux
+    Fin Si
+Fin</code></pre>
+        </div>
+
+        <!-- Question 2.b -->
+        <div class="question-block">
+          <h3>ب) دالة البحث في جدول (عن أي زوج)</h3>
+          <div class="explanation">
+            <p>
+              عندك جدول (tableau) <code>T</code> فيه <code>N</code> أعداد صحيحة
+              (<code>Entiers</code>). لازم تكتب دالة ترجع <code>Vrai</code> إذا
+              لقيت <strong>على الأقل زوج أعداد</strong> في الجدول هذا (ماشي شرط
+              يكونوا متتابعين) يكونوا متعاكسين أو مقلوبين. وترجع
+              <code>Faux</code> إذا مالقيتش. هنا لازم تقارن كل عدد مع كامل
+              الأعداد اللي موراه في الجدول.
+            </p>
+          </div>
+          <pre><code class="language-algorithme"><span class="comment">// الخوارزمية بالفرنسية</span>
+Fonction existeOpposesOuInverses (T : Tableau[1..N] d'Entiers, N : Entier) : Booléen
+<span class="comment">// Description : Retourne Vrai s'il existe deux éléments dans T (pas nécessairement consécutifs)</span>
+<span class="comment">//               qui sont opposés ou inverses, Faux sinon.</span>
+<span class="comment">// Données : T - le tableau d'entiers, N - la taille du tableau.</span>
+<span class="comment">// Résultat : Vrai ou Faux.</span>
+Variables
+    i, j : Entier
+Début
+    Pour i de 1 à N-1 Faire
+        Pour j de i + 1 à N Faire
+            <span class="comment">// On utilise la fonction précédente.</span>
+            Si sontOpposesOuInverses(T[i], T[j]) Alors
+                Retourner Vrai <span class="comment">// On a trouvé une paire, on arrête.</span>
+            Fin Si
+        Fin Pour
+    Fin Pour
+    Retourner Faux <span class="comment">// Aucune paire trouvée après toutes les comparaisons.</span>
+Fin</code></pre>
+        </div>
+
+        <!-- Question 2.c -->
+        <div class="question-block">
+          <h3>ج) دالة البحث في جدول (عن زوج متتابع)</h3>
+          <div class="explanation">
+            <p>
+              كيف كيف عندك جدول <code>T</code>. لازم تكتب دالة ترجع
+              <code>Vrai</code> إذا لقيت فيه
+              <strong>زوج أعداد متتابعين</strong> (يعني واحد مور خوه طول) يكونوا
+              متعاكسين أو مقلوبين. وترجع <code>Faux</code> إذا مالقيتش. هنا تمشي
+              على الجدول وتقارن كل عنصر بالعنصر اللي بعدو مباشرة.
+            </p>
+          </div>
+          <pre><code class="language-algorithme"><span class="comment">// الخوارزمية بالفرنسية</span>
+Fonction existeConsecutifsOpposesOuInverses (T : Tableau[1..N] d'Entiers, N : Entier) : Booléen
+<span class="comment">// Description : Retourne Vrai s'il existe deux éléments consécutifs dans T</span>
+<span class="comment">//               qui sont opposés ou inverses, Faux sinon.</span>
+<span class="comment">// Données : T - le tableau d'entiers, N - la taille du tableau.</span>
+<span class="comment">// Résultat : Vrai ou Faux.</span>
+Variables
+    i : Entier
+Début
+    <span class="comment">// On vérifie les paires (T[1], T[2]), (T[2], T[3]), ..., (T[N-1], T[N])</span>
+    Si N < 2 Alors <span class="comment">// Il faut au moins 2 éléments pour avoir une paire consécutive</span>
+        Retourner Faux
+    Fin Si
+
+    Pour i de 1 à N-1 Faire
+        Si sontOpposesOuInverses(T[i], T[i+1]) Alors
+            Retourner Vrai <span class="comment">// On a trouvé une paire consécutive, on arrête.</span>
+        Fin Si
+    Fin Pour
+    Retourner Faux <span class="comment">// Aucune paire consécutive trouvée.</span>
+Fin</code></pre>
+        </div>
+      </section>
+
+      <!-- ==================== Exercice 3 ==================== -->
+      <section class="exercise-section">
+        <h2>
+          التمرين الثالث (Exercice 3 - 6 نقاط) - Répondre en langage
+          algorithmique
+        </h2>
+
+        <div class="explanation">
+          <p>
+            المطلوب في هذا التمرين هو العمل على جدول (tableau) اسمه
+            <code>T</code> يحتوي على <code>N</code> أعداد صحيحة
+            (<code>Entiers</code>). الهدف هو إيجاد قيمتين: أكبر قيمة (le plus
+            grand) وثاني أكبر قيمة (le deuxième plus grand) في الجدول.
+          </p>
+        </div>
+
+        <!-- Question 3.a -->
+        <div class="question-block">
+          <h3>
+            أ) نوع الإجراء (Action)، المعاملات (Paramètres) وطريقة الإرسال (Mode
+            de transmission)
+          </h3>
+          <div class="explanation">
+            <p>
+              السؤال هو عن نوع الإجراء المبرمج (Action paramétrée) الأنسب: هل هو
+              <code>Fonction</code> أم <code>Procédure</code>؟ ولماذا؟ وما هي
+              المعاملات (paramètres) اللازمة وكيف يكون نمط الإرسال (mode de
+              transmission) لكل منها؟
+            </p>
+            <ul>
+              <li>
+                <strong>نوع الإجراء المفضل:</strong> <code>**Procédure**</code>.
+              </li>
+              <li>
+                <strong>السبب (Justification):</strong> نحتاج إلى إرجاع
+                **قيمتين** مختلفتين (الأكبر والثاني الأكبر). الـ
+                <code>Fonction</code> عادةً ترجع قيمة واحدة فقط من خلال اسمها.
+                أما الـ <code>Procédure</code>، فهي لا ترجع قيمة باسمها ولكن
+                يمكنها تعديل قيم المتغيرات المُمررة إليها كمعاملات إذا كان نمط
+                الإرسال مناسبًا (مثل <code>Résultat</code>)، مما يسمح لها بإخراج
+                عدة نتائج.
+              </li>
+              <li>
+                <strong>المعاملات (Paramètres) وأنماط الإرسال (Modes):</strong>
+              </li>
+            </ul>
+            <ul class="param-list">
+              <li>
+                <code>T</code> : <code>Tableau[1..N] d'Entiers</code> (Mode
+                <code>**Donnée**</code>) - الجدول المدخل، نقرأ منه فقط.
+              </li>
+              <li>
+                <code>N</code> : <code>Entier</code> (Mode
+                <code>**Donnée**</code>) - حجم الجدول، نحتاج لمعرفته فقط.
+              </li>
+              <li>
+                <code>max1</code> : <code>Entier</code> (Mode
+                <code>**Résultat**</code>) - المتغير الذي ستكتب فيه الـ
+                <code>Procédure</code> أكبر قيمة تجدها (نتيجة مُخرَجة).
+              </li>
+              <li>
+                <code>max2</code> : <code>Entier</code> (Mode
+                <code>**Résultat**</code>) - المتغير الذي ستكتب فيه الـ
+                <code>Procédure</code> ثاني أكبر قيمة تجدها (نتيجة مُخرَجة
+                أخرى).
+              </li>
+            </ul>
+            <p>
+              <em
+                >(نمط <code>Résultat</code> هو الأنسب هنا لأن
+                <code>max1</code> و <code>max2</code> لا يحملان قيمة إدخال مهمة
+                للـ <code>Procédure</code>؛ بل هي التي ستقوم بحسابهما وتعيين
+                قيمتهما).</em
+              >
+            </p>
+          </div>
+        </div>
+
+        <!-- Question 3.b -->
+        <div class="question-block">
+          <h3>ب) خوارزمية الحل (Procédure لإيجاد أكبر قيمتين)</h3>
+          <div class="explanation">
+            <p>
+              المطلوب هنا هو كتابة الخوارزمية التفصيلية للـ
+              <code>Procédure</code> التي تقوم بإيجاد أكبر قيمتين.
+            </p>
+            <p><strong>خطوات الخوارزمية:</strong></p>
+            <ol>
+              <li>
+                <strong>التحقق المبدئي:</strong> التأكد من أن حجم الجدول
+                <code>N</code> هو 2 على الأقل. إذا كان أقل، لا يمكن إيجاد "ثاني
+                أكبر قيمة"، ويجب التعامل مع هذه الحالة (مثل عرض رسالة خطأ أو
+                الخروج).
+              </li>
+              <li>
+                <strong>التهيئة (Initialisation):</strong> مقارنة أول عنصرين في
+                الجدول (<code>T[1]</code> و <code>T[2]</code>). وضع الأكبر منهما
+                في <code>max1</code> والأصغر في <code>max2</code> كقيم أولية.
+              </li>
+              <li>
+                <strong>المسح (Parcours):</strong> إنشاء حلقة تكرار
+                (<code>Pour</code>) تمر على باقي عناصر الجدول، بدءًا من العنصر
+                الثالث (<code>i</code> من 3) حتى آخر عنصر (<code>N</code>).
+              </li>
+              <li>
+                <strong>المقارنات والتحديث داخل الحلقة:</strong> لكل عنصر
+                <code>T[i]</code>:
+                <ul>
+                  <li>
+                    إذا كان <code>T[i] > max1</code>: هذا يعني أن
+                    <code>T[i]</code> هو الأكبر الجديد. نقوم بتحديث
+                    <code>max2</code> ليأخذ القيمة القديمة لـ <code>max1</code>،
+                    ثم نحدّث <code>max1</code> ليأخذ قيمة <code>T[i]</code>.
+                  </li>
+                  <li>
+                    إذا كان <code>T[i]</code> ليس أكبر من <code>max1</code>،
+                    نتحقق إذا كان <code>T[i] > max2</code>:
+                    <ul>
+                      <li>
+                        إذا كان كذلك، فهذا يعني أن <code>T[i]</code> هو ثاني
+                        أكبر قيمة جديدة (أو مساوية للأولى). نحدّث
+                        <code>max2</code> ليأخذ قيمة <code>T[i]</code>.
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    إذا لم يتحقق أي من الشرطين السابقين، ننتقل للعنصر التالي.
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <strong>النهاية:</strong> بعد انتهاء الحلقة، المتغيران
+                <code>max1</code> و <code>max2</code> (اللذان تم تمريرهما بالنمط
+                <code>Résultat</code>) سيحتويان على القيمتين المطلوبتين.
+              </li>
+            </ol>
+          </div>
+          <pre><code class="language-algorithme"><span class="comment">// الخوارزمية بالفرنسية لـ Procédure</span>
+Procedure TrouverDeuxMax (T : Tableau[1..N] d'Entiers; N : Entier; Var max1, max2 : Entier)
+<span class="comment">// Description : Trouve le plus grand et le deuxième plus grand élément dans T.</span>
+<span class="comment">// Précondition : N >= 2 (Le tableau doit avoir au moins 2 éléments).</span>
+<span class="comment">// Données : T - le tableau, N - sa taille.</span>
+<span class="comment">// Résultats : max1 - le plus grand, max2 - le deuxième plus grand (via paramètres Var).</span>
+Variables
+    i : Entier
+Début
+    <span class="comment">// Gérer le cas où N < 2</span>
+    Si N < 2 Alors
+       Ecrire("Erreur : Le tableau doit contenir au moins 2 éléments.")
+       Retourner <span class="comment">// Sortir si la condition n'est pas remplie</span>
+    Fin Si
+
+    <span class="comment">// Initialisation avec les deux premiers éléments</span>
+    Si T[1] > T[2] Alors
+        max1 <- T[1]
+        max2 <- T[2]
+    Sinon <span class="comment">// T[2] >= T[1]</span>
+        max1 <- T[2]
+        max2 <- T[1]
+    Fin Si
+
+    <span class="comment">// Parcourir le reste du tableau à partir du 3ème élément</span>
+    Pour i de 3 à N Faire
+        Si T[i] > max1 Alors
+            <span class="comment">// Nouvel élément est le plus grand</span>
+            max2 <- max1  <span class="comment">// Ancien max1 devient le nouveau max2</span>
+            max1 <- T[i]  <span class="comment">// T[i] est le nouveau max1</span>
+        Sinon <span class="comment">// T[i] <= max1</span>
+            <span class="comment">// Vérifier si T[i] est plus grand que le deuxième max actuel</span>
+            Si T[i] > max2 Alors
+                max2 <- T[i] <span class="comment">// T[i] devient le nouveau max2</span>
+            Fin Si
+        Fin Si
+    Fin Pour
+<span class="comment">// À la fin, max1 et max2 contiennent les résultats souhaités</span>
+Fin</code></pre>
+          <div class="explanation">
+            <p>
+              <em
+                >ملاحظة: الخوارزمية أعلاه تعتبر أنه إذا كانت أكبر قيمتين
+                متساويتين (مثل [5, 5, 3])، فإن النتيجة ستكون max1=5 و max2=5.
+                إذا كان المطلوب البحث عن ثاني أكبر قيمة *مختلفة* عن الأولى، فيجب
+                تعديل الشرط الثاني قليلاً ليصبح `Si T[i] > max2 Et T[i] < max1
+                Alors`.</em
+              >
+            </p>
+          </div>
+        </div>
+
+        <!-- Question 3.c (FULL CODE FOR FONCTION) -->
+        <div class="question-block">
+          <h3>ج) استخدام الـ Enregistrements (الكود الكامل للـ Fonction)</h3>
+
+          <div class="explanation">
+            <p>
+              كما ذكرنا، يمكن استخدام <code>Enregistrement</code> لجمع النتيجتين
+              (أكبر وثاني أكبر قيمة) في هيكل واحد. هذا يسمح لنا بكتابة
+              <code>Fonction</code> بدلاً من <code>Procédure</code>، حيث تقوم
+              الـ <code>Fonction</code> بإرجاع هذا الـ
+              <code>Enregistrement</code> كقيمة وحيدة.
+            </p>
+          </div>
+
+          <h4>1. تعريف الـ Enregistrement (Déclaration du Type):</h4>
+          <pre><code class="language-algorithme"><span class="comment">// أولاً، نحتاج تعريف النوع Enregistrement</span>
+Type
+    ResultatDeuxMax = Enregistrement
+        premier : Entier  <span class="comment">// الحقل لتخزين أكبر قيمة</span>
+        deuxieme : Entier <span class="comment">// الحقل لتخزين ثاني أكبر قيمة</span>
+    Fin Enregistrement</code></pre>
+
+          <h4>2. الكود الكامل للـ Fonction:</h4>
+          <pre><code class="language-algorithme"><span class="comment">// الخوارزمية بالفرنسية للـ Fonction كاملة</span>
+Fonction TrouverDeuxMax_Enreg (T : Tableau[1..N] d'Entiers, N : Entier) : ResultatDeuxMax
+<span class="comment">// Description : تجد أكبر وثاني أكبر قيمة في T وترجعهم في Enregistrement واحد.</span>
+<span class="comment">// Données : T - الجدول, N - حجمه.</span>
+<span class="comment">// Précondition : N >= 2 (نفترض أن الشرط متحقق لتجنب تعقيد إدارة الأخطاء في هذا المثال)</span>
+<span class="comment">// Résultat : قيمة من النوع ResultatDeuxMax تحتوي على القيمتين.</span>
+Variables
+    i : Entier              <span class="comment">// متغير للحلقة</span>
+    res : ResultatDeuxMax   <span class="comment">// متغير من نوع Enregistrement لتخزين وإرجاع النتيجة</span>
+    <span class="comment">// لا نحتاج لـ max1_local و max2_local، يمكن استخدام حقول 'res' مباشرة</span>
+
+Début
+    <span class="comment">// التحقق من الشرط المسبق (اختياري، لكن جيد):</span>
+    <span class="comment">// إذا كان N < 2، يجب تحديد ما سيتم إرجاعه. هنا، سنفترض أن N>=2 دائمًا.</span>
+    <span class="comment">// إذا أردنا التعامل مع الخطأ، يمكن إرجاع قيمة خاصة أو رفع خطأ.</span>
+
+    <span class="comment">// التهيئة باستخدام أول عنصرين وتخزينها مباشرة في حقول المتغير 'res'</span>
+    Si T[1] > T[2] Alors
+        res.premier <- T[1]
+        res.deuxieme <- T[2]
+    Sinon <span class="comment">// T[2] >= T[1]</span>
+        res.premier <- T[2]
+        res.deuxieme <- T[1]
+    Fin Si
+
+    <span class="comment">// المرور على باقي عناصر الجدول من العنصر الثالث</span>
+    Pour i de 3 à N Faire
+        Si T[i] > res.premier Alors
+            <span class="comment">// T[i] هو الأكبر الجديد</span>
+            res.deuxieme <- res.premier  <span class="comment">// القيمة الأولى السابقة تصبح الثانية</span>
+            res.premier <- T[i]       <span class="comment">// T[i] يصبح القيمة الأولى الجديدة</span>
+        Sinon <span class="comment">// T[i] <= res.premier</span>
+            <span class="comment">// التحقق إذا كان T[i] أكبر من القيمة الثانية الحالية</span>
+            Si T[i] > res.deuxieme Alors
+                res.deuxieme <- T[i] <span class="comment">// T[i] يصبح القيمة الثانية الجديدة</span>
+            Fin Si
+        Fin Si
+    Fin Pour
+
+    <span class="comment">// إرجاع الـ Enregistrement المحتوي على النتيجتين</span>
+    Retourner res
+Fin</code></pre>
+
+          <div class="explanation">
+            <p><strong>شرح الجسم (Corps) للـ Fonction:</strong></p>
+            <ul>
+              <li>
+                <strong>التعريف:</strong> تبدأ بتعريف الـ
+                <code>Fonction</code> واسمها، معاملاتها (<code>T</code> و
+                <code>N</code> كـ <code>Donnée</code>)، ونوع القيمة المُرجعة
+                (<code>ResultatDeuxMax</code>).
+              </li>
+              <li>
+                <strong>المتغيرات المحلية:</strong> نعرّف متغير للحلقة
+                <code>i</code>، والأهم، متغير <code>res</code> من نوع
+                <code>ResultatDeuxMax</code>. هذا المتغير سيُستخدم لتخزين
+                النتيجتين وسيتم إرجاعه في النهاية.
+              </li>
+              <li>
+                <strong>التهيئة:</strong> نقارن <code>T[1]</code> و
+                <code>T[2]</code> ونخزن الأكبر في
+                <code>res.premier</code> والأصغر في <code>res.deuxieme</code>.
+              </li>
+              <li>
+                <strong>الحلقة والمقارنات:</strong> ندور على باقي العناصر (من 3
+                إلى N). داخل الحلقة، نقارن <code>T[i]</code> مع
+                <code>res.premier</code> و <code>res.deuxieme</code> ونقوم
+                بتحديث حقول <code>res</code> بنفس المنطق المستخدم في الـ
+                <code>Procédure</code>.
+              </li>
+              <li>
+                <strong>الإرجاع (Retourner):</strong> في نهاية الـ
+                <code>Fonction</code>، نستخدم التعليمة
+                <code>Retourner res</code> لإرجاع المتغير <code>res</code> (الذي
+                هو من نوع <code>Enregistrement</code> ويحتوي على القيمتين)
+                كنتيجة وحيدة للـ <code>Fonction</code>.
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- End Question 3.c Block -->
+      </section>
+      <!-- End Exercice 3 Section -->
+
+      <footer class="footer">بالتوفيق في دراستك!</footer>
+    </div>
+    <!-- End Container -->
+  </body>
+</html>
