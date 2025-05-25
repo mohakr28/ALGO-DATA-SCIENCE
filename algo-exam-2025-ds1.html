@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="ar-DZ" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>حلول تمارين الألغوريتم</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.8;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f7f6;
+        color: #333;
+        direction: rtl; /* Default direction for the page */
+      }
+      .container {
+        width: 90%;
+        max-width: 1000px;
+        margin: 30px auto;
+        background-color: #ffffff;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+      header {
+        background-color: #007bff; /* Bootstrap primary blue */
+        color: white;
+        padding: 20px;
+        text-align: center;
+        border-radius: 8px 8px 0 0;
+        margin: -25px -25px 25px -25px; /* Extend to container edges */
+      }
+      header h1 {
+        margin: 0;
+        font-size: 2.2em;
+      }
+      h2 {
+        color: #0056b3; /* Darker blue */
+        border-bottom: 2px solid #007bff;
+        padding-bottom: 10px;
+        margin-top: 30px;
+        margin-bottom: 20px;
+        font-size: 1.8em;
+      }
+      h3 {
+        color: #17a2b8; /* Bootstrap info teal */
+        margin-top: 25px;
+        margin-bottom: 15px;
+        font-size: 1.5em;
+      }
+      p.explanation {
+        background-color: #e9ecef; /* Light grey */
+        padding: 15px;
+        border-radius: 5px;
+        border-left: 5px solid #007bff;
+        margin-bottom: 15px;
+        font-size: 1.1em;
+      }
+      pre {
+        background-color: #282c34; /* Dark background for code */
+        color: #abb2bf; /* Light grey text for code */
+        padding: 20px;
+        border-radius: 6px;
+        overflow-x: auto; /* Scroll for long lines */
+        font-family: "Courier New", Courier, monospace;
+        font-size: 0.95em;
+        direction: ltr; /* Code is usually LTR */
+        text-align: left; /* Code is usually LTR */
+      }
+      code {
+        font-family: "Courier New", Courier, monospace;
+      }
+      /* Basic syntax highlighting for pseudo-code */
+      code .keyword {
+        color: #c678dd;
+        font-weight: bold;
+      } /* Purple for keywords */
+      code .comment {
+        color: #5c6370;
+        font-style: italic;
+      } /* Grey for comments */
+      code .type {
+        color: #e5c07b;
+      } /* Yellow/Orange for types */
+      code .function-name {
+        color: #61afef;
+      } /* Blue for function names */
+      code .string {
+        color: #98c379;
+      } /* Green for strings */
+      code .number {
+        color: #d19a66;
+      } /* Orange for numbers */
+
+      .exercise-section {
+        margin-bottom: 40px;
+        padding-bottom: 20px;
+        border-bottom: 1px dashed #ccc;
+      }
+      .exercise-section:last-child {
+        border-bottom: none;
+      }
+      footer {
+        text-align: center;
+        margin-top: 40px;
+        padding: 20px;
+        background-color: #343a40; /* Dark grey */
+        color: #f8f9fa; /* Light text */
+        border-radius: 0 0 8px 8px;
+        margin: 25px -25px -25px -25px; /* Extend to container edges */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>حل اختبار algo</h1>
+      </header>
+
+      <main>
+        <section class="exercise-section" id="exercice1">
+          <h2>التمرين الأول: أعداد مرسين</h2>
+
+          <article>
+            <h3>1. دالة <code class="function-name">estPremier</code></h3>
+            <p class="explanation">
+              دالة تشوف إذا عدد معين N هو عدد أولي ولا لالا.
+            </p>
+            <pre><code class="language-pseudo"><span class="keyword">Fonction</span> <span class="function-name">estPremier</span>(N: <span class="type">entier</span>): <span class="type">booleen</span>
+    <span class="comment">// دالة ترجع صح (Vrai) إذا N أولي، وغالط (Faux) إذا ماشي أولي</span>
+    <span class="keyword">Variables</span>
+        i: <span class="type">entier</span> <span class="comment">// هذا عداد نستعملوه باش نشوفو القواسم</span>
+    <span class="keyword">Début</span>
+        <span class="keyword">Si</span> N &lt;= <span class="number">1</span> <span class="keyword">Alors</span> <span class="comment">// إذا كان N صغير على 1 ولا يساويه، باينة بلي ماشي أولي</span>
+            <span class="keyword">Retourner</span> <span class="keyword">Faux</span>
+        <span class="keyword">FinSi</span>
+        <span class="keyword">Si</span> N == <span class="number">2</span> <span class="keyword">Alors</span> <span class="comment">// العدد 2 هو العدد الزاوج الوحيد لي أولي</span>
+            <span class="keyword">Retourner</span> <span class="keyword">Vrai</span>
+        <span class="keyword">FinSi</span>
+        <span class="keyword">Si</span> N % <span class="number">2</span> == <span class="number">0</span> <span class="keyword">Alors</span> <span class="comment">// إذا كان N زاوجي وكبير على 2، صافي ماشي أولي</span>
+            <span class="keyword">Retourner</span> <span class="keyword">Faux</span>
+        <span class="keyword">FinSi</span>
+        <span class="comment">// دوكا نشوفو القواسم الفردية برك، من 3 حتى للجذر التربيعي تاع N</span>
+        i = <span class="number">3</span>
+        <span class="keyword">TantQue</span> i * i &lt;= N <span class="keyword">Faire</span> <span class="comment"></span>
+            <span class="keyword">Si</span> N % i == <span class="number">0</span> <span class="keyword">Alors</span> <span class="comment">// إذا N يتقسم على i، صافي N ماشي أولي</span>
+                <span class="keyword">Retourner</span> <span class="keyword">Faux</span>
+            <span class="keyword">FinSi</span>
+            i = i + <span class="number">2</span> <span class="comment">// نروحو للعدد الفردي لي موراه</span>
+        <span class="keyword">FinTantQue</span>
+        <span class="keyword">Retourner</span> <span class="keyword">Vrai</span> <span class="comment">// إذا كملنا الحلقة وما لقينا حتى قاسم، صافي N أولي</span>
+    <span class="keyword">Fin</span></code></pre>
+          </article>
+
+          <article>
+            <h3>2. دالة <code class="function-name">estMersenne</code></h3>
+            <p class="explanation">
+              دالة تشوف إذا عدد N هو عدد مرسين. عدد مرسين يتكتب على شكل 2<sup
+                >p</sup
+              >
+              - 1، وين p لازم يكون عدد أولي.
+            </p>
+            <pre><code class="language-pseudo"><span class="keyword">Fonction</span> <span class="function-name">estMersenne</span>(N: <span class="type">entier</span>): <span class="type">booleen</span>
+    <span class="comment">// دالة ترجع صح (Vrai) إذا N عدد مرسين، وغالط (Faux) إذا ماشي عدد مرسين</span>
+    <span class="keyword">Variables</span>
+        p: <span class="type">entier</span> <span class="comment">// هذا هو الأس لي نحوسو عليه (2^p - 1)</span>
+        val_p_puissance_2: <span class="type">entier</span> <span class="comment">// هذي باش نخزنو فيها N+1 لي نورمالمون تكون 2^p</span>
+        temp: <span class="type">entier</span> <span class="comment">// متغير مؤقت للحساب</span>
+    <span class="keyword">Début</span>
+        <span class="keyword">Si</span> N &lt;= <span class="number">0</span> <span class="keyword">Alors</span> <span class="comment">// أعداد مرسين لازم يكونوا موجبين قطعا</span>
+            <span class="keyword">Retourner</span> <span class="keyword">Faux</span>
+        <span class="keyword">FinSi</span>
+
+        val_p_puissance_2 = N + <span class="number">1</span> <span class="comment">// إذا N = 2^p - 1، صافي N+1 = 2^p</span>
+
+        <span class="comment">// المرحلة الأولى: لازم نتأكدو بلي N+1 هو قوة للعدد 2</span>
+        <span class="comment">// وفي نفس الوقت نحسبو قيمة p</span>
+        p = <span class="number">0</span>
+        temp = val_p_puissance_2
+
+        <span class="keyword">Si</span> temp &lt;= <span class="number">0</span> <span class="keyword">Alors</span>
+             <span class="keyword">Retourner</span> <span class="keyword">Faux</span>
+        <span class="keyword">FinSi</span>
+
+        <span class="keyword">TantQue</span> temp % <span class="number">2</span> == <span class="number">0</span> <span class="keyword">ET</span> temp > <span class="number">1</span> <span class="keyword">Faire</span> <span class="comment">// ماحد temp زاوجي وكبير على 1</span>
+            temp = temp / <span class="number">2</span>
+            p = p + <span class="number">1</span>
+        <span class="keyword">FinTantQue</span>
+
+        <span class="keyword">Si</span> temp == <span class="number">1</span> <span class="keyword">Alors</span>
+            <span class="comment">// المرحلة الثانية: نتأكدو بلي p لي لقيناه هو عدد أولي</span>
+            <span class="keyword">Retourner</span> <span class="function-name">estPremier</span>(p)
+        <span class="keyword">Sinon</span> <span class="comment">// إذا temp ماشي 1، صافي N+1 ماكانش قوة للعدد 2</span>
+            <span class="keyword">Retourner</span> <span class="keyword">Faux</span>
+        <span class="keyword">FinSi</span>
+    <span class="keyword">Fin</span></code></pre>
+          </article>
+
+          <article>
+            <h3>3. تعريف النوع <code class="type">Tab</code></h3>
+            <p class="explanation">
+              تعريف نوع جديد "tab" يمثل جدول تاع أعداد صحيحة فيه الماكسيموم 100
+              عدد.
+            </p>
+            <pre><code class="language-pseudo"><span class="keyword">Type</span> <span class="type">Tab</span> = <span class="keyword">Enregistrement</span>
+    elements: <span class="keyword">Tableau</span>[<span class="number">1</span>..<span class="number">100</span>] <span class="keyword">d'</span><span class="type">entiers</span> <span class="comment">// الجدول لي فيه الأعداد</span>
+    taille_actuelle: <span class="type">entier</span> <span class="comment">// شحال من عدد كاين صح فالجدول</span>
+<span class="keyword">FinEnregistrement</span></code></pre>
+          </article>
+
+          <article>
+            <h3>4. البرنامج الرئيسي (Mersenne)</h3>
+            <p class="explanation">
+              برنامج رئيسي يقرا k عدد صحيح من عند المستعمل، يحطهم في جدول A، ومن
+              بعد يحسب ويعرض شحال كاين من عدد مرسين بيناتهم.
+            </p>
+            <pre><code class="language-pseudo"><span class="keyword">Programme</span> <span class="function-name">Principal_Mersenne</span>
+    <span class="keyword">Variables</span>
+        A: <span class="type">Tab</span> <span class="comment">// الجدول تاعنا لي راح نعمروه</span>
+        k: <span class="type">entier</span> <span class="comment">// عدد الأعداد لي راح يدخلهم المستعمل</span>
+        i: <span class="type">entier</span> <span class="comment">// عداد للحلقات</span>
+        compteur_mersenne: <span class="type">entier</span> <span class="comment">// نحسبو بيه شحال كاين من عدد مرسين</span>
+    <span class="keyword">Début</span>
+        <span class="function-name">Écrire</span> <span class="string">"دخل شحال من عدد راح تقرا (k)، الماكسيموم 100: "</span>
+        <span class="function-name">Lire</span> k
+
+        <span class="keyword">Si</span> k &lt; <span class="number">0</span> <span class="keyword">Ou</span> k > <span class="number">100</span> <span class="keyword">Alors</span> <span class="comment">// نتأكدو بلي k معقول</span>
+            <span class="function-name">Écrire</span> <span class="string">"العدد k ماشي صحيح."</span>
+            <span class="keyword">Retourner</span> <span class="comment">// نخرجو مؤقتا</span>
+        <span class="keyword">FinSi</span>
+
+        A.taille_actuelle = k <span class="comment">// نحددو الحجم الفعلي للجدول</span>
+        <span class="function-name">Écrire</span> <span class="string">"دخل الأعداد الـ "</span>, k, <span class="string">" تاعك واحد بواحد:"</span>
+        <span class="keyword">Pour</span> i <span class="keyword">de</span> <span class="number">1</span> <span class="keyword">à</span> k <span class="keyword">Faire</span>
+            <span class="function-name">Lire</span> A.elements[i] <span class="comment">// نقراو كل عدد ونحطوه فالبلاصة تاعو فالجدول</span>
+        <span class="keyword">FinPour</span>
+
+        compteur_mersenne = <span class="number">0</span> <span class="comment">// نبدو الحساب من الصفر</span>
+        <span class="keyword">Pour</span> i <span class="keyword">de</span> <span class="number">1</span> <span class="keyword">à</span> A.taille_actuelle <span class="keyword">Faire</span> <span class="comment">// ندورو على كامل الأعداد لي فالجدول</span>
+            <span class="keyword">Si</span> <span class="function-name">estMersenne</span>(A.elements[i]) <span class="keyword">Alors</span> <span class="comment">// إذا العدد الحالي هو عدد مرسين</span>
+                compteur_mersenne = compteur_mersenne + <span class="number">1</span> <span class="comment">// نزيدو واحد للعداد</span>
+            <span class="keyword">FinSi</span>
+        <span class="keyword">FinPour</span>
+
+        <span class="function-name">Écrire</span> <span class="string">"عدد أعداد مرسين لي كاينين فالجدول هو: "</span>, compteur_mersenne
+    <span class="keyword">Fin</span></code></pre>
+          </article>
+        </section>
+
+        <section class="exercise-section" id="exercice2">
+          <h2>التمرين الثاني: المجال</h2>
+          <article>
+            <h3>1. تعريف النوع <code class="type">Intervalle</code></h3>
+            <p class="explanation">
+              تعريف نوع "انتيرفال" لي يمثل مجال تاع أعداد صحيحة، عندو حد أدنى
+              وحد أقصى.
+            </p>
+            <pre><code class="language-pseudo"><span class="keyword">Type</span> <span class="type">Intervalle</span> = <span class="keyword">Enregistrement</span>
+    min: <span class="type">entier</span> <span class="comment">// الحد الأدنى للمجال</span>
+    max: <span class="type">entier</span> <span class="comment">// الحد الأقصى للمجال</span>
+<span class="keyword">FinEnregistrement</span></code></pre>
+          </article>
+
+          <article>
+            <h3>
+              2. دالة <code class="function-name">creerIntervalle</code> و
+              بروسيدور <code class="function-name">afficherIntervalle</code>
+            </h3>
+            <p class="explanation">
+              دالة تقرا من عند المستعمل حد أدنى وحد أقصى وترجع مجال جديد،
+              وبروسيدور تافيشي مجال معين.
+            </p>
+            <pre><code class="language-pseudo"><span class="keyword">Fonction</span> <span class="function-name">creerIntervalle</span>(): <span class="type">Intervalle</span>
+    <span class="comment">// دالة تقرا من عند المستعمل حد أدنى وحد أقصى وترجع مجال (انتيرفال) جديد</span>
+    <span class="keyword">Variables</span>
+        nouvel_I: <span class="type">Intervalle</span> <span class="comment">// المجال الجديد لي راح نكرييوه</span>
+        b_min, b_max: <span class="type">entier</span> <span class="comment">// باش نقراو فيهم الحدود</span>
+    <span class="keyword">Début</span>
+        <span class="function-name">Écrire</span> <span class="string">"دخل الحد الأدنى للمجال: "</span>
+        <span class="function-name">Lire</span> b_min
+        <span class="function-name">Écrire</span> <span class="string">"دخل الحد الأقصى للمجال: "</span>
+        <span class="function-name">Lire</span> b_max
+
+        <span class="keyword">Si</span> b_min &lt;= b_max <span class="keyword">Alors</span>
+            nouvel_I.min = b_min
+            nouvel_I.max = b_max
+        <span class="keyword">Sinon</span> <span class="comment">// إذا دخل min كبير على max</span>
+            <span class="function-name">Écrire</span> <span class="string">"تنبيه: راك دخلت حد أدنى أكبر من الحد الأقصى. المجال راح يكون فارغ حسب التعريف."</span>
+            nouvel_I.min = b_min
+            nouvel_I.max = b_max
+        <span class="keyword">FinSi</span>
+        <span class="keyword">Retourner</span> nouvel_I
+    <span class="keyword">Fin</span>
+
+<span class="keyword">Procédure</span> <span class="function-name">afficherIntervalle</span>(I: <span class="type">Intervalle</span>)
+    <span class="comment">// بروسيدور تافيشي مجال معين على الشكل [min..max]</span>
+    <span class="keyword">Début</span>
+        <span class="function-name">Écrire</span> <span class="string">"["</span>, I.min, <span class="string">".."</span>, I.max, <span class="string">"]"</span>
+    <span class="keyword">Fin</span></code></pre>
+          </article>
+
+          <article>
+            <h3>3. دالة <code class="function-name">intervalVide</code></h3>
+            <p class="explanation">
+              دالة ترجع صح (Vrai) إذا كان المجال I فارغ (معناه min > max)، وترجع
+              غالط (Faux) إذا ماشي فارغ.
+            </p>
+            <pre><code class="language-pseudo"><span class="keyword">Fonction</span> <span class="function-name">intervalVide</span>(I: <span class="type">Intervalle</span>): <span class="type">booleen</span>
+    <span class="comment">// ترجع صح (Vrai) إذا المجال فارغ، وغالط (Faux) إذا لالا</span>
+    <span class="keyword">Début</span>
+        <span class="keyword">Si</span> I.min > I.max <span class="keyword">Alors</span> <span class="comment">// الشرط تاع مجال فارغ كيما طلبوه</span>
+            <span class="keyword">Retourner</span> <span class="keyword">Vrai</span> <span class="comment">// هذا يمثل 1</span>
+        <span class="keyword">Sinon</span>
+            <span class="keyword">Retourner</span> <span class="keyword">Faux</span> <span class="comment">// هذا يمثل 0</span>
+        <span class="keyword">FinSi</span>
+    <span class="keyword">Fin</span></code></pre>
+          </article>
+
+          <article>
+            <h3>4. دالة <code class="function-name">egaux</code></h3>
+            <p class="explanation">
+              دالة تشوف إذا زوج مجالات I1 و I2 متساويين.
+            </p>
+            <pre><code class="language-pseudo"><span class="keyword">Fonction</span> <span class="function-name">egaux</span>(I1: <span class="type">Intervalle</span>, I2: <span class="type">Intervalle</span>): <span class="type">booleen</span>
+    <span class="keyword">Début</span>
+        <span class="keyword">Si</span> I1.min == I2.min <span class="keyword">ET</span> I1.max == I2.max <span class="keyword">Alors</span>
+            <span class="keyword">Retourner</span> <span class="keyword">Vrai</span>
+        <span class="keyword">Sinon</span>
+            <span class="keyword">Retourner</span> <span class="keyword">Faux</span>
+        <span class="keyword">FinSi</span>
+    <span class="keyword">Fin</span></code></pre>
+          </article>
+
+          <article>
+            <h3>5. مجموعة E تاع المجالات</h3>
+            <h4>
+              (أ) تعريف النوع <code class="type">EnsembleIntervalles</code>
+            </h4>
+            <p class="explanation">
+              تعريف نوع يمثل مجموعة تاع مجالات (جدول تاع مجالات).
+            </p>
+            <pre><code class="language-pseudo"><span class="keyword">Type</span> <span class="type">EnsembleIntervalles</span> = <span class="keyword">Enregistrement</span>
+    intervalles: <span class="keyword">Tableau</span>[<span class="number">1</span>..<span class="number">100</span>] <span class="keyword">d'</span><span class="type">Intervalle</span> <span class="comment">// جدول المجالات</span>
+    nb_elements: <span class="type">entier</span> <span class="comment">// شحال كاين من مجال صح فالمجموعة</span>
+<span class="keyword">FinEnregistrement</span>
+
+<span class="comment">// Variables</span>
+<span class="comment">//     E: EnsembleIntervalles</span></code></pre>
+
+            <h4>
+              (ب) بروسيدورات <code class="function-name">LireEnsemble</code> و
+              <code class="function-name">AfficherEnsemble</code>
+            </h4>
+            <p class="explanation">
+              بروسيدور تعمر مجموعة Ens بـ N مجال، وبروسيدور تافيشي مجموعة Ens.
+            </p>
+            <pre><code class="language-pseudo"><span class="keyword">Procédure</span> <span class="function-name">LireEnsemble</span>(N_a_lire: <span class="type">entier</span>, <span class="keyword">resultat</span> Ens: <span class="type">EnsembleIntervalles</span>)
+    <span class="keyword">Variables</span>
+        i: <span class="type">entier</span>
+    <span class="keyword">Début</span>
+        <span class="keyword">Si</span> N_a_lire &lt; <span class="number">0</span> <span class="keyword">Ou</span> N_a_lire > <span class="number">100</span> <span class="keyword">Alors</span>
+            <span class="function-name">Écrire</span> <span class="string">"عدد المجالات لي مديتو ماشي صحيح."</span>
+            Ens.nb_elements = <span class="number">0</span>
+            <span class="keyword">Retourner</span>
+        <span class="keyword">FinSi</span>
+        Ens.nb_elements = N_a_lire
+        <span class="keyword">Pour</span> i <span class="keyword">de</span> <span class="number">1</span> <span class="keyword">à</span> Ens.nb_elements <span class="keyword">Faire</span>
+            <span class="function-name">Écrire</span> <span class="string">"دخل معلومات المجال رقم "</span>, i, <span class="string">" :"</span>
+            Ens.intervalles[i] = <span class="function-name">creerIntervalle</span>()
+        <span class="keyword">FinPour</span>
+    <span class="keyword">Fin</span>
+
+<span class="keyword">Procédure</span> <span class="function-name">AfficherEnsemble</span>(Ens: <span class="type">EnsembleIntervalles</span>)
+    <span class="keyword">Variables</span>
+        i: <span class="type">entier</span>
+    <span class="keyword">Début</span>
+        <span class="keyword">Si</span> Ens.nb_elements == <span class="number">0</span> <span class="keyword">Alors</span>
+            <span class="function-name">Écrire</span> <span class="string">"المجموعة راهي فارغة."</span>
+            <span class="keyword">Retourner</span>
+        <span class="keyword">FinSi</span>
+        <span class="function-name">Écrire</span> <span class="string">"المجالات لي كاينين فالمجموعة ("</span> , Ens.nb_elements, <span class="string">" مجالات) :"</span>
+        <span class="keyword">Pour</span> i <span class="keyword">de</span> <span class="number">1</span> <span class="keyword">à</span> Ens.nb_elements <span class="keyword">Faire</span>
+            <span class="function-name">afficherIntervalle</span>(Ens.intervalles[i])
+            <span class="keyword">Si</span> i &lt; Ens.nb_elements <span class="keyword">Alors</span>
+                <span class="function-name">Écrire</span> <span class="string">", "</span>
+            <span class="keyword">FinSi</span>
+        <span class="keyword">FinPour</span>
+        <span class="function-name">Écrire</span> <span class="string">""</span>
+    <span class="keyword">Fin</span></code></pre>
+
+            <h4>(ج) دالة <code class="function-name">RechSeq</code></h4>
+            <p class="explanation">
+              بحث تسلسلي: دالة تشوف إذا مجال معين I كاين فالمجموعة Ens.
+            </p>
+            <pre><code class="language-pseudo"><span class="keyword">Fonction</span> <span class="function-name">RechSeq</span>(I_cherche: <span class="type">Intervalle</span>, Ens: <span class="type">EnsembleIntervalles</span>): <span class="type">booleen</span>
+    <span class="keyword">Variables</span>
+        i: <span class="type">entier</span>
+        trouve: <span class="type">booleen</span>
+    <span class="keyword">Début</span>
+        trouve = <span class="keyword">Faux</span>
+        i = <span class="number">1</span>
+        <span class="keyword">TantQue</span> i &lt;= Ens.nb_elements <span class="keyword">ET NON</span> trouve <span class="keyword">Faire</span>
+            <span class="keyword">Si</span> <span class="function-name">egaux</span>(Ens.intervalles[i], I_cherche) <span class="keyword">Alors</span>
+                trouve = <span class="keyword">Vrai</span>
+            <span class="keyword">FinSi</span>
+            i = i + <span class="number">1</span>
+        <span class="keyword">FinTantQue</span>
+        <span class="keyword">Retourner</span> trouve
+    <span class="keyword">Fin</span></code></pre>
+
+            <h4>(د) دالة <code class="function-name">RechDich</code></h4>
+            <p class="explanation">
+              بحث ثنائي: دالة تشوف إذا مجال I كاين فالمجموعة Ens (لي تكون مرتبة
+              على حساب الحد الأدنى).
+            </p>
+            <pre><code class="language-pseudo"><span class="keyword">Fonction</span> <span class="function-name">RechDich</span>(I_cherche: <span class="type">Intervalle</span>, Ens: <span class="type">EnsembleIntervalles</span>): <span class="type">booleen</span>
+    <span class="keyword">Variables</span>
+        inf, sup, milieu: <span class="type">entier</span>
+    <span class="keyword">Début</span>
+        inf = <span class="number">1</span>
+        sup = Ens.nb_elements
+        <span class="keyword">TantQue</span> inf &lt;= sup <span class="keyword">Faire</span>
+            milieu = <span class="function-name">partie_entiere</span>((inf + sup) / <span class="number">2</span>)
+            <span class="keyword">Si</span> I_cherche.min &lt; Ens.intervalles[milieu].min <span class="keyword">Alors</span>
+                sup = milieu - <span class="number">1</span>
+            <span class="keyword">Sinon Si</span> I_cherche.min > Ens.intervalles[milieu].min <span class="keyword">Alors</span>
+                inf = milieu + <span class="number">1</span>
+            <span class="keyword">Sinon</span>
+                <span class="keyword">If</span> <span class="function-name">egaux</span>(I_cherche, Ens.intervalles[milieu]) <span class="keyword">Then</span>
+                    <span class="keyword">Retourner</span> <span class="keyword">Vrai</span>
+                <span class="keyword">Else</span>
+                    <span class="keyword">If</span> I_cherche.max &lt; Ens.intervalles[milieu].max <span class="keyword">Then</span>
+                        sup = milieu - <span class="number">1</span>
+                    <span class="keyword">Else</span>
+                        inf = milieu + <span class="number">1</span>
+                    <span class="keyword">EndIf</span>
+                <span class="keyword">EndIf</span>
+            <span class="keyword">FinSi</span>
+        <span class="keyword">FinTantQue</span>
+        <span class="keyword">Retourner</span> <span class="keyword">Faux</span>
+    <span class="keyword">Fin</span></code></pre>
+
+            <h4>(هـ) البرنامج الرئيسي (Intervalle) مع الفرز</h4>
+            <p class="explanation">
+              برنامج رئيسي يبني مجموعة E، يرتبها، ثم يبحث فيها عن مجال I.
+            </p>
+            <pre><code class="language-pseudo"><span class="comment">// بروسيدور للفرز بالاختيار (مثال على الفرز بالتباديل)</span>
+<span class="keyword">Procédure</span> <span class="function-name">TriParSelection_Ensemble</span>(<span class="keyword">param_</span> Ens: <span class="type">EnsembleIntervalles</span>)
+    <span class="keyword">Variables</span>
+        i, j, idx_min_courant: <span class="type">entier</span>
+        temp_intervalle: <span class="type">Intervalle</span>
+    <span class="keyword">Début</span>
+        <span class="keyword">Pour</span> i <span class="keyword">de</span> <span class="number">1</span> <span class="keyword">à</span> Ens.nb_elements - <span class="number">1</span> <span class="keyword">Faire</span>
+            idx_min_courant = i
+            <span class="keyword">Pour</span> j <span class="keyword">de</span> i + <span class="number">1</span> <span class="keyword">à</span> Ens.nb_elements <span class="keyword">Faire</span>
+                <span class="keyword">Si</span> Ens.intervalles[j].min &lt; Ens.intervalles[idx_min_courant].min <span class="keyword">Alors</span>
+                    idx_min_courant = j
+                <span class="keyword">FinSi</span>
+            <span class="keyword">FinPour</span>
+            <span class="keyword">Si</span> idx_min_courant != i <span class="keyword">Alors</span>
+                temp_intervalle = Ens.intervalles[i]
+                Ens.intervalles[i] = Ens.intervalles[idx_min_courant]
+                Ens.intervalles[idx_min_courant] = temp_intervalle
+            <span class="keyword">FinSi</span>
+        <span class="keyword">FinPour</span>
+    <span class="keyword">Fin</span>
+
+<span class="keyword">Programme</span> <span class="function-name">Principal_Intervalle</span>
+    <span class="keyword">Variables</span>
+        E: <span class="type">EnsembleIntervalles</span>
+        N_inter: <span class="type">entier</span>
+        I_a_chercher: <span class="type">Intervalle</span>
+        est_trouve: <span class="type">booleen</span>
+    <span class="keyword">Début</span>
+        <span class="function-name">Écrire</span> <span class="string">"دخل شحال من مجال (N) راح يكون فالمجموعة E (الماكسيموم 100): "</span>
+        <span class="function-name">Lire</span> N_inter
+
+        <span class="function-name">LireEnsemble</span>(N_inter, E)
+
+        <span class="function-name">Écrire</span> <span class="string">"المجموعة E قبل ما نرتبوها:"</span>
+        <span class="function-name">AfficherEnsemble</span>(E)
+
+        <span class="function-name">TriParSelection_Ensemble</span>(E)
+
+        <span class="function-name">Écrire</span> <span class="string">"المجموعة E بعد ما رتبناها:"</span>
+        <span class="function-name">AfficherEnsemble</span>(E)
+
+        <span class="function-name">Écrire</span> <span class="string">"دوكا، دخل معلومات المجال I لي راك تحوس عليه:"</span>
+        I_a_chercher = <span class="function-name">creerIntervalle</span>()
+
+        est_trouve = <span class="function-name">RechDich</span>(I_a_chercher, E)
+
+        <span class="keyword">Si</span> est_trouve <span class="keyword">Alors</span>
+            <span class="function-name">afficherIntervalle</span>(I_a_chercher)
+            <span class="function-name">Écrire</span> <span class="string">" لقيناه فالمجموعة E."</span>
+        <span class="keyword">Sinon</span>
+            <span class="function-name">afficherIntervalle</span>(I_a_chercher)
+            <span class="function-name">Écrire</span> <span class="string">" ما لقيناهش فالمجموعة E."</span>
+        <span class="keyword">FinSi</span>
+    <span class="keyword">Fin</span></code></pre>
+          </article>
+        </section>
+      </main>
+
+      <footer></footer>
+    </div>
+  </body>
+</html>
